@@ -1,0 +1,46 @@
+# Use postgres/example user/password credentials
+# ERRO DO POSTGRES ADMINER
+# https://medium.com/@vinjenks/dockerized-local-postgres-and-scram-authentication-a-quick-fix-21c432951bd
+
+version: '3.1'
+services:
+  db:
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
+      DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}"
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+
+  web_app:
+    build:
+      context: ./web_app
+      dockerfile: dockerfile
+    depends_on:
+      - api
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: dockerfile
+    depends_on:
+      - web_app
+
+volumes:
+  pgdata:
