@@ -14,12 +14,11 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - klimaa_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
   api:
     environment:
       API_PORT: ${API_PORT}
-      API_HOST: ${API_HOST}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_HOST: localhost
@@ -29,31 +28,22 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - db
-    ports:
-      - ${API_PORT}:${API_PORT}
+    expose:
+      - ${API_PORT}
+
+  web_app:
+    build:
+      context: ./web_app
+      dockerfile: Dockerfile
+    depends_on:
+      - api
 
   nginx:
-    environment:
-      NGINX_PORT: ${NGINX_PORT}
-      NGINX_NAME: ${NGINX_NAME}
-      API_PORT: ${API_PORT}
     build:
       context: ./nginx
       dockerfile: Dockerfile
     depends_on:
-      - api
-    ports:
-      - ${NGINX_PORT}:80
-
-  modbus_server:
-    environment:
-      - MODBUS_HOST=${MODBUS_HOST}
-      - MODBUS_PORT=${MODBUS_PORT}
-    build:
-      context: ./modbus_server
-      dockerfile: Dockerfile
-    ports:
-      - ${MODBUS_PORT}:${MODBUS_PORT}
+      - web_app
 
 volumes:
-  klimaa_data:
+  pgdata:
