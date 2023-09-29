@@ -24,6 +24,7 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_HOST: localhost
       DB_PORT: 5432
+      DB_DATABASE: ${POSTGRES_DATABASE}
     build:
       context: ./api
       dockerfile: Dockerfile
