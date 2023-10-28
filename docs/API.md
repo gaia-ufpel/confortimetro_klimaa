@@ -50,7 +50,7 @@ Exemplo:
 
 Endpoint para a consulta de dispositivos disponíveis armazenados no banco de dados.
 
-Parâetros:
+Parâmetros:
 
 - device_serial_number=xxxx
 
@@ -59,3 +59,7 @@ Parâetros:
 - building=xxxx
 
 - room=xxxx
+
+### /api/v1/auth/register
+
+### /api/v1/auth/login

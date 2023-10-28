@@ -2,21 +2,31 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
+    "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },
   "author": "Gabriel Leite Bessa",
   "license": "ISC",
   "dependencies": {
+    "@types/bcrypt": "^5.0.1",
+    "@types/compression": "^1.7.4",
+    "@types/cors": "^2.8.15",
+    "@types/express": "^4.17.20",
+    "@types/lodash": "^4.14.200",
+    "@types/pg-promise": "^5.4.3",
     "bcrypt": "^5.1.1",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
     "crypto-random-string": "^5.0.0",
     "express": "^4.18.2",
     "pg-promise": "^11.5.4"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }
