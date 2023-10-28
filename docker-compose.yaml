@@ -47,14 +47,13 @@ services:
       - ${NGINX_PORT}:80
 
   modbus_server:
-    environment:
-      - MODBUS_HOST=${MODBUS_HOST}
-      - MODBUS_PORT=${MODBUS_PORT}
     build:
       context: ./modbus_server
       dockerfile: Dockerfile
     ports:
       - ${MODBUS_PORT}:${MODBUS_PORT}
+    volumes:
+      - ./modbus_server/src:/usr/local/src
 
 volumes:
   klimaa_data:

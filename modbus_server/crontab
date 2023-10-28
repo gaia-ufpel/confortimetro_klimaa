@@ -1,2 +1,0 @@
-*/30 * * * * python /usr/local/src/main.py
-# Execute every 30 minutes

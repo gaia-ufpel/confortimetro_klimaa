@@ -9,7 +9,7 @@ SET search_path TO klimaa;
 CREATE TABLE users (
     email VARCHAR(50) NOT NULL PRIMARY KEY,
     password_hash VARCHAR(100) NOT NULL,
-    create_date TIMESTAMP WITH TIME ZONE NOT NULL
+    date_create TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 CREATE TABLE accesses (

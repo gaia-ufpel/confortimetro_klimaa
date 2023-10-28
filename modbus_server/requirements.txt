@@ -1,2 +1,4 @@
+pymodbus
+psycopg
+toml
 pyModbusTCP
-psycopg2

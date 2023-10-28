@@ -1,7 +1,13 @@
-# Documentação Klimma
+# Documentação
 
-Olá, bem-vindo a documentação do confortímetro Klimma! Por ela irá ser explicado toda a arquitetura utilizada neste repositório.
+Última atualização: 27/10/2023
 
 ## Conteúdo
 
-- [Primeiros passos](./PRIMEIROS_PASSOS.md)
+- [API](API.md)
+
+- [Banco de dados](DB.md)
+
+- [Aplicação web](WEB_APP.md)
+
+- [Servidor modbus](MODBUS_SERVER.md)

@@ -1,8 +1,6 @@
-//const express = require('express');
-//const bcrypt = require('bcrypt');
-import express from 'express';
-import bcrypt from 'bcrypt';
-import cryptoRandomString from 'crypto-random-string';
+const express = require('express');
+const bcrypt = require('bcrypt');
+const cryptoRandomString = import('crypto-random-string');
 
 const app = express();
 
