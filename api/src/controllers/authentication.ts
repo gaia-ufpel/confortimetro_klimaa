@@ -2,7 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 
 import { random } from '../helpers';
-import { getUserByEmail } from 'models/users';
+import { getUserByEmail, insertUser } from 'models/users';
 
 export const login = async (req: express.Request, res: express.Response) => {
     try {
@@ -44,5 +44,31 @@ export const login = async (req: express.Request, res: express.Response) => {
 };
 
 export const register = async (req: express.Request, res: express.Response) => {
+    try {
+        const { email, password } = req.body;
 
+        // verifica se o email e a senha foram enviados
+        if (!email || !password) {
+            return res.sendStatus(400);
+        }
+
+        // verifica se o usuário já existe
+        const user = await getUserByEmail(email);
+
+        if (user) {
+            return res.sendStatus(400);
+        }
+
+        // gera o hash da senha
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(password, salt);
+
+        // cria o usuário
+        await insertUser(email, hash);
+
+        return res.sendStatus(200);
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
 };
