@@ -1,0 +1,8 @@
+eppy
+pandas
+esoreader
+pythermalcomfort
+numpy
+ipykernel
+ladybug-comfort
+openstudio
