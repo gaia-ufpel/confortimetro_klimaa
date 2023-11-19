@@ -1,3 +1,5 @@
 .env
 
 simulations/assets
+__pycache__
+*.bak
