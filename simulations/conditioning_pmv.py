@@ -30,11 +30,11 @@ class ConditioningPmv:
             # Temperatura do ar condicionado
             temp_ac_actuator = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_AC_{room.upper()}")
             
-            people_count = self.ep_api.exchange.get_variable_value(state, self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"People_{room.lower()}"))
+            people_count = self.ep_api.exchange.get_variable_value(state, self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}"))
             
             if people_count > 0.0:   
                 # PMV da zona
-                pmv_handle = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort Fanger Model PMV", f"People_{room.lower()}")
+                pmv_handle = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort Fanger Model PMV", f"PEOPLE_{room.upper()}")
                 pmv = self.ep_api.exchange.get_variable_value(state, pmv_handle)
                 
                 if pmv < self.pmv_lowerbound or pmv > self.pmv_upperbound:
@@ -55,7 +55,7 @@ class ConditioningPmv:
                     # Humidade relativa
                     hum_rel = self.ep_api.exchange.get_variable_value(state, self.ep_api.exchange.get_variable_handle(state, "Zone Air Relative Humidity", room))
                     # Roupagem
-                    clo = self.ep_api.exchange.get_variable_value(state, self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort Clothing Value", f"People_{room.lower()}"))
+                    clo = self.ep_api.exchange.get_variable_value(state, self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort Clothing Value", f"PEOPLE_{room.upper()}"))
                 
                     pmv_pythermal = pythermalcomfort.models.pmv(
                         temp_interna,
@@ -116,9 +116,6 @@ class ConditioningPmv:
                             stardard='ashrae',
                             limit_inputs=False
                         )
-                    
-                    if vel > 0.0:
-                        status_vent = 1.0
 
                     # Mandando para o Energy os valores atualizados                           
                     self.ep_api.exchange.set_actuator_value(state, status_vent_actuator, 1.0 if vel > 0.0 else 0.0)

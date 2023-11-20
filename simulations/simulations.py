@@ -24,7 +24,7 @@ def run_simulation(input_path=INPUT_PATH, idf_path=IDF_PATH, expanded_idf_path=E
     ep_api = EnergyPlusAPI()
     state = ep_api.state_manager.new_state()
 
-    conditioner = ConditioningPmv(ep_api, rooms)
+    conditioner = ConditioningPmv(ep_api, rooms, 1.1, -1.1)
 
     # Running simulation
     ep_api.runtime.callback_begin_zone_timestep_before_init_heat_balance(state, conditioner)
@@ -32,10 +32,10 @@ def run_simulation(input_path=INPUT_PATH, idf_path=IDF_PATH, expanded_idf_path=E
     ep_api.state_manager.reset_state(state)
     
     # Removing expanded.idf
-    os.system(f"rm {os.path.join(input_path, expanded_idf_path)}")
+    os.system(f"rm {expanded_idf_path}")
 
     # Reading output variables
-    os.system(f"cd {output_path} ; {os.path.join(energy_path, 'runreadvars')} {os.path.join(output_path, 'eplusout.eso')}")
+    os.system(f"cd {output_path} ; {os.path.join(energy_path, 'runreadvars')} {'eplusout.eso'}")
 
 if __name__ == "__main__":
-    run_simulation()    
+    run_simulation(rooms=["SALA"])    
