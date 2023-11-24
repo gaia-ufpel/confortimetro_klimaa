@@ -30,6 +30,9 @@ class ConditioningPmv:
             # Temperatura do ar condicionado
             temp_ac_actuator = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_AC_{room.upper()}")
             
+            # 
+            pmv_pt = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"PMV_PYTHERMAL")
+            
             people_count = self.ep_api.exchange.get_variable_value(state, self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}"))
             
             if people_count > 0.0:   
@@ -69,41 +72,29 @@ class ConditioningPmv:
                         limit_inputs=False
                     )
 
-                    # -----------------------------------------
-                    # Corrigindo o PMV ------------------------
-                    while pmv_pythermal > self.pmv_upperbound:
-                        if vel < self.vel_max:
-                            vel = round(vel + 0.05, 2)
-                            status_vent = 1
-                        elif status_ac == 0.0:
-                            status_ac = 1.0
-                        elif status_ac == 1.0:
-                            temp_ac += 1.0
-                        else:
-                            break
-
-                        pmv_pythermal = pythermalcomfort.models.pmv(
-                            temp_ac if status_ac == 1 else temp_interna,
-                            mrt,
-                            vel,
-                            hum_rel,
-                            self.met,
-                            clo,
-                            self.wme,
-                            stardard='ashrae',
-                            limit_inputs=False
-                        )   
-
-                    while pmv_pythermal < self.pmv_lowerbound:
-                        if vel > 0.0:
-                            vel = round(vel - 0.05, 2)
-                            status_vent = 1
-                        elif status_ac == 0.0:
-                            status_ac = 1.0
-                        elif status_ac == 1.0:
-                            temp_ac += 1.0
-                        else:
-                            break
+                    while pmv_pythermal > self.pmv_upperbound or pmv_pythermal < self.pmv_lowerbound:
+                        # -----------------------------------------
+                        # Corrigindo o PMV ------------------------
+                        if pmv_pythermal > self.pmv_upperbound:
+                            if vel < self.vel_max and status_ac == 0.0:
+                                vel = round(vel + 0.05, 2)
+                                status_vent = 1
+                            elif status_ac == 0.0:
+                                status_ac = 1.0
+                            elif status_ac == 1.0 and temp_ac > self.temp_ac_min:
+                                temp_ac -= 1.0
+                            else:
+                                break   
+                        elif pmv_pythermal < self.pmv_lowerbound:
+                            if vel > 0.0 and status_ac == 0.0:
+                                vel = round(vel - 0.05, 2)
+                                status_vent = 1
+                            elif status_ac == 0.0:
+                                status_ac = 1.0
+                            elif status_ac == 1.0 and temp_ac < self.temp_ac_max:
+                                temp_ac += 1.0
+                            else:
+                                break
 
                         pmv_pythermal = pythermalcomfort.models.pmv(
                             temp_ac if status_ac == 1 else temp_interna,
@@ -122,6 +113,7 @@ class ConditioningPmv:
                     self.ep_api.exchange.set_actuator_value(state, vel_actuator, vel)
                     self.ep_api.exchange.set_actuator_value(state, status_ac_actuator, status_ac)
                     self.ep_api.exchange.set_actuator_value(state, temp_ac_actuator, temp_ac)
+                    self.ep_api.exchange.set_actuator_value(state, pmv_pt, pmv_pythermal)
             else:
                 # Desligando tudo se não há ocupação
                 self.ep_api.exchange.set_actuator_value(state, status_vent_actuator, 0.0)
