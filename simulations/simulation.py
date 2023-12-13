@@ -71,7 +71,7 @@ class Simulation:
         os.system(f"cd {self.input_path} ; {os.path.join(self.energy_path, 'ExpandObjects')} {self.idf_path}")
 
         # Running simulation
-        self.ep_api.runtime.callback_begin_zone_timestep_before_init_heat_balance(self.state, self.conditioner)
+        self.ep_api.runtime.callback_begin_zone_timestep_after_init_heat_balance(self.state, self.conditioner)
         self.ep_api.runtime.run_energyplus(self.state,
                                     ['--weather', self.epw_path, '--output-directory', self.output_path, self.expanded_idf_path]
         )

@@ -1,5 +1,7 @@
 import pythermalcomfort
 
+TEMPERATURES = []
+
 class ConditioningPmv:
     def __init__(self, ep_api, rooms, pmv_upperbound=0.5, pmv_lowerbound=-0.5, vel_max=1.2, margem_adaptativo=2.5, temp_ac_min=14, temp_ac_max=32, reduce_consume=False, met=1.2, wme=0.0):
         self.ep_api = ep_api
@@ -62,7 +64,7 @@ class ConditioningPmv:
 
             people_count = self.ep_api.exchange.get_variable_value(state, self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}"))
 
-
+            tdb = self.ep_api.exchange.get_variable_value(state, tdb_handle)
             pmv = self.ep_api.exchange.get_variable_value(state, pmv_handle)
             ashrae_55 = self.ep_api.exchange.get_variable_value(state, ashrae_55_handle)
 
@@ -87,8 +89,6 @@ class ConditioningPmv:
                 temp_ac = self.ep_api.exchange.get_actuator_value(state, temp_ac_actuator)
                 
                 status_janela = self.ep_api.exchange.get_actuator_value(state, status_janela_handle)
-                
-                tdb = self.ep_api.exchange.get_variable_value(state, tdb_handle)
                 
                 status_janela = self.ep_api.exchange.get_actuator_value(state, status_janela_handle)
 
