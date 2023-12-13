@@ -186,6 +186,9 @@ class SimulationGUI(tk.Tk):
         self.wme_entry.insert(0, self.configs["wme"])
 
     def run(self):
+        if self.run_button['state'] == tk.DISABLED:
+            return
+        
         inputfile = self.inputfile_entry.get()
         if not os.path.exists(inputfile):
             return None
@@ -225,11 +228,10 @@ class SimulationGUI(tk.Tk):
                                 wme=float(self.wme_entry.get())
         )
 
-        x = threading.Thread(target=simulation.run)
-
         self.run_button["state"] = tk.DISABLED
         self.run_button["cursor"] = "watch"
 
+        x = threading.Thread(target=simulation.run)
         x.start()
 
         self.popup_running_simple()
