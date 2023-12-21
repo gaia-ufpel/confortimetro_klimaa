@@ -1,6 +1,7 @@
 import pythermalcomfort
 
 TEMPERATURES = []
+TEMPERATURES_DAY = []
 
 class ConditioningPmv:
     def __init__(self, ep_api, rooms, pmv_upperbound=0.5, pmv_lowerbound=-0.5, vel_max=1.2, margem_adaptativo=2.5, temp_ac_min=14, temp_ac_max=32, reduce_consume=False, met=1.2, wme=0.0):
@@ -21,10 +22,28 @@ class ConditioningPmv:
         if self.ep_api.exchange.warmup_flag(state):
             return
             
+        tdb_handle = self.ep_api.exchange.get_variable_handle(state, "Site Outdoor Air Drybulb Temperature", "Environment")
+        tdb = self.ep_api.exchange.get_variable_value(state, tdb_handle)
+
+        if len(TEMPERATURES_DAY) >= 120:
+            media = 0
+            for t in TEMPERATURES_DAY:
+                media += t
+            media = media / 120
+            TEMPERATURES_DAY.clear()
+            TEMPERATURES.insert(0, media)
+            
+            if len(TEMPERATURES) > 30:
+                TEMPERATURES.pop()
+
+        media_temperatura_rua = 0
+        if len(TEMPERATURES) >= 7:
+            media_temperatura_rua = pythermalcomfort.utilities.running_mean_outdoor_temperature(
+                TEMPERATURES
+            )
+
         for room in self.rooms:
             temp_ar_handle = self.ep_api.exchange.get_variable_handle(state, "Zone Air Temperature", room)
-
-            tdb_handle = self.ep_api.exchange.get_variable_handle(state, "Site Outdoor Air Drybulb Temperature", "Environment")
 
             mrt_handle = self.ep_api.exchange.get_variable_handle(state, "Zone Mean Radiant Temperature", room)
 
@@ -48,7 +67,9 @@ class ConditioningPmv:
             # Temperatura do ar condicionado
             temp_ac_actuator = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_AC_{room.upper()}")
             
-            pmv_pt = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"PMV_PYTHERMAL_{room.upper()}")
+            pmv_pythermal_handle = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"PMV_PYTHERMAL_{room.upper()}")
+
+            adaptativo_pythermal_handle = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAPTATIVO_PYTHERMAL_{room.upper()}")
 
             temp_op_max_hand = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_OP_MAX_ADAP_{room.upper()}")
 
@@ -60,28 +81,30 @@ class ConditioningPmv:
 
             pmv_handle = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort Fanger Model PMV", f"PEOPLE_{room.upper()}")
             
-            ashrae_55_handle = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature", f"PEOPLE_{room.upper()}")
+            adaptativo_handle = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature", f"PEOPLE_{room.upper()}")
 
             people_count = self.ep_api.exchange.get_variable_value(state, self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}"))
 
-            tdb = self.ep_api.exchange.get_variable_value(state, tdb_handle)
             pmv = self.ep_api.exchange.get_variable_value(state, pmv_handle)
-            ashrae_55 = self.ep_api.exchange.get_variable_value(state, ashrae_55_handle)
+            adaptativo = self.ep_api.exchange.get_variable_value(state, adaptativo_handle)
 
             status_ac = self.ep_api.exchange.get_actuator_value(state, status_ac_actuator)
-            status_vent = self.ep_api.exchange.get_actuator_value(state, status_vent_actuator)
             vel = self.ep_api.exchange.get_actuator_value(state, vel_actuator)
             temp_op = self.ep_api.exchange.get_variable_value(state, temp_op_handle)
             temp_op_max = self.ep_api.exchange.get_actuator_value(state, temp_op_max_hand)
 
+            pmv_pythermal = 0.0
+            with_pmv = False
+
+            # Temperatura media radiante
+            mrt = self.ep_api.exchange.get_variable_value(state, mrt_handle)
+
+            adaptativo_pythermal = pythermalcomfort.models.adaptive_ashrae(tdb, mrt, media_temperatura_rua, vel, limit_inputs=False)
+
             if people_count > 0.0:
-                # PMV da zona e ASHRAE 55
-                # Ar condicionado ligado ou desligado
-                
                 # Temperatura do ar
                 temp_ar = self.ep_api.exchange.get_variable_value(state, temp_ar_handle)
-                # Temperatura media radiante
-                mrt = self.ep_api.exchange.get_variable_value(state, mrt_handle)
+        
                 # Humidade relativa
                 hum_rel = self.ep_api.exchange.get_variable_value(state, hum_rel_handle)
                 # Roupagem
@@ -93,79 +116,32 @@ class ConditioningPmv:
 
                 temp_op_max = self.get_temp_max_op(vel)
 
-                with_pmv = False
-
-                # Executar com o modelo adaptativo com incremento da velocidade
-                if status_ac == 0.0 and temp_op >= 25.0 and temp_op <= 27.2 and status_janela == 1.0 and temp_op > temp_op_max:
-                    vel = self.get_vel_adap(temp_op)
-                    vel = round(vel, 2)
-                    if vel > self.vel_max:
-                        vel = 1.2
-                        with_pmv = True
-                        status_ac = 1.0
-                        status_janela = 0.0
-                    temp_op_max = self.get_temp_max_op(vel)
-                # Para transiçao entre o modelo adaptativo e o modelo pmv
-                elif status_ac == 0.0 and status_janela == 1.0 and (temp_op < 25.0 or temp_op > 27.2) and temp_op > temp_op_max:
-                    vel = 1.2
-                    with_pmv = True
-                    status_janela = 0.0
-                    temp_op_max = self.get_temp_max_op(vel)
-                # Executar com o modelo adaptativo
-                elif status_ac == 0.0 and vel == 0.0 and (ashrae_55 < temp_op - self.margem_adaptativo or ashrae_55 > temp_op + self.margem_adaptativo) and temp_op > tdb:
-                    status_janela = 1.0
+                if status_ac == 0.0:
+                    if status_ac == 0.0 and status_janela == 1.0 and temp_op > temp_op_max:
+                        # Executar com o modelo adaptativo com incremento da velocidade
+                        if temp_op >= 25.0 and temp_op <= 27.2:
+                            vel = self.get_vel_adap(temp_op)
+                            vel = round(vel, 2)
+                            if vel > self.vel_max:
+                                vel = 1.2
+                                status_ac = 1.0
+                                with_pmv = True
+                                status_janela = 0.0
+                            temp_op_max = self.get_temp_max_op(vel)
+                        # Para transiçao entre o modelo adaptativo e o modelo pmv
+                        elif temp_op < 25.0 or temp_op > 27.2:
+                            vel = 1.2
+                            with_pmv = True
+                            temp_op_max = self.get_temp_max_op(vel)
+                    # Executar com o modelo adaptativo
+                    if vel == 0.0:
+                        if temp_op < tdb or adaptativo < temp_op - self.margem_adaptativo:
+                            status_janela = 0.0
+                        elif adaptativo > temp_op + self.margem_adaptativo and temp_op > tdb:
+                            status_janela = 1.0
                 
-                if with_pmv and (pmv > self.pmv_upperbound or pmv < self.pmv_lowerbound):
-                    pmv_pythermal = pythermalcomfort.models.pmv(
-                        temp_op,
-                        mrt,
-                        pythermalcomfort.utilities.v_relative(vel, self.met),
-                        hum_rel,
-                        self.met,
-                        pythermalcomfort.utilities.clo_dynamic(clo, met=self.met),
-                        self.wme,
-                        stardard='ashrae',
-                        limit_inputs=False
-                    )
-
-                    while pmv_pythermal > self.pmv_upperbound or pmv_pythermal < self.pmv_lowerbound:
-                        if pmv_pythermal > self.pmv_upperbound:
-                            if vel < self.vel_max:
-                                vel = round(vel + 0.05, 2)
-                            else:
-                                status_ac = 1.0
-                                break
-
-                        elif pmv_pythermal < self.pmv_lowerbound:
-                            if vel > 0.0:
-                                vel = round(vel - 0.05, 2)
-                                if vel < 0.0:
-                                    vel = 0.0
-                            else:
-                                status_ac = 1.0
-                                break
-
-                        pmv_pythermal = pythermalcomfort.models.pmv(
-                            temp_op,
-                            mrt,
-                            pythermalcomfort.utilities.v_relative(vel, self.met),
-                            hum_rel,
-                            self.met,
-                            pythermalcomfort.utilities.clo_dynamic(clo, met=self.met),
-                            self.wme,
-                            stardard='ashrae',
-                            limit_inputs=False
-                        )
-
-                    self.ep_api.exchange.set_actuator_value(state, pmv_pt, pmv_pythermal)
-
                 # Executar com o modelo PMV
-                if (pmv > self.pmv_upperbound or pmv < self.pmv_lowerbound or with_pmv) and status_ac == 1.0:
-                    if pmv < self.pmv_lowerbound:
-                        temp_ac = self.temp_ac_min
-                    elif pmv > self.pmv_upperbound:
-                        temp_ac = self.temp_ac_max
-
+                if pmv > self.pmv_upperbound or pmv < self.pmv_lowerbound or with_pmv:
                     pmv_pythermal = pythermalcomfort.models.pmv(
                         temp_op,
                         mrt,
@@ -178,41 +154,80 @@ class ConditioningPmv:
                         limit_inputs=False
                     )
 
-                    while pmv_pythermal > self.pmv_upperbound or pmv_pythermal < self.pmv_lowerbound:
-                        if pmv_pythermal > self.pmv_upperbound:
-                            if vel < self.vel_max:
-                                vel = round(vel + 0.05, 2)
-                            elif temp_ac > self.temp_ac_min:
-                                temp_ac -= 1.0
-                            else:
-                                break
+                    if status_ac == 1.0:
+                        if pmv < self.pmv_lowerbound:
+                            temp_ac = self.temp_ac_min
+                        elif pmv > self.pmv_upperbound:
+                            temp_ac = self.temp_ac_max
 
-                        elif pmv_pythermal < self.pmv_lowerbound:
-                            if status_ac == 1.0 and temp_ac < self.temp_ac_max:
-                                temp_ac += 1.0
-                            elif vel > 0.0 and status_ac == 0.0:
-                                vel = round(vel - 0.05, 2)
-                                if vel < 0.0:
-                                    vel = 0.0
-                            elif status_ac == 1.0:
-                                status_ac = 0.0
-                                status_janela = 1.0          
-                            else:
-                                break
+                        while pmv_pythermal > self.pmv_upperbound or pmv_pythermal < self.pmv_lowerbound:
+                            if pmv_pythermal > self.pmv_upperbound:
+                                if vel < self.vel_max:
+                                    vel = round(vel + 0.05, 2)
+                                elif temp_ac > self.temp_ac_min:
+                                    temp_ac -= 1.0
+                                else:
+                                    break
 
-                        pmv_pythermal = pythermalcomfort.models.pmv(
-                            temp_op if status_ac == 0.0 else temp_ac,
-                            mrt,
-                            pythermalcomfort.utilities.v_relative(vel, self.met),
-                            hum_rel,
-                            self.met,
-                            pythermalcomfort.utilities.clo_dynamic(clo, met=self.met),
-                            self.wme,
-                            stardard='ashrae',
-                            limit_inputs=False
-                        )
+                            elif pmv_pythermal < self.pmv_lowerbound:
+                                if status_ac == 1.0 and temp_ac < self.temp_ac_max:
+                                    temp_ac += 1.0
+                                elif vel > 0.0 and status_ac == 0.0:
+                                    vel = round(vel - 0.05, 2)
+                                    if vel < 0.0:
+                                        vel = 0.0
+                                elif status_ac == 1.0:
+                                    status_ac = 0.0
+                                    status_janela = 1.0          
+                                else:
+                                    break
 
-                    self.ep_api.exchange.set_actuator_value(state, pmv_pt, pmv_pythermal)
+                            pmv_pythermal = pythermalcomfort.models.pmv(
+                                temp_op if status_ac == 0.0 else temp_ac,
+                                mrt,
+                                pythermalcomfort.utilities.v_relative(vel, self.met),
+                                hum_rel,
+                                self.met,
+                                pythermalcomfort.utilities.clo_dynamic(clo, met=self.met),
+                                self.wme,
+                                stardard='ashrae',
+                                limit_inputs=False
+                            )
+
+                        self.ep_api.exchange.set_actuator_value(state, pmv_pythermal_handle, pmv_pythermal)
+                    else:
+                        while pmv_pythermal > self.pmv_upperbound or pmv_pythermal < self.pmv_lowerbound:
+                            if pmv_pythermal > self.pmv_upperbound:
+                                if vel < self.vel_max:
+                                    vel = round(vel + 0.05, 2)
+                                else:
+                                    status_ac = 1.0
+                                    status_janela = 0.0
+                                    break
+
+                            elif pmv_pythermal < self.pmv_lowerbound:
+                                if vel > 0.0:
+                                    vel = round(vel - 0.05, 2)
+                                    if vel < 0.0:
+                                        vel = 0.0
+                                else:
+                                    status_ac = 1.0
+                                    status_janela = 0.0
+                                    break
+
+                            pmv_pythermal = pythermalcomfort.models.pmv(
+                                temp_op,
+                                mrt,
+                                pythermalcomfort.utilities.v_relative(vel, self.met),
+                                hum_rel,
+                                self.met,
+                                pythermalcomfort.utilities.clo_dynamic(clo, met=self.met),
+                                self.wme,
+                                stardard='ashrae',
+                                limit_inputs=False
+                            )
+
+                        self.ep_api.exchange.set_actuator_value(state, pmv_pythermal_handle, pmv_pythermal)
 
                 # Mandando para o Energy os valores atualizados                           
                 self.ep_api.exchange.set_actuator_value(state, status_vent_actuator, 1.0 if vel > 0.0 else 0.0)
@@ -227,17 +242,17 @@ class ConditioningPmv:
                 self.ep_api.exchange.set_actuator_value(state, vel_actuator, 0.0)
                 self.ep_api.exchange.set_actuator_value(state, status_ac_actuator, 0.0)
                 self.ep_api.exchange.set_actuator_value(state, temp_ac_actuator, 24.0)
-                self.ep_api.exchange.set_actuator_value(state, pmv_pt, 0.0)
+                self.ep_api.exchange.set_actuator_value(state, pmv_pythermal_handle, 0.0)
                 self.ep_api.exchange.set_actuator_value(state, status_janela_handle, 1.0)
                 self.ep_api.exchange.set_actuator_value(state, temp_op_max_hand, 0.0)
 
-            self.ep_api.exchange.set_actuator_value(state, adaptativo_max, ashrae_55 + self.margem_adaptativo)
-            self.ep_api.exchange.set_actuator_value(state, adaptativo_min, ashrae_55 - self.margem_adaptativo)
-            em_conforto = 1.0 if (ashrae_55 >= temp_op - self.margem_adaptativo and ashrae_55 <= temp_op + self.margem_adaptativo) or (temp_op > temp_op_max and vel > 0) or (pmv <= self.pmv_upperbound and pmv >= self.pmv_lowerbound and status_ac == 1.0) else 0.0
+            self.ep_api.exchange.set_actuator_value(state, adaptativo_max, adaptativo + self.margem_adaptativo)
+            self.ep_api.exchange.set_actuator_value(state, adaptativo_min, adaptativo - self.margem_adaptativo)
+            em_conforto = 1.0 if people_count == 0.0 or (adaptativo >= temp_op - self.margem_adaptativo and adaptativo <= temp_op + self.margem_adaptativo) or (temp_op <= temp_op_max and vel > 0) or (pmv_pythermal <= self.pmv_upperbound and pmv_pythermal >= self.pmv_lowerbound and (status_ac == 1.0 or with_pmv)) else 0.0
             self.ep_api.exchange.set_actuator_value(state, em_conforto_hand, em_conforto)
 
     def get_temp_max_op(self, vel):
         return -0.3535 * vel ** 2 + 2.2758 * vel + 24.995
     
     def get_vel_adap(self, temp_op):
-        return 0.055 * temp_op ** 2 - 2.331 * temp_op + 23.935
+        return 0.055 * temp_op ** 2 - 2.331 * temp_op + 23.935 + 0.1
