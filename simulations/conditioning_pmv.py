@@ -128,7 +128,6 @@ class ConditioningPmv:
                         status_janela = 1.0
 
                 if co2 > 900.0:
-                    print(co2)
                     status_ac = 1.0
                     status_janela = 0.0
 

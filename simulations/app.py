@@ -65,7 +65,6 @@ class SimulationGUI(tk.Tk):
         #rooms_label.grid(row=4, column=0)
         #rooms_entry = Entry(width=10)
         #rooms_entry.grid(row=5, column=0)
-        self.rooms = ["SALA"]
 
         self.simu_frame = ttk.Frame(master=self)
         self.simu_frame.grid(row=1, column=0, columnspan=2, padx=30, pady=30)
@@ -113,6 +112,11 @@ class SimulationGUI(tk.Tk):
         self.wme_entry = ttk.Entry(self.simu_frame, width=10)
         self.wme_entry.grid(row=9, column=3)
 
+        # Rooms
+        ttk.Label(self.simu_frame, text="Rooms:").grid(row=10, column=0)
+        self.rooms_entry = ttk.Entry(self.simu_frame, width=50)
+        self.rooms_entry.grid(row=10, column=1, columnspan=3)
+
         # Save button
         self.save_button = ttk.Button(self, text="Salvar", width=20, command=self.save_configs)
         self.save_button.grid(row=2, column=0)
@@ -149,8 +153,12 @@ class SimulationGUI(tk.Tk):
         content = ""
         with open(CONFIGS_PATH, "r") as reader:
             content = reader.read()
-            
-        return json.loads(content)
+
+        content = json.loads(content)
+
+        content["rooms"] = ";".join(content["rooms"])
+
+        return content
 
     def save_configs(self):
         self.configs = {
@@ -165,7 +173,8 @@ class SimulationGUI(tk.Tk):
             "temp_ac_min": self.temp_ac_min_entry.get(),
             "temp_ac_max": self.temp_ac_max_entry.get(),
             "met": self.met_entry.get(),
-            "wme": self.wme_entry.get()
+            "wme": self.wme_entry.get(),
+            "rooms": self.rooms_entry.get().upper().split(";")
         }
 
         with open(self.config_path, "w") as writer:
@@ -184,6 +193,7 @@ class SimulationGUI(tk.Tk):
         self.temp_ac_max_entry.insert(0, self.configs["temp_ac_max"])
         self.met_entry.insert(0, self.configs["met"])
         self.wme_entry.insert(0, self.configs["wme"])
+        self.rooms_entry.insert(0, self.configs["rooms"])
 
     def run(self):
         if self.run_button['state'] == tk.DISABLED:
@@ -217,7 +227,7 @@ class SimulationGUI(tk.Tk):
                                 epw_path=epwfile,
                                 output_path=output_path, 
                                 energy_path=epfolder, 
-                                rooms=self.rooms, 
+                                rooms=self.rooms_entry.get().upper().split(";"), 
                                 pmv_upperbound=float(self.pmv_upperbound_entry.get()), 
                                 pmv_lowerbound=float(self.pmv_lowerbound_entry.get()), 
                                 margem_adaptativo=margem_adaptativo, 
@@ -225,7 +235,7 @@ class SimulationGUI(tk.Tk):
                                 temp_ac_min=float(self.temp_ac_min_entry.get()), 
                                 temp_ac_max=float(self.temp_ac_max_entry.get()), 
                                 met=float(self.met_entry.get()), 
-                                wme=float(self.wme_entry.get())
+                                wme=float(self.wme_entry.get()),
         )
 
         self.run_button["state"] = tk.DISABLED

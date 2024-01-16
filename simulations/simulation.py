@@ -2,6 +2,7 @@ import sys
 import os
 import glob
 from conditioning_pmv import ConditioningPmv
+import utils
 
 ENERGY_PATH = "/usr/local/EnergyPlus-9-4-0"
 sys.path.append(ENERGY_PATH)
@@ -79,6 +80,8 @@ class Simulation:
 
         # Reading output variables
         os.system(f"cd {self.output_path} ; {os.path.join(self.energy_path, 'runreadvars')} {'eplusout.eso'}")
+
+        utils.split_sheet(rooms=self.rooms, output_path=self.output_path)
 
 if __name__ == "__main__":
     #run_simulation(rooms=["SALA"])

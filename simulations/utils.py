@@ -38,6 +38,42 @@ def main():
 
     #print(bad_pmv_counter)
 
+def split_sheet(rooms, output_path):
+    target_variables = ["Date/Time",
+                        "Environment:Site Outdoor Air Drybulb Temperature [C](TimeStep)",
+                        "PEOPLE_%:People Occupant Count [](TimeStep)",
+                        "%:Zone Mean Radiant Temperature [C](TimeStep)",
+                        "%:Zone Operative Temperature [C](TimeStep)",
+                        "%:Zone Air Temperature [C](TimeStep)",
+                        "%:Zone Air Relative Humidity [%](TimeStep)",
+                        "COPA:Zone Air CO2 Concentration [ppm](TimeStep)",
+                        "PEOPLE_%:Zone Thermal Comfort Fanger Model PMV [](TimeStep)",
+                        "PEOPLE_%:Zone Thermal Comfort Clothing Value [clo](TimeStep)",
+                        "PEOPLE_%:Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature [C](TimeStep)",
+                        "JANELA_%:Schedule Value [](TimeStep)",
+                        "VENT_%:Schedule Value [](TimeStep)",
+                        "VEL_%:Schedule Value [](TimeStep)",
+                        "AC_%:Schedule Value [](TimeStep)",
+                        "TEMP_AC_%:Schedule Value [](TimeStep)",
+                        "PMV_PYTHERMAL_%:Schedule Value [](TimeStep)",
+                        "ADAPTATIVO_PYTHERMAL_%:Schedule Value [](TimeStep)",
+                        "TEMP_OP_MAX_ADAP_%:Schedule Value [](TimeStep)",
+                        "ADAP_MIN_%:Schedule Value [](TimeStep)",
+                        "ADAP_MAX_%:Schedule Value [](TimeStep)",
+                        "EM_CONFORTO_%:Schedule Value [](TimeStep)",
+                        "% IDEAL LOADS AIR SYSTEM:Zone Ideal Loads Supply Air Mass Flow Rate [kg/s](TimeStep)"
+                    ]
+
+    origin = pandas.read_csv(os.path.join(output_path, "eplusout.csv"))
+
+    for room in rooms:
+        df = pandas.DataFrame()
+
+        for tv in target_variables:
+            df = pandas.concat([df, origin[[tv.replace("%", room)]]])
+        
+        df.to_csv(os.path.join(output_path, f"{room}.csv"), index=False)
+
 def get_only_important_columns():
     rooms = ["SALA_AULA", "ATELIE1", "ATELIE2", "ATELIE3", "LINSE", "RECEPCAO", "SEC_LINSE"]
 
