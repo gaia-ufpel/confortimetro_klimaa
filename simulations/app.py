@@ -60,12 +60,6 @@ class SimulationGUI(tk.Tk):
         self.epfolder_entry = ttk.Entry(self.locations_frame, width=60)
         self.epfolder_entry.grid(row=7, column=0)
 
-        # Rooms
-        #rooms_label = Label(text="Rooms:")
-        #rooms_label.grid(row=4, column=0)
-        #rooms_entry = Entry(width=10)
-        #rooms_entry.grid(row=5, column=0)
-
         self.simu_frame = ttk.Frame(master=self)
         self.simu_frame.grid(row=1, column=0, columnspan=2, padx=30, pady=30)
 
@@ -130,23 +124,23 @@ class SimulationGUI(tk.Tk):
         self.show_configs()
 
     def browse_idf(self):
-        filename = filedialog.askopenfilename(initialdir = "./", title = "Select IDF File", filetypes = (("IDF Files","*.idf"),("all files","*.*")))
+        filename = filedialog.askopenfilename(initialdir = ".", title = "Select IDF File", filetypes = (("IDF Files","*.idf"),("all files","*.*")))
         self.inputfile_entry.delete(0, 'end')
         self.inputfile_entry.insert(0, filename)
 
     def browse_output(self):
-        filename = filedialog.askdirectory(initialdir = "./", title = "Select Output Folder")
-        self.inputfile_entry.delete(0, 'end')
+        filename = filedialog.askdirectory(initialdir = ".", title = "Select Output Folder")
+        self.outputfolder_entry.delete(0, 'end')
         self.outputfolder_entry.insert(0, filename)
 
     def browse_weather(self):
-        filename = filedialog.askopenfilename(initialdir = "./", title = "Select Weather File", filetypes = (("EPW Files","*.epw"),("all files","*.*")))
-        self.inputfile_entry.delete(0, 'end')
+        filename = filedialog.askopenfilename(initialdir = ".", title = "Select Weather File", filetypes = (("EPW Files","*.epw"),("all files","*.*")))
+        self.epwfile_entry.delete(0, 'end')
         self.epwfile_entry.insert(0, filename)
 
     def browse_ep(self):
-        filename = filedialog.askdirectory(initialdir = "./", title = "Select EnergyPlus Folder")
-        self.inputfile_entry.delete(0, 'end')
+        filename = filedialog.askdirectory(initialdir = ".", title = "Select EnergyPlus Folder")
+        self.epfolder_entry.delete(0, 'end')
         self.epfolder_entry.insert(0, filename)
 
     def load_configs(self):
@@ -219,11 +213,11 @@ class SimulationGUI(tk.Tk):
         elif margem_adaptativo == "90%":
             margem_adaptativo = 2.5
 
-        inputs_path = "/".join(inputfile.split("/")[:-1])
+        inputs_path = os.sep.join(inputfile.split(os.sep)[:-1])
 
         simulation = Simulation(input_path=inputs_path, 
                                 idf_path=self.inputfile_entry.get(), 
-                                expanded_idf_path=f"{inputs_path}/expanded.idf", 
+                                expanded_idf_path=f"{inputs_path}{os.sep}expanded.idf", 
                                 epw_path=epwfile,
                                 output_path=output_path, 
                                 energy_path=epfolder, 

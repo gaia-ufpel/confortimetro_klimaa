@@ -1,25 +1,26 @@
 import sys
 import os
-import glob
+import platform
 from conditioning_pmv import ConditioningPmv
 import utils
 
-ENERGY_PATH = "/usr/local/EnergyPlus-9-4-0"
-sys.path.append(ENERGY_PATH)
-#print(sys.path)
+ENERGY_INFO = "./energy_path.txt"
+
+with open(ENERGY_INFO, "r") as reader:
+    sys.path.append(reader.read())
 
 from pyenergyplus.api import EnergyPlusAPI
-#EnergyPlusAPI.api_version()
 
-INPUT_PATH = './assets/inputs'
-IDF_PATH = os.path.join(INPUT_PATH, 'in.idf')
-EXPANDED_IDF_PATH = os.path.join(INPUT_PATH, 'expanded.idf')
-EPW_PATH = os.path.join(INPUT_PATH, "BRA_RS_Pelotas-2003-2017.epw")
-OUTPUT_PATH = './assets/outputs/4'
-ROOMS = ["SALA_AULA", "ATELIE1", "ATELIE2", "ATELIE3", "SEC_LINSE", "LINSE", "RECEPCAO"]
+EXPAND_OBJECTS_APP = "ExpandObjects"
+TO_CSV_APP = "runreadvars"
+
+if platform.system() == "Windows":
+    EXPAND_OBJECTS_APP = "ExpandObjects.exe"
+    TO_CSV_APP = "RunReadESO.bat"
+
 
 class Simulation:
-    def __init__(self, input_path=INPUT_PATH, idf_path=IDF_PATH, expanded_idf_path=EXPANDED_IDF_PATH, epw_path=EPW_PATH, output_path=OUTPUT_PATH, energy_path=ENERGY_PATH, rooms=ROOMS, pmv_upperbound=0.5, pmv_lowerbound=0.0, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
+    def __init__(self, input_path, idf_path, expanded_idf_path, epw_path, output_path, energy_path, rooms, pmv_upperbound=0.5, pmv_lowerbound=0.0, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
         self.input_path = input_path
         self.idf_path = idf_path
         self.expanded_idf_path = expanded_idf_path
@@ -69,7 +70,7 @@ class Simulation:
 
     def run(self):
         # Expanding objects and creating expanded.idf
-        os.system(f"cd {self.input_path} ; {os.path.join(self.energy_path, 'ExpandObjects')} {self.idf_path}")
+        os.system(f"cd {self.input_path} ; {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)} {self.idf_path}")
 
         # Running simulation
         self.ep_api.runtime.callback_begin_zone_timestep_after_init_heat_balance(self.state, self.conditioner)
@@ -79,10 +80,6 @@ class Simulation:
         self.ep_api.state_manager.reset_state(self.state)
 
         # Reading output variables
-        os.system(f"cd {self.output_path} ; {os.path.join(self.energy_path, 'runreadvars')} {'eplusout.eso'}")
+        os.system(f"cd {self.output_path} ; {os.path.join(self.energy_path, TO_CSV_APP)} {'eplusout.eso'}")
 
         utils.split_sheet(rooms=self.rooms, output_path=self.output_path)
-
-if __name__ == "__main__":
-    #run_simulation(rooms=["SALA"])
-    pass

@@ -4,7 +4,7 @@ import os
 BASE_PATH = "/mnt/sda1/gabriellb/Documentos/Faculdade/projetos/klimaa/simulacoes/output_files/reduce_consume"
 CSV_PATH = os.path.join(BASE_PATH, "eplusout.csv")
 
-def main():
+def random_things():
     df = pandas.read_csv(CSV_PATH)
     bad_pmv_counter = {
         "SALA_AULA" : 0,
@@ -41,27 +41,27 @@ def main():
 def split_sheet(rooms, output_path):
     target_variables = ["Date/Time",
                         "Environment:Site Outdoor Air Drybulb Temperature [C](TimeStep)",
-                        "PEOPLE_%:People Occupant Count [](TimeStep)",
-                        "%:Zone Mean Radiant Temperature [C](TimeStep)",
-                        "%:Zone Operative Temperature [C](TimeStep)",
-                        "%:Zone Air Temperature [C](TimeStep)",
-                        "%:Zone Air Relative Humidity [%](TimeStep)",
-                        "COPA:Zone Air CO2 Concentration [ppm](TimeStep)",
-                        "PEOPLE_%:Zone Thermal Comfort Fanger Model PMV [](TimeStep)",
-                        "PEOPLE_%:Zone Thermal Comfort Clothing Value [clo](TimeStep)",
-                        "PEOPLE_%:Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature [C](TimeStep)",
-                        "JANELA_%:Schedule Value [](TimeStep)",
-                        "VENT_%:Schedule Value [](TimeStep)",
-                        "VEL_%:Schedule Value [](TimeStep)",
-                        "AC_%:Schedule Value [](TimeStep)",
-                        "TEMP_AC_%:Schedule Value [](TimeStep)",
-                        "PMV_PYTHERMAL_%:Schedule Value [](TimeStep)",
-                        "ADAPTATIVO_PYTHERMAL_%:Schedule Value [](TimeStep)",
-                        "TEMP_OP_MAX_ADAP_%:Schedule Value [](TimeStep)",
-                        "ADAP_MIN_%:Schedule Value [](TimeStep)",
-                        "ADAP_MAX_%:Schedule Value [](TimeStep)",
-                        "EM_CONFORTO_%:Schedule Value [](TimeStep)",
-                        "% IDEAL LOADS AIR SYSTEM:Zone Ideal Loads Supply Air Mass Flow Rate [kg/s](TimeStep)"
+                        "PEOPLE_%%:People Occupant Count [](TimeStep)",
+                        "%%:Zone Mean Radiant Temperature [C](TimeStep)",
+                        "%%:Zone Operative Temperature [C](TimeStep)",
+                        "%%:Zone Air Temperature [C](TimeStep)",
+                        "%%:Zone Air Relative Humidity [%](TimeStep)",
+                        "%%:Zone Air CO2 Concentration [ppm](TimeStep)",
+                        "PEOPLE_%%:Zone Thermal Comfort Fanger Model PMV [](TimeStep)",
+                        "PEOPLE_%%:Zone Thermal Comfort Clothing Value [clo](TimeStep)",
+                        "PEOPLE_%%:Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature [C](TimeStep)",
+                        "JANELA_%%:Schedule Value [](TimeStep)",
+                        "VENT_%%:Schedule Value [](TimeStep)",
+                        "VEL_%%:Schedule Value [](TimeStep)",
+                        "AC_%%:Schedule Value [](TimeStep)",
+                        "TEMP_AC_%%:Schedule Value [](TimeStep)",
+                        "PMV_PYTHERMAL_%%:Schedule Value [](TimeStep)",
+                        "ADAPTATIVO_PYTHERMAL_%%:Schedule Value [](TimeStep)",
+                        "TEMP_OP_MAX_ADAP_%%:Schedule Value [](TimeStep)",
+                        "ADAP_MIN_%%:Schedule Value [](TimeStep)",
+                        "ADAP_MAX_%%:Schedule Value [](TimeStep)",
+                        "EM_CONFORTO_%%:Schedule Value [](TimeStep)",
+                        "%% IDEAL LOADS AIR SYSTEM:Zone Ideal Loads Supply Air Mass Flow Rate [kg/s](TimeStep)"
                     ]
 
     origin = pandas.read_csv(os.path.join(output_path, "eplusout.csv"))
@@ -70,7 +70,14 @@ def split_sheet(rooms, output_path):
         df = pandas.DataFrame()
 
         for tv in target_variables:
-            df = pandas.concat([df, origin[[tv.replace("%", room)]]])
+            try:
+                df = pandas.concat([df, origin[[tv.replace("%%", room)]]], axis=1)
+            except:
+                try:
+                    df = pandas.concat([df, origin[[f"{tv} ".replace("%%", room)]]], axis=1)
+                except:
+                    pass
+
         
         df.to_csv(os.path.join(output_path, f"{room}.csv"), index=False)
 
@@ -89,7 +96,3 @@ def get_only_important_columns():
 
     print(len(clean_df))
     clean_df.to_csv(os.path.join(BASE_PATH, f"clean.csv"), index=False)
-
-if __name__ == "__main__":
-    main()
-    get_only_important_columns()
