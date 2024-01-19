@@ -5,9 +5,11 @@ from conditioning_pmv import ConditioningPmv
 import utils
 
 ENERGY_INFO = "./energy_path.txt"
+ENERGY_PATH = ""
 
 with open(ENERGY_INFO, "r") as reader:
-    sys.path.append(reader.read())
+    ENERGY_PATH = reader.read()
+    sys.path.append(ENERGY_PATH)
 
 from pyenergyplus.api import EnergyPlusAPI
 

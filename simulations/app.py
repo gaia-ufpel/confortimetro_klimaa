@@ -6,6 +6,7 @@ from tkinter import Tk, Label, Entry, Button, filedialog, ttk, Frame
 from tkinter import messagebox
 
 from simulation import Simulation
+from simulation import ENERGY_PATH
 
 CONFIGS_PATH = "./config.json"
 

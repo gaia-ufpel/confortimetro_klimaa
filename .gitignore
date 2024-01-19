@@ -5,3 +5,4 @@ __pycache__
 *.bak
 .DS_Store
 .ipynb_checkpoints
+*.zip
