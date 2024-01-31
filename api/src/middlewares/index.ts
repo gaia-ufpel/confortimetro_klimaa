@@ -5,7 +5,8 @@ import { getUserByToken } from 'models/users';
 
 export const is_authenticated = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
-        const token = req.cookies["TOKEN"];
+        //const token = req.cookies["TOKEN"];
+        const token = req.headers.authorization;
 
         if (!token) {
             return res.sendStatus(403);

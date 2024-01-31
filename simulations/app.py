@@ -55,24 +55,18 @@ class SimulationGUI(tk.Tk):
         self.epwfile_entry = ttk.Entry(self.locations_frame, width=60)
         self.epwfile_entry.grid(row=5, column=0)
 
-        # EnergyPlus folder
-        ttk.Label(self.locations_frame, text="Diretório do EnergyPlus:", justify="left").grid(row=6, column=0)
-        ttk.Button(self.locations_frame, text="Procurar", width=10, command=self.browse_ep).grid(row=6, column=1, rowspan=2)
-        self.epfolder_entry = ttk.Entry(self.locations_frame, width=60)
-        self.epfolder_entry.grid(row=7, column=0)
-
         self.simu_frame = ttk.Frame(master=self)
         self.simu_frame.grid(row=1, column=0, columnspan=2, padx=30, pady=30)
 
-        # PMV upperbound
-        ttk.Label(master=self.simu_frame, text="PMV Max:").grid(row=6, column=0)
-        self.pmv_upperbound_entry = ttk.Entry(self.simu_frame, width=10)
-        self.pmv_upperbound_entry.grid(row=7, column=0)
-
         # PMV lowerbound
-        ttk.Label(self.simu_frame, text="PMV Min:").grid(row=6, column=1)
+        ttk.Label(self.simu_frame, text="PMV Min:").grid(row=6, column=0)
         self.pmv_lowerbound_entry = ttk.Entry(self.simu_frame, width=10)
-        self.pmv_lowerbound_entry.grid(row=7, column=1)
+        self.pmv_lowerbound_entry.grid(row=7, column=0)
+
+        # PMV upperbound
+        ttk.Label(master=self.simu_frame, text="PMV Max:").grid(row=6, column=1)
+        self.pmv_upperbound_entry = ttk.Entry(self.simu_frame, width=10)
+        self.pmv_upperbound_entry.grid(row=7, column=1)
 
         # Velocity max
         ttk.Label(self.simu_frame, text="Velocidade Max:").grid(row=6, column=2)
@@ -139,11 +133,6 @@ class SimulationGUI(tk.Tk):
         self.epwfile_entry.delete(0, 'end')
         self.epwfile_entry.insert(0, filename)
 
-    def browse_ep(self):
-        filename = filedialog.askdirectory(initialdir = ".", title = "Select EnergyPlus Folder")
-        self.epfolder_entry.delete(0, 'end')
-        self.epfolder_entry.insert(0, filename)
-
     def load_configs(self):
         content = ""
         with open(CONFIGS_PATH, "r") as reader:
@@ -160,7 +149,7 @@ class SimulationGUI(tk.Tk):
             "idf_path": self.inputfile_entry.get(),
             "output_path": self.outputfolder_entry.get(),
             "epw_path": self.epwfile_entry.get(),
-            "energy_path": self.epfolder_entry.get(),
+            "energy_path": ENERGY_PATH,
             "pmv_upperbound": self.pmv_upperbound_entry.get(),
             "pmv_lowerbound": self.pmv_lowerbound_entry.get(),
             "vel_max": self.vel_max_entry.get(),
@@ -179,7 +168,6 @@ class SimulationGUI(tk.Tk):
         self.inputfile_entry.insert(0, self.configs["idf_path"])
         self.outputfolder_entry.insert(0, self.configs["output_path"])
         self.epwfile_entry.insert(0, self.configs["epw_path"])
-        self.epfolder_entry.insert(0, self.configs["energy_path"])
         self.pmv_upperbound_entry.insert(0, self.configs["pmv_upperbound"])
         self.pmv_lowerbound_entry.insert(0, self.configs["pmv_lowerbound"])
         self.vel_max_entry.insert(0, self.configs["vel_max"])
@@ -192,20 +180,23 @@ class SimulationGUI(tk.Tk):
 
     def run(self):
         if self.run_button['state'] == tk.DISABLED:
-            return
+            return None
         
         inputfile = self.inputfile_entry.get()
         if not os.path.exists(inputfile):
+            tk.messagebox.showerror("Erro", "Arquivo IDF não encontrado!")
             return None
         
         output_path = self.outputfolder_entry.get()
 
         epwfile = self.epwfile_entry.get()
         if not os.path.exists(epwfile):
+            tk.messagebox.showerror("Erro", "Arquivo EPW não encontrado!")
             return None
         
-        epfolder = self.epfolder_entry.get()
+        epfolder = ENERGY_PATH
         if not os.path.exists(epfolder):
+            tk.messagebox.showerror("Erro", "Pasta do EnergyPlus não existe!")
             return None
         
         margem_adaptativo = self.selected_adaptative.get()
@@ -214,11 +205,7 @@ class SimulationGUI(tk.Tk):
         elif margem_adaptativo == "90%":
             margem_adaptativo = 2.5
 
-        inputs_path = os.sep.join(inputfile.split(os.sep)[:-1])
-
-        simulation = Simulation(input_path=inputs_path, 
-                                idf_path=self.inputfile_entry.get(), 
-                                expanded_idf_path=f"{inputs_path}{os.sep}expanded.idf", 
+        simulation = Simulation(idf_path=self.inputfile_entry.get(),  
                                 epw_path=epwfile,
                                 output_path=output_path, 
                                 energy_path=epfolder, 
@@ -240,8 +227,6 @@ class SimulationGUI(tk.Tk):
         x.start()
 
         self.popup_running_simple()
-        
-        x.join()
 
         self.run_button["state"] = tk.NORMAL
         self.run_button["cursor"] = "arrow"

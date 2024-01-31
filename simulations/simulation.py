@@ -22,10 +22,10 @@ if platform.system() == "Windows":
 
 
 class Simulation:
-    def __init__(self, input_path, idf_path, expanded_idf_path, epw_path, output_path, energy_path, rooms, pmv_upperbound=0.5, pmv_lowerbound=0.0, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
-        self.input_path = input_path
+    def __init__(self, idf_path, epw_path, output_path, energy_path, rooms, pmv_upperbound=0.5, pmv_lowerbound=0.0, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
         self.idf_path = idf_path
-        self.expanded_idf_path = expanded_idf_path
+        self.input_path = "/".join(idf_path.split('/')[:-1])
+        self.expanded_idf_path = f"{self.input_path}/expanded.idf"
         self.epw_path = epw_path
         self.output_path = output_path
         self.energy_path = energy_path
@@ -72,16 +72,27 @@ class Simulation:
 
     def run(self):
         # Expanding objects and creating expanded.idf
-        os.system(f"cd {self.input_path} ; {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)} {self.idf_path}")
+        #os.system(f"cd \"{self.input_path}\"")
+        #print(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)} {self.idf_path}")
+        if platform.system() == "Windows":
+            os.system(f"cd \"{self.input_path}\" && {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}")
+        else:
+            os.system(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}")
+
+        os.rename(f"{self.expanded_idf_path}", f"{os.path.join(self.output_path, 'expanded.idf')}")
+
+        self.expanded_idf_path = os.path.join(self.output_path, 'expanded.idf')
 
         # Running simulation
         self.ep_api.runtime.callback_begin_zone_timestep_after_init_heat_balance(self.state, self.conditioner)
         self.ep_api.runtime.run_energyplus(self.state,
-                                    ['--weather', self.epw_path, '--output-directory', self.output_path, self.expanded_idf_path]
+            ['--weather', self.epw_path, '--output-directory', self.output_path, self.expanded_idf_path]
         )
         self.ep_api.state_manager.reset_state(self.state)
 
-        # Reading output variables
-        os.system(f"cd {self.output_path} ; {os.path.join(self.energy_path, TO_CSV_APP)} {'eplusout.eso'}")
+        if platform.system() == "Windows":
+            os.system(f"cd \"{self.output_path}\" && {os.path.join(self.energy_path, TO_CSV_APP)} eplusout.eso")
+        else:
+            os.system(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}")
 
-        utils.split_sheet(rooms=self.rooms, output_path=self.output_path)
+        utils.process_esofile(self.rooms, self.output_path)

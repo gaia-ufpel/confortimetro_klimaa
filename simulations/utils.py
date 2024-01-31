@@ -1,5 +1,6 @@
 import pandas
 import os
+import esoreader
 
 BASE_PATH = "/mnt/sda1/gabriellb/Documentos/Faculdade/projetos/klimaa/simulacoes/output_files/reduce_consume"
 CSV_PATH = os.path.join(BASE_PATH, "eplusout.csv")
@@ -37,6 +38,76 @@ def random_things():
             filtered_df.to_csv(os.path.join(BASE_PATH, f"bad_pmvs_{room}.csv"), index=False)
 
     #print(bad_pmv_counter)
+
+def process_esofile(rooms, output_path):
+    eso = esoreader.read_from_path(os.path.join(output_path, "eplusout.eso"))
+
+    for room in rooms:
+        df = pandas.DataFrame()
+
+        timesteps = pandas.Series(pandas.date_range('2017-01-01', '2017-12-31 T23:50', freq='10min'))
+
+        df = pandas.concat([
+            df,
+            timesteps,
+            eso.to_frame("Site Outdoor Air Drybulb Temperature"),
+            eso.to_frame("People Occupant Count")[f"PEOPLE_{room.upper()}"],
+            eso.to_frame("Zone Mean Radiant Temperature")[f"{room.upper()}"],
+            eso.to_frame("Zone Operative Temperature")[f"{room.upper()}"],
+            eso.to_frame("Zone Air Temperature")[f"{room.upper()}"],
+            eso.to_frame("Zone Air Relative Humidity")[f"{room.upper()}"],
+            eso.to_frame("Zone Mean Radiant Temperature")[f"{room.upper()}"],
+            eso.to_frame("Zone Air CO2 Concentration")[f"{room.upper()}"],
+            eso.to_frame("Zone Thermal Comfort Fanger Model PMV")[f"PEOPLE_{room.upper()}"],
+            #eso.to_frame("Zone Thermal Comfort Clothing Value")[f"PEOPLE_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"CLO"],
+            eso.to_frame("Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature")[f"PEOPLE_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"JANELA_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"VENT_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"VEL_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"AC_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"TEMP_COOL_AC_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"TEMP_HEAT_AC_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"PMV_PYTHERMAL_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"ADAPTATIVO_PYTHERMAL_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"TEMP_OP_MAX_ADAP_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"ADAP_MIN_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"ADAP_MAX_{room.upper()}"],
+            eso.to_frame("Schedule Value")[f"EM_CONFORTO_{room.upper()}"],
+            eso.to_frame("Zone Packaged Terminal Heat Pump Total Cooling Energy")[f"{room.upper()} PTHP"],
+            eso.to_frame("Zone Packaged Terminal Heat Pump Total Heating Energy")[f"{room.upper()} PTHP"]
+        ], axis=1)
+
+        df.columns = [
+            "TimeStep",
+            "Site Outdoor Air Drybulb Temperature",
+            "People Occupant Count",
+            "Zone Mean Radiant Temperature",
+            "Zone Operative Temperature",
+            "Zone Air Temperature",
+            "Zone Air Relative Humidity",
+            "Zone Mean Radiant Temperature",
+            "Zone Air CO2 Concentration",
+            "Zone Thermal Comfort Fanger Model PMV",
+            "Clothing Value",
+            "Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature",
+            f"JANELA_{room.upper()}",
+            f"VENT_{room.upper()}",
+            f"VEL_{room.upper()}",
+            f"AC_{room.upper()}",
+            f"TEMP_COOL_AC_{room.upper()}",
+            f"TEMP_HEAT_AC_{room.upper()}",
+            f"PMV_PYTHERMAL_{room.upper()}",
+            f"ADAPTATIVO_PYTHERMAL_{room.upper()}",
+            f"TEMP_OP_MAX_ADAP_{room.upper()}",
+            f"ADAP_MIN_{room.upper()}",
+            f"ADAP_MAX_{room.upper()}",
+            f"EM_CONFORTO_{room.upper()}",
+            "Zone Packaged Terminal Heat Pump Total Cooling Energy",
+            "Zone Packaged Terminal Heat Pump Total Heating Energy"
+        ]
+
+        df.to_csv(os.path.join(output_path, f"{room}.csv"), index=False)
 
 def split_sheet(rooms, output_path):
     target_variables = ["Date/Time",
@@ -96,3 +167,6 @@ def get_only_important_columns():
 
     print(len(clean_df))
     clean_df.to_csv(os.path.join(BASE_PATH, f"clean.csv"), index=False)
+
+if __name__ == "__main__":
+    process_esofile(["SALA_AULA","RECEPCAO","SEC_LINSE","LINSE","ATELIE1","ATELIE2","ATELIE3"], "./assets/outputs/FAURB_50_16/")
