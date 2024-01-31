@@ -93,6 +93,6 @@ class Simulation:
         if platform.system() == "Windows":
             os.system(f"cd \"{self.output_path}\" && {os.path.join(self.energy_path, TO_CSV_APP)} eplusout.eso")
         else:
-            os.system(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}")
+            os.system(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, TO_CSV_APP)}")
 
         utils.process_esofile(self.rooms, self.output_path)

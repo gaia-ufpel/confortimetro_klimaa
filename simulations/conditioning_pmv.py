@@ -127,7 +127,7 @@ class ConditioningPmv:
                     pythermalcomfort.utilities.v_relative(vel, self.met),
                     hum_rel,
                     self.met,
-                    pythermalcomfort.utilities.clo_dynamic(clo, met=self.met),
+                    clo,
                     self.wme,
                     stardard='ashrae',
                     limit_inputs=False
@@ -135,7 +135,41 @@ class ConditioningPmv:
 
                 # Executar com o modelo PMV
                 if (pmv_pythermal > self.pmv_upperbound or pmv_pythermal < self.pmv_lowerbound) and status_janela == 0.0:
-                    vel = self.get_best_velocity(temp_ar, mrt, vel, hum_rel, clo)
+                    #vel = self.get_best_velocity(temp_ar, mrt, vel, hum_rel, clo)
+
+                    while pmv_pythermal > self.pmv_upperbound or pmv_pythermal < self.pmv_lowerbound:
+                        if pmv_pythermal > self.pmv_upperbound:
+                            if vel < self.vel_max:
+                                vel = round(vel + 0.05, 2)
+                            else:
+                                vel = 1.2
+                                status_ac = 1.0
+                                status_janela = 0.0
+                                break
+
+                        elif pmv_pythermal < self.pmv_lowerbound:
+                            if vel > 0.0:
+                                vel = round(vel - 0.05, 2)
+                                if vel < 0.0:
+                                    vel = 0.0
+                            else:
+                                status_ac = 1.0
+                                status_janela = 0.0
+                                break
+
+
+                        pmv_pythermal = pythermalcomfort.models.pmv(
+                            temp_ar,
+                            mrt,
+                            pythermalcomfort.utilities.v_relative(vel, self.met),
+                            hum_rel,
+                            self.met,
+                            clo,
+                            self.wme,
+                            stardard='ashrae',
+                            limit_inputs=False
+                        )
+
                     temp_cool_ac, temp_heat_ac = self.get_best_temperatures(mrt, vel, hum_rel, clo)
 
                 # Mandando para o Energy os valores atualizados
