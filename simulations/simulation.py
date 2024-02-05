@@ -1,6 +1,7 @@
 import sys
 import os
 import platform
+
 from conditioning_pmv import ConditioningPmv
 import utils
 
@@ -20,16 +21,7 @@ if platform.system() == "Windows":
     EXPAND_OBJECTS_APP = "ExpandObjects.exe"
     TO_CSV_APP = "RunReadESO.bat"
 
-class SimulationMeta:
-    _instances = {}
-
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
-            cls._instances[cls] = instance
-        return cls._instances[cls]
-
-class Simulation(SimulationMeta):
+class Simulation:
     def __init__(self, idf_path, epw_path, output_path, energy_path, rooms, pmv_upperbound=0.5, pmv_lowerbound=0.0, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
         self.idf_path = idf_path
         self.input_path = "/".join(idf_path.split('/')[:-1])
