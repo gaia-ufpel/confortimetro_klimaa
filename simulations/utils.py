@@ -5,7 +5,7 @@ import esoreader
 BASE_PATH = "/mnt/sda1/gabriellb/Documentos/Faculdade/projetos/klimaa/simulacoes/output_files/reduce_consume"
 CSV_PATH = os.path.join(BASE_PATH, "eplusout.csv")
 
-def random_things():
+def summary_results():
     df = pandas.read_csv(CSV_PATH)
     bad_pmv_counter = {
         "SALA_AULA" : 0,
@@ -36,8 +36,6 @@ def random_things():
 
         if len(filtered_df) > 0:
             filtered_df.to_csv(os.path.join(BASE_PATH, f"bad_pmvs_{room}.csv"), index=False)
-
-    #print(bad_pmv_counter)
 
 def process_esofile(rooms, output_path):
     eso = esoreader.read_from_path(os.path.join(output_path, "eplusout.eso"))
@@ -75,7 +73,8 @@ def process_esofile(rooms, output_path):
             eso.to_frame("Schedule Value")[f"ADAP_MAX_{room.upper()}"],
             eso.to_frame("Schedule Value")[f"EM_CONFORTO_{room.upper()}"],
             eso.to_frame("Zone Packaged Terminal Heat Pump Total Cooling Energy")[f"{room.upper()} PTHP"],
-            eso.to_frame("Zone Packaged Terminal Heat Pump Total Heating Energy")[f"{room.upper()} PTHP"]
+            eso.to_frame("Zone Packaged Terminal Heat Pump Total Heating Energy")[f"{room.upper()} PTHP"],
+            eso.to_frame("Zone Ventilation Air Change Rate")[f"{room.upper()}"]
         ], axis=1)
 
         df.columns = [
@@ -104,7 +103,8 @@ def process_esofile(rooms, output_path):
             f"ADAP_MAX_{room.upper()}",
             f"EM_CONFORTO_{room.upper()}",
             "Zone Packaged Terminal Heat Pump Total Cooling Energy",
-            "Zone Packaged Terminal Heat Pump Total Heating Energy"
+            "Zone Packaged Terminal Heat Pump Total Heating Energy",
+            "Zone Ventilation Air Change Rate"
         ]
 
         df.to_csv(os.path.join(output_path, f"{room}.csv"), index=False)
@@ -154,11 +154,62 @@ def split_sheet(rooms, output_path):
 
 def get_only_important_columns():
     rooms = ["SALA_AULA", "ATELIE1", "ATELIE2", "ATELIE3", "LINSE", "RECEPCAO", "SEC_LINSE"]
+    important_columns = [
+        "Date/Time",
+        "Environment:Site Outdoor Air Drybulb Temperature [C](TimeStep)",
+        "PEOPLE_%%:People Occupant Count [](TimeStep)",
+        "%%:Zone Mean Radiant Temperature [C](TimeStep)",
+        "%%:Zone Operative Temperature [C](TimeStep)",
+        "%%:Zone Air Temperature [C](TimeStep)",
+        "%%:Zone Air Relative Humidity [%](TimeStep)",
+        "%%:Zone Air CO2 Concentration [ppm](TimeStep)",
+        "PEOPLE_%%:Zone Thermal Comfort Fanger Model PMV [](TimeStep)",
+        "PEOPLE_%%:Zone Thermal Comfort Clothing Value [clo](TimeStep)",
+        "PEOPLE_%%:Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature [C](TimeStep)",
+        "JANELA_%%:Schedule Value [](TimeStep)",
+        "VENT_%%:Schedule Value [](TimeStep)",
+        "VEL_%%:Schedule Value [](TimeStep)",
+        "AC_%%:Schedule Value [](TimeStep)",
+        "TEMP_AC_%%:Schedule Value [](TimeStep)",
+        "PMV_PYTHERMAL_%%:Schedule Value [](TimeStep)",
+        "ADAPTATIVO_PYTHERMAL_%%:Schedule Value [](TimeStep)",
+        "TEMP_OP_MAX_ADAP_%%:Schedule Value [](TimeStep)",
+        "ADAP_MIN_%%:Schedule Value [](TimeStep)",
+        "ADAP_MAX_%%:Schedule Value [](TimeStep)",
+        "EM_CONFORTO_%%:Schedule Value [](TimeStep)",
+        "%% IDEAL LOADS AIR SYSTEM:Zone Ideal Loads Supply Air Mass Flow Rate [kg/s](TimeStep)"
+    ]
 
     df = pandas.read_csv(CSV_PATH)
     clean_df = df[["Date/Time"]]
 
     for room in rooms:
+        target_columns = [
+            "Date/Time",
+            "Environment:Site Outdoor Air Drybulb Temperature [C](TimeStep)",
+            f"PEOPLE_{room.upper()}:People Occupant Count [](TimeStep)",
+            f"{room.upper()}:Zone Mean Radiant Temperature [C](TimeStep)",
+            f"{room.upper()}:Zone Operative Temperature [C](TimeStep)",
+            f"{room.upper()}:Zone Air Temperature [C](TimeStep)",
+            f"{room.upper()}:Zone Air Relative Humidity [%](TimeStep)",
+            f"{room.upper()}:Zone Air CO2 Concentration [ppm](TimeStep)",
+            f"PEOPLE_{room.upper()}:Zone Thermal Comfort Fanger Model PMV [](TimeStep)",
+            f"PEOPLE_{room.upper()}:Zone Thermal Comfort Clothing Value [clo](TimeStep)",
+            f"PEOPLE_{room.upper()}:Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature [C](TimeStep)",
+            f"JANELA_{room.upper()}:Schedule Value [](TimeStep)",
+            f"VENT_{room.upper()}:Schedule Value [](TimeStep)",
+            f"VEL_{room.upper()}:Schedule Value [](TimeStep)",
+            f"AC_{room.upper()}:Schedule Value [](TimeStep)",
+            f"TEMP_AC_{room.upper()}:Schedule Value [](TimeStep)",
+            f"PMV_PYTHERMAL_{room.upper()}:Schedule Value [](TimeStep)",
+            f"ADAPTATIVO_PYTHERMAL_{room.upper()}:Schedule Value [](TimeStep)",
+            f"TEMP_OP_MAX_ADAP_{room.upper()}:Schedule Value [](TimeStep)",
+            f"ADAP_MIN_{room.upper()}:Schedule Value [](TimeStep)",
+            f"ADAP_MAX_{room.upper()}:Schedule Value [](TimeStep)",
+            f"EM_CONFORTO_{room.upper()}:Schedule Value [](TimeStep)",
+            f"{room.upper()} IDEAL LOADS AIR SYSTEM:Zone Ideal Loads Supply Air Mass Flow Rate [kg/s](TimeStep)"
+        ]
+
         clean_df = pandas.concat([clean_df, df[[f"PEOPLE_{room}:People Occupant Count [](TimeStep)"]], df[[f"PEOPLE_{room}:Zone Thermal Comfort Clothing Value [clo](TimeStep)"]], df[[f"PEOPLE_{room}:Zone Thermal Comfort Fanger Model PMV [](TimeStep)"]]], axis=1)
         if room != "SEC_LINSE":
             clean_df = pandas.concat([clean_df, df[[f"AC_{room}:Schedule Value [](TimeStep)"]], df[[f"TEMP_AC_{room}:Schedule Value [](TimeStep)"]], df[[f"VEL_{room}:Schedule Value [](TimeStep)"]]], axis=1)

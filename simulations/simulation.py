@@ -20,8 +20,16 @@ if platform.system() == "Windows":
     EXPAND_OBJECTS_APP = "ExpandObjects.exe"
     TO_CSV_APP = "RunReadESO.bat"
 
+class SimulationMeta:
+    _instances = {}
 
-class Simulation:
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Simulation(SimulationMeta):
     def __init__(self, idf_path, epw_path, output_path, energy_path, rooms, pmv_upperbound=0.5, pmv_lowerbound=0.0, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
         self.idf_path = idf_path
         self.input_path = "/".join(idf_path.split('/')[:-1])
@@ -72,15 +80,15 @@ class Simulation:
 
     def run(self):
         # Expanding objects and creating expanded.idf
-        #os.system(f"cd \"{self.input_path}\"")
-        #print(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)} {self.idf_path}")
         if platform.system() == "Windows":
             os.system(f"cd \"{self.input_path}\" && {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}")
         else:
             os.system(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}")
 
+        # Moving expanded.idf to output folder
         os.rename(f"{self.expanded_idf_path}", f"{os.path.join(self.output_path, 'expanded.idf')}")
 
+        # Saving expanded.idf path
         self.expanded_idf_path = os.path.join(self.output_path, 'expanded.idf')
 
         # Running simulation
@@ -90,9 +98,11 @@ class Simulation:
         )
         self.ep_api.state_manager.reset_state(self.state)
 
+        # Parsing results to CSV
         if platform.system() == "Windows":
             os.system(f"cd \"{self.output_path}\" && {os.path.join(self.energy_path, TO_CSV_APP)} eplusout.eso")
         else:
-            os.system(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, TO_CSV_APP)}")
+            os.system(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, TO_CSV_APP)} eplusout.eso")
 
+        # Parsing results and spliting rooms into each file
         utils.process_esofile(self.rooms, self.output_path)
