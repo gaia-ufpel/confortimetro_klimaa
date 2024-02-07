@@ -108,23 +108,27 @@ class ConditioningPmv:
                 # Executar com o modelo adaptativo ou adaptativo com implemento
                 if status_janela == 1.0:
                     # Executar com o modelo adaptativo
-                    if temp_ar < tdb:
-                        status_janela = 0.0
-                        break
-
-                    # Executar com o modelo adaptativo com incremento da velocidade
-                    if temp_op > adaptativo + self.margem_adaptativo or temp_op < adaptativo - self.margem_adaptativo:
-                        vel = self.get_vel_adap(temp_op)
-                        vel = round(vel, 2)
-                        if vel > self.vel_max:
+                    if vel == 0.0:
+                        if adaptativo - self.margem_adaptativo > temp_op:
+                            status_janela = 0.0
+                        elif adaptativo + self.margem_adaptativo < temp_op and temp_ar >= tdb:
+                            status_janela = 1.0
+                    if temp_op > adaptativo + self.margem_adaptativo:
+                        # Executar com o modelo adaptativo com incremento da velocidade
+                        if temp_op >= 25.0 and temp_op <= 27.2:
+                            vel = self.get_vel_adap(temp_op)
+                            vel = round(vel, 2)
+                            if vel > self.vel_max:
+                                vel = 1.2
+                                if not temp_ar >= tdb:
+                                    status_ac = 1.0
+                                    status_janela = 0.0
+                            temp_op_max = self.get_temp_max_op(vel)
+                        # Para transiçao entre o modelo adaptativo e o modelo pmv
+                        else:
                             vel = 1.2
-                            status_ac = 1.0
                             status_janela = 0.0
-                        elif temp_op < adaptativo + self.margem_adaptativo:
-                            status_janela = 0.0
-                            status_ac = 1.0
-                        
-                        temp_op_max = self.get_temp_max_op(vel)
+                            temp_op_max = self.get_temp_max_op(vel)
 
                 pmv = pythermalcomfort.models.pmv(
                     temp_ar,
@@ -140,7 +144,43 @@ class ConditioningPmv:
                 
                 # Executar com o modelo PMV
                 if (pmv > self.pmv_upperbound or pmv < self.pmv_lowerbound) and status_janela == 0.0:
-                    vel = self.get_best_velocity_with_pmv(temp_ar, mrt, vel, hum_rel, clo)                    
+                    #vel = self.get_best_velocity_with_pmv(temp_ar, mrt, vel, hum_rel, clo)                    
+
+                    pmv = pythermalcomfort.models.pmv(
+                        temp_ar,
+                        mrt,
+                        pythermalcomfort.utilities.v_relative(vel, self.met),
+                        hum_rel,
+                        self.met,
+                        pythermalcomfort.utilities.clo_dynamic(clo, met=self.met),
+                        self.wme,
+                        stardard='ashrae',
+                        limit_inputs=False
+                    )
+
+                    while pmv > self.pmv_upperbound or pmv < self.pmv_lowerbound:
+                        if pmv > self.pmv_upperbound:
+                            vel = round(vel + 0.05, 2)
+                            if vel >= self.vel_max:
+                                vel = 1.2
+                                break
+                        else:
+                            vel = round(vel - 0.05, 2)
+                            if vel >= 0.0:
+                                vel = 0.0
+                                break
+
+                        pmv = pythermalcomfort.models.pmv(
+                            temp_ar,
+                            mrt,
+                            pythermalcomfort.utilities.v_relative(vel, self.met),
+                            hum_rel,
+                            self.met,
+                            pythermalcomfort.utilities.clo_dynamic(clo, met=self.met),
+                            self.wme,
+                            stardard='ashrae',
+                            limit_inputs=False
+                        )
                     temp_cool_ac, temp_heat_ac = self.get_best_temperatures_with_pmv(mrt, vel, hum_rel, clo)
 
                 # Mandando para o Energy os valores atualizados
@@ -225,9 +265,6 @@ class ConditioningPmv:
         )
 
         while pmv > self.pmv_upperbound:
-            if best_cool_temp <= self.temp_ac_min:
-                break
-
             best_cool_temp -= 1.0
 
             pmv = pythermalcomfort.models.pmv(
@@ -255,9 +292,6 @@ class ConditioningPmv:
         )
 
         while pmv < self.pmv_lowerbound:
-            if best_heat_temp >= self.temp_ac_max:
-                break
-
             best_heat_temp += 1.0
             
             pmv = pythermalcomfort.models.pmv(
@@ -272,7 +306,8 @@ class ConditioningPmv:
                 limit_inputs=False
             )
 
-        print(f"{best_cool_temp} | {best_heat_temp}")
+        if best_cool_temp <= best_heat_temp:
+            best_heat_temp = best_cool_temp - 1
 
         return best_cool_temp, best_heat_temp
 

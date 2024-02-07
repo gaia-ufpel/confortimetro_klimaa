@@ -4,4 +4,4 @@
 
 Criando um ambiente virtual com os módulos necessários:
 
-``
+`python -m`
