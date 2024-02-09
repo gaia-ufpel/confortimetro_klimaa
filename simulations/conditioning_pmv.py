@@ -26,8 +26,6 @@ class ConditioningPmv:
         self.vr_pmv = []
         self.rh_pmv = []
 
-        
-
     def __call__(self, state):
         if self.ep_api.exchange.warmup_flag(state):
             return
@@ -128,8 +126,8 @@ class ConditioningPmv:
                             vel = self.get_vel_adap(temp_op)
                             vel = round(vel, 2)
                             if vel > self.vel_max:
-                                vel = 1.2
-                                if not temp_ar >= tdb:
+                                vel = self.vel_max
+                                if temp_ar < tdb:
                                     status_ac = 1.0
                                     status_janela = 0.0
                             temp_op_max = self.get_temp_max_op(vel)
@@ -150,9 +148,7 @@ class ConditioningPmv:
                     stardard='ashrae',
                     limit_inputs=False
                 )[-1]
-                print(f"{temp_ar}, {mrt}, {vel}, {hum_rel}, {self.met}, {clo}, {self.wme}")
-                
-
+                #print(f"{temp_ar}, {mrt}, {vel}, {hum_rel}, {self.met}, {clo}, {self.wme}")
 
                 # Executar com o modelo PMV
                 if (pmv > self.pmv_upperbound or pmv < self.pmv_lowerbound) and status_janela == 0.0:
@@ -169,13 +165,14 @@ class ConditioningPmv:
                         stardard='ashrae',
                         limit_inputs=False
                     )[-1]
-                    print(f"{temp_ar}, {mrt}, {vel}, {hum_rel}, {self.met}, {clo}, {self.wme}")
+                    #print(f"{temp_ar}, {mrt}, {vel}, {hum_rel}, {self.met}, {clo}, {self.wme}")
 
                     while pmv > self.pmv_upperbound or pmv < self.pmv_lowerbound:
                         if pmv > self.pmv_upperbound:
                             vel = round(vel + 0.05, 2)
                             if vel >= self.vel_max:
                                 vel = 1.2
+                                status_ac = 1.0
                                 break
                         else:
                             vel = round(vel - 0.05, 2)
@@ -196,7 +193,7 @@ class ConditioningPmv:
                             stardard='ashrae',
                             limit_inputs=False
                         )[-1]
-                        print(f"{temp_ar}, {mrt}, {vel}, {hum_rel}, {self.met}, {clo}, {self.wme}")
+                        #print(f"{temp_ar}, {mrt}, {vel}, {hum_rel}, {self.met}, {clo}, {self.wme}")
 
 
                     temp_cool_ac, temp_heat_ac = self.get_best_temperatures_with_pmv(mrt, vel, hum_rel, clo)
@@ -274,8 +271,6 @@ class ConditioningPmv:
     def get_best_temperatures_with_pmv(self, mrt, vel, hum_rel, clo):
         best_cool_temp = self.temp_ac_max
         best_heat_temp = self.temp_ac_min
-
-        return best_cool_temp, best_heat_temp
 
         pmv = pythermalcomfort.models.pmv(
             best_cool_temp,

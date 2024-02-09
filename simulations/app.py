@@ -1,5 +1,6 @@
 import os
 import json
+import threading
 import tkinter as tk
 from tkinter import Tk, Label, Entry, Button, filedialog, ttk, Frame
 from tkinter import messagebox
@@ -222,8 +223,10 @@ class SimulationGUI(tk.Tk):
         self.run_button["state"] = tk.DISABLED
         self.run_button["cursor"] = "watch"
 
+        thread = threading.Thread(target=simulation.run)
+        thread.start()
+
         self.popup_running_simple()
-        simulation.run()
 
         self.run_button["state"] = tk.NORMAL
         self.run_button["cursor"] = "arrow"
