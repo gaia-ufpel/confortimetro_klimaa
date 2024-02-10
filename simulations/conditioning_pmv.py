@@ -172,13 +172,11 @@ class ConditioningPmv:
 
         pmv = self.get_pmv(best_heat_temp, mrt, vel, hum_rel, clo)
         while pmv < self.pmv_lowerbound:
-            if best_heat_temp <= self.temp_ac_max:
+            best_heat_temp += 1.0
+            if best_heat_temp >= self.temp_ac_max:
                 best_heat_temp = self.temp_ac_max
                 break
             pmv = self.get_pmv(best_heat_temp, mrt, vel, hum_rel, clo)
-
-        if best_cool_temp <= best_heat_temp:
-            best_cool_temp += abs(best_cool_temp - best_heat_temp) + 1.0
 
         return best_cool_temp, best_heat_temp
 
