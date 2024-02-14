@@ -76,5 +76,3 @@ Autenticação (via cabeçalho `Authentication`) necessária!
 ### POST /api/v1/auth/register
 
 ### POST /api/v1/auth/login
-
-Endpoint para 
