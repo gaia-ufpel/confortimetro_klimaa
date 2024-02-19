@@ -1,8 +1,12 @@
 .env
 
-simulations/assets
+simulations/assets/documents
+simulations/assets/outputs
+
 __pycache__
-*.bak
-.DS_Store
 .ipynb_checkpoints
+
+*.bak
 *.zip
+
+.DS_Store
