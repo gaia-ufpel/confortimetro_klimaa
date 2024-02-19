@@ -15,8 +15,8 @@ Version,
 
 SimulationControl,
     Yes,                     !- Do Zone Sizing Calculation
-    No,                     !- Do System Sizing Calculation
-    No,                     !- Do Plant Sizing Calculation
+    Yes,                     !- Do System Sizing Calculation
+    Yes,                     !- Do Plant Sizing Calculation
     Yes,                     !- Run Simulation for Sizing Periods
     Yes;                     !- Run Simulation for Weather File Run Periods
 
@@ -437,6 +437,11 @@ Schedule:Constant,
     CO2_LIMITE,
     Any Number,
     1000.0;
+
+Schedule:Constant,
+    FAN_OPERATING_MODE,
+    Any Number,
+    1;
 
 Schedule:Constant,
     WORK_EF,
@@ -1183,7 +1188,7 @@ HVACTemplate:Zone:PTHP,
     THERMOSTAT_SALA,  !- Template Thermostat Name
     0.596,                !- Cooling Supply Air Flow Rate {m3/s}
     0.596,                !- Heating Supply Air Flow Rate {m3/s}
-    ,                        !- No Load Supply Air Flow Rate {m3/s}
+    0.596,                        !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
     DetailedSpecification,               !- Outdoor Air Method
