@@ -36,6 +36,7 @@ class ConditioningPmv:
             status_vent_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VENT_{room.upper()}")
             vel_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VEL_{room.upper()}")
             status_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"AC_{room.upper()}")
+            status_doas_handler = None
             temp_cool_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_COOL_AC_{room.upper()}")
             temp_heat_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_HEAT_AC_{room.upper()}")
             pmv_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"PMV_{room.upper()}")
@@ -44,6 +45,11 @@ class ConditioningPmv:
             adaptativo_max = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAP_MAX_{room.upper()}")
             em_conforto_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"EM_CONFORTO_{room.upper()}")
             limite_co2_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
+
+            try:
+                status_doas_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"DOAS_STATUS_{room.upper()}")
+            except:
+                pass
 
             # Pegando todos os valores que são realmente necessários antes
             tdb = self.ep_api.exchange.get_variable_value(state, tdb_handler)
@@ -66,6 +72,7 @@ class ConditioningPmv:
                 temp_cool_ac = self.ep_api.exchange.get_actuator_value(state, temp_cool_ac_handler)
                 temp_heat_ac = self.ep_api.exchange.get_actuator_value(state, temp_heat_ac_handler)
                 vel = self.ep_api.exchange.get_actuator_value(state, vel_handler)
+                status_doas = 0
 
                 if self.ep_api.exchange.current_time(state) % 2.0 == 0:
                     status_janela = 1.0
@@ -105,10 +112,16 @@ class ConditioningPmv:
 
                 pmv = self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)
 
+                if co2 >= limite_co2 and status_janela == 0:
+                    status_doas = 1
+                else:
+                    status_doas = 0
+
                 # Mandando para o Energy os valores atualizados
                 self.ep_api.exchange.set_actuator_value(state, status_vent_handler, 1 if vel > 0 else 0)
                 self.ep_api.exchange.set_actuator_value(state, vel_handler, vel)
                 self.ep_api.exchange.set_actuator_value(state, status_ac_handler, 1 if status_janela == 0 else 0)
+                self.ep_api.exchange.set_actuator_value(state, status_doas_handler, status_doas)
                 self.ep_api.exchange.set_actuator_value(state, temp_cool_ac_handler, temp_cool_ac)
                 self.ep_api.exchange.set_actuator_value(state, temp_heat_ac_handler, temp_heat_ac)
                 self.ep_api.exchange.set_actuator_value(state, status_janela_handler, status_janela)
@@ -117,21 +130,16 @@ class ConditioningPmv:
                 em_conforto = self.is_comfortable(temp_op, adaptativo, temp_op_max, pmv, status_janela, vel)
                 self.ep_api.exchange.set_actuator_value(state, em_conforto_handler, em_conforto)
             else:
-                status_janela = 0.0
-                if co2 >= limite_co2 and status_janela == 0.0:
-                    status_janela = 1.0
-                elif co2 <= 500.0 and status_janela == 1.0:
-                    status_janela = 0.0
-
                 # Desligando tudo se não há ocupação
-                self.ep_api.exchange.set_actuator_value(state, status_vent_handler, 0.0)
-                self.ep_api.exchange.set_actuator_value(state, vel_handler, 0.0)
-                self.ep_api.exchange.set_actuator_value(state, status_ac_handler, 0.0)
+                self.ep_api.exchange.set_actuator_value(state, status_vent_handler, 0)
+                self.ep_api.exchange.set_actuator_value(state, vel_handler, 0)
+                self.ep_api.exchange.set_actuator_value(state, status_ac_handler, 0)
+                self.ep_api.exchange.set_actuator_value(state, status_doas_handler, 0)
                 self.ep_api.exchange.set_actuator_value(state, temp_cool_ac_handler, self.temp_ac_max)
                 self.ep_api.exchange.set_actuator_value(state, temp_heat_ac_handler, self.temp_ac_min)
-                self.ep_api.exchange.set_actuator_value(state, pmv_handler, 0.0)
-                self.ep_api.exchange.set_actuator_value(state, status_janela_handler, status_janela)
-                self.ep_api.exchange.set_actuator_value(state, temp_op_max_handler, 0.0)
+                self.ep_api.exchange.set_actuator_value(state, pmv_handler, 0)
+                self.ep_api.exchange.set_actuator_value(state, status_janela_handler, 0)
+                self.ep_api.exchange.set_actuator_value(state, temp_op_max_handler, 0)
                 self.ep_api.exchange.set_actuator_value(state, em_conforto_handler, 1)
 
             self.ep_api.exchange.set_actuator_value(state, adaptativo_max, adaptativo + self.margem_adaptativo)
