@@ -14,40 +14,61 @@ class ConditioningPmv:
         self.reduce_consume = reduce_consume
         self.met = met
         self.wme = wme
+        self.handlers_acquired = False
+        self.variables_names = {
+            'tdb_handler':
+            'temp_ar_handler':,
+            'mrt_handler':,
+            'hum_rel_handler':,
+            'temp_op_handler':,
+            'adaptativo_handler':,
+            'co2_handler':,
+            'clo_handler':,
+        }
+        self.actuators_names = [
+            'status_janela_handler',
+            'status_vent_handler',
+            'vel_handler',
+            'status_ac_handler',
+            'status_doas_handler',
+            'temp_cool_ac_handler',
+            'temp_heat_ac_handler',
+            'pmv_handler',
+            'temp_op_max_handler',
+            'adaptativo_min',
+            'adaptativo_max',
+            'em_conforto_handler',
+            'limite_co2_handler',
+            'status_doas_handler'
+        ]
+        self.handlers = {}
+
+        for room in self.rooms:
+            self.handlers.update({
+                room: {}
+            })
+            for handler_name in self.handlers_names:
+                self.handlers[room].update({
+                    handler_name:0.0
+                })
+
+        print(self.handlers)
 
     def __call__(self, state):
         if self.ep_api.exchange.warmup_flag(state):
             return
         if not self.ep_api.exchange.api_data_fully_ready(state):
             return
-            
+        
+        if not self.handlers_acquired:
+            self.acquire_handlers(state)
+        
         for room in self.rooms:
             # Pegandos os handlers
-            tdb_handler = self.ep_api.exchange.get_variable_handle(state, "Site Outdoor Air Drybulb Temperature", "Environment")
-            temp_ar_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Air Temperature", room)
-            mrt_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Mean Radiant Temperature", room)
-            hum_rel_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Air Relative Humidity", room)
-            temp_op_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Operative Temperature", room)
-            adaptativo_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature", f"PEOPLE_{room.upper()}")
-            co2_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Air CO2 Concentration", f"{room.upper()}")
-            clo_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort Clothing Value", f"PEOPLE_{room.upper()}")
-            #clo_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Compact", "Schedule Value", f"CLO")
-            status_janela_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"JANELA_{room.upper()}")
-            status_vent_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VENT_{room.upper()}")
-            vel_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VEL_{room.upper()}")
-            status_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"AC_{room.upper()}")
-            status_doas_handler = None
-            temp_cool_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_COOL_AC_{room.upper()}")
-            temp_heat_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_HEAT_AC_{room.upper()}")
-            pmv_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"PMV_{room.upper()}")
-            temp_op_max_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_OP_MAX_ADAP_{room.upper()}")
-            adaptativo_min = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAP_MIN_{room.upper()}")
-            adaptativo_max = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAP_MAX_{room.upper()}")
-            em_conforto_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"EM_CONFORTO_{room.upper()}")
-            limite_co2_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
+            
 
             try:
-                status_doas_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"DOAS_STATUS_{room.upper()}")
+                
             except:
                 pass
 
@@ -214,3 +235,31 @@ class ConditioningPmv:
             return 1
 
         return 0
+    
+    def acquire_handlers(self, state):
+        for room in self.rooms:
+            for handler_name in self.handlers_names:
+
+                tdb_handler = self.ep_api.exchange.get_variable_handle(state, "Site Outdoor Air Drybulb Temperature", "Environment")
+                temp_ar_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Air Temperature", room)
+                mrt_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Mean Radiant Temperature", room)
+                hum_rel_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Air Relative Humidity", room)
+                temp_op_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Operative Temperature", room)
+                adaptativo_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature", f"PEOPLE_{room.upper()}")
+                co2_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Air CO2 Concentration", f"{room.upper()}")
+                clo_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort Clothing Value", f"PEOPLE_{room.upper()}")
+                #clo_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Compact", "Schedule Value", f"CLO")
+                status_janela_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"JANELA_{room.upper()}")
+                status_vent_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VENT_{room.upper()}")
+                vel_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VEL_{room.upper()}")
+                status_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"AC_{room.upper()}")
+                status_doas_handler = None
+                temp_cool_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_COOL_AC_{room.upper()}")
+                temp_heat_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_HEAT_AC_{room.upper()}")
+                pmv_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"PMV_{room.upper()}")
+                temp_op_max_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_OP_MAX_ADAP_{room.upper()}")
+                adaptativo_min = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAP_MIN_{room.upper()}")
+                adaptativo_max = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAP_MAX_{room.upper()}")
+                em_conforto_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"EM_CONFORTO_{room.upper()}")
+                limite_co2_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
+                status_doas_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"DOAS_STATUS_{room.upper()}")
