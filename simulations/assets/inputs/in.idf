@@ -1275,8 +1275,8 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    None,                    !- Heat Recovery Type
-    0.7,                     !- Heat Recovery Sensible Effectiveness
+    Sensible,                    !- Heat Recovery Type
+    0.65,                     !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
     None,                    !- Heat Recovery Frost Control Type

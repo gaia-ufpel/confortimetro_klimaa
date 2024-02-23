@@ -14,69 +14,69 @@ class ConditioningPmv:
         self.reduce_consume = reduce_consume
         self.met = met
         self.wme = wme
+        self.handlers_acquired = False
+
+        self.people_count_handler = {}
+        self.tdb_handler = None
+        self.temp_ar_handler = {}
+        self.mrt_handler = {}
+        self.hum_rel_handler = {}
+        self.temp_op_handler = {}
+        self.adaptativo_handler = {}
+        self.co2_handler = {}
+        self.clo_handler = {}
+        self.status_janela_handler = {}
+        self.status_vent_handler = {}
+        self.vel_handler = {}
+        self.status_ac_handler = {}
+        self.temp_cool_ac_handler = {}
+        self.temp_heat_ac_handler = {}
+        self.pmv_handler = {}
+        self.temp_op_max_handler = {}
+        self.adaptativo_min_handler = {}
+        self.adaptativo_max_handler = {}
+        self.em_conforto_handler = {}
+        self.limite_co2_handler = {}
+        self.status_doas_handler = {}
 
     def __call__(self, state):
         if self.ep_api.exchange.warmup_flag(state):
             return
         if not self.ep_api.exchange.api_data_fully_ready(state):
             return
+        
+        # Pegando todos os handlers
+        if not self.handlers_acquired:
+            self.acquire_handlers(state)
+            self.handlers_acquired = True
             
         for room in self.rooms:
-            # Pegandos os handlers
-            tdb_handler = self.ep_api.exchange.get_variable_handle(state, "Site Outdoor Air Drybulb Temperature", "Environment")
-            temp_ar_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Air Temperature", room)
-            mrt_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Mean Radiant Temperature", room)
-            hum_rel_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Air Relative Humidity", room)
-            temp_op_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Operative Temperature", room)
-            adaptativo_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature", f"PEOPLE_{room.upper()}")
-            co2_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Air CO2 Concentration", f"{room.upper()}")
-            clo_handler = self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort Clothing Value", f"PEOPLE_{room.upper()}")
-            #clo_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Compact", "Schedule Value", f"CLO")
-            status_janela_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"JANELA_{room.upper()}")
-            status_vent_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VENT_{room.upper()}")
-            vel_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VEL_{room.upper()}")
-            status_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"AC_{room.upper()}")
-            status_doas_handler = None
-            temp_cool_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_COOL_AC_{room.upper()}")
-            temp_heat_ac_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_HEAT_AC_{room.upper()}")
-            pmv_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"PMV_{room.upper()}")
-            temp_op_max_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_OP_MAX_ADAP_{room.upper()}")
-            adaptativo_min = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAP_MIN_{room.upper()}")
-            adaptativo_max = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAP_MAX_{room.upper()}")
-            em_conforto_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"EM_CONFORTO_{room.upper()}")
-            limite_co2_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
-
-            try:
-                status_doas_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"DOAS_STATUS_{room.upper()}")
-            except:
-                pass
-
             # Pegando todos os valores que são realmente necessários antes
-            tdb = self.ep_api.exchange.get_variable_value(state, tdb_handler)
-            people_count = self.ep_api.exchange.get_variable_value(state, self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}")) # Contagem de pessoas na sala
-            adaptativo = self.ep_api.exchange.get_variable_value(state, adaptativo_handler)
-            temp_ar = self.ep_api.exchange.get_variable_value(state, temp_ar_handler)
-            temp_op = self.ep_api.exchange.get_variable_value(state, temp_op_handler)
-            mrt = self.ep_api.exchange.get_variable_value(state, mrt_handler)
-            temp_op_max = self.ep_api.exchange.get_actuator_value(state, temp_op_max_handler)
-            co2 = self.ep_api.exchange.get_variable_value(state, co2_handler)
-            limite_co2 = self.ep_api.exchange.get_actuator_value(state, limite_co2_handler)
-
+            people_count = self.ep_api.exchange.get_variable_value(state, self.people_count_handler[room]) # Contagem de pessoas na sala
+            adaptativo = self.ep_api.exchange.get_variable_value(state, self.adaptativo_handler[room])
+            
             if people_count > 0.0:
-                hum_rel = self.ep_api.exchange.get_variable_value(state, hum_rel_handler) # Umidade relativa
-                clo = self.ep_api.exchange.get_variable_value(state, clo_handler) # Roupagem
-                #clo = self.ep_api.exchange.get_actuator_value(state, clo_handler) # Roupagem
+                tdb = self.ep_api.exchange.get_variable_value(state, self.tdb_handler)
+                temp_ar = self.ep_api.exchange.get_variable_value(state, self.temp_ar_handler[room])
+                temp_op = self.ep_api.exchange.get_variable_value(state, self.temp_op_handler[room])
+                mrt = self.ep_api.exchange.get_variable_value(state, self.mrt_handler[room])
+                hum_rel = self.ep_api.exchange.get_variable_value(state, self.hum_rel_handler[room]) # Umidade relativa
+                clo = self.ep_api.exchange.get_variable_value(state, self.clo_handler[room]) # Roupagem
+                #clo = self.ep_api.exchange.get_actuator_value(state, self.clo_handler[room]) # Roupagem
+                co2 = self.ep_api.exchange.get_variable_value(state, self.co2_handler[room])
+                temp_op_max = self.ep_api.exchange.get_actuator_value(state, self.temp_op_max_handler[room])
+                limite_co2 = self.ep_api.exchange.get_actuator_value(state, self.limite_co2_handler[room])
 
                 # Valores iniciais
-                status_janela = self.ep_api.exchange.get_actuator_value(state, status_janela_handler)
-                temp_cool_ac = self.ep_api.exchange.get_actuator_value(state, temp_cool_ac_handler)
-                temp_heat_ac = self.ep_api.exchange.get_actuator_value(state, temp_heat_ac_handler)
-                vel = self.ep_api.exchange.get_actuator_value(state, vel_handler)
+                status_janela = 1
+                vel = 0.0
                 status_doas = 0
+                temp_cool_ac = self.ep_api.exchange.get_actuator_value(state, self.temp_cool_ac_handler[room])
+                temp_heat_ac = self.ep_api.exchange.get_actuator_value(state, self.temp_heat_ac_handler[room])
 
-                if self.ep_api.exchange.current_time(state) % 2.0 == 0:
-                    status_janela = 1.0
-                    vel = 0.0
+                if self.ep_api.exchange.current_time(state) % 2.0 != 0:
+                    status_janela = self.ep_api.exchange.get_actuator_value(state, self.status_janela_handler[room])
+                    vel = self.ep_api.exchange.get_actuator_value(state, self.vel_handler[room])
 
                 #print(f'data: {self.ep_api.exchange.day_of_month(state)} - temp_ar: {temp_ar} - mrt: {mrt} - vel: {vel} - rh: {hum_rel} - met: {self.met} - clo: {clo} - pmv: {self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)}')
 
@@ -112,38 +112,43 @@ class ConditioningPmv:
 
                 pmv = self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)
 
-                if co2 >= limite_co2 and status_janela == 0:
-                    status_doas = 1
-                else:
-                    status_doas = 0
+                try:
+                    if co2 >= limite_co2 and status_janela == 0:
+                        status_doas = 1
+                    else:
+                        status_doas = 0
+                except NameError as ne:
+                    pass
+                except Exception as ex:
+                    print(ex)
 
                 # Mandando para o Energy os valores atualizados
-                self.ep_api.exchange.set_actuator_value(state, status_vent_handler, 1 if vel > 0 else 0)
-                self.ep_api.exchange.set_actuator_value(state, vel_handler, vel)
-                self.ep_api.exchange.set_actuator_value(state, status_ac_handler, 1 if status_janela == 0 else 0)
-                self.ep_api.exchange.set_actuator_value(state, status_doas_handler, status_doas)
-                self.ep_api.exchange.set_actuator_value(state, temp_cool_ac_handler, temp_cool_ac)
-                self.ep_api.exchange.set_actuator_value(state, temp_heat_ac_handler, temp_heat_ac)
-                self.ep_api.exchange.set_actuator_value(state, status_janela_handler, status_janela)
-                self.ep_api.exchange.set_actuator_value(state, temp_op_max_handler, temp_op_max)
-                self.ep_api.exchange.set_actuator_value(state, pmv_handler, pmv)
+                self.ep_api.exchange.set_actuator_value(state, self.status_vent_handler[room], 1 if vel > 0 else 0)
+                self.ep_api.exchange.set_actuator_value(state, self.vel_handler[room], vel)
+                self.ep_api.exchange.set_actuator_value(state, self.status_ac_handler[room], 1 if status_janela == 0 else 0)
+                self.ep_api.exchange.set_actuator_value(state, self.status_doas_handler[room], status_doas)
+                self.ep_api.exchange.set_actuator_value(state, self.temp_cool_ac_handler[room], temp_cool_ac)
+                self.ep_api.exchange.set_actuator_value(state, self.temp_heat_ac_handler[room], temp_heat_ac)
+                self.ep_api.exchange.set_actuator_value(state, self.status_janela_handler[room], status_janela)
+                self.ep_api.exchange.set_actuator_value(state, self.temp_op_max_handler[room], temp_op_max)
+                self.ep_api.exchange.set_actuator_value(state, self.pmv_handler[room], pmv)
                 em_conforto = self.is_comfortable(temp_op, adaptativo, temp_op_max, pmv, status_janela, vel)
-                self.ep_api.exchange.set_actuator_value(state, em_conforto_handler, em_conforto)
+                self.ep_api.exchange.set_actuator_value(state, self.em_conforto_handler[room], em_conforto)
             else:
                 # Desligando tudo se não há ocupação
-                self.ep_api.exchange.set_actuator_value(state, status_vent_handler, 0)
-                self.ep_api.exchange.set_actuator_value(state, vel_handler, 0)
-                self.ep_api.exchange.set_actuator_value(state, status_ac_handler, 0)
-                self.ep_api.exchange.set_actuator_value(state, status_doas_handler, 0)
-                self.ep_api.exchange.set_actuator_value(state, temp_cool_ac_handler, self.temp_ac_max)
-                self.ep_api.exchange.set_actuator_value(state, temp_heat_ac_handler, self.temp_ac_min)
-                self.ep_api.exchange.set_actuator_value(state, pmv_handler, 0)
-                self.ep_api.exchange.set_actuator_value(state, status_janela_handler, 0)
-                self.ep_api.exchange.set_actuator_value(state, temp_op_max_handler, 0)
-                self.ep_api.exchange.set_actuator_value(state, em_conforto_handler, 1)
+                self.ep_api.exchange.set_actuator_value(state, self.status_vent_handler[room], 0)
+                self.ep_api.exchange.set_actuator_value(state, self.vel_handler[room], 0)
+                self.ep_api.exchange.set_actuator_value(state, self.status_ac_handler[room], 0)
+                self.ep_api.exchange.set_actuator_value(state, self.status_doas_handler[room], 0)
+                self.ep_api.exchange.set_actuator_value(state, self.temp_cool_ac_handler[room], self.temp_ac_max)
+                self.ep_api.exchange.set_actuator_value(state, self.temp_heat_ac_handler[room], self.temp_ac_min)
+                self.ep_api.exchange.set_actuator_value(state, self.pmv_handler[room], 0)
+                self.ep_api.exchange.set_actuator_value(state, self.status_janela_handler[room], 0)
+                self.ep_api.exchange.set_actuator_value(state, self.temp_op_max_handler[room], 0)
+                self.ep_api.exchange.set_actuator_value(state, self.em_conforto_handler[room], 1)
 
-            self.ep_api.exchange.set_actuator_value(state, adaptativo_max, adaptativo + self.margem_adaptativo)
-            self.ep_api.exchange.set_actuator_value(state, adaptativo_min, adaptativo - self.margem_adaptativo)
+            self.ep_api.exchange.set_actuator_value(state, self.adaptativo_max_handler[room], adaptativo + self.margem_adaptativo)
+            self.ep_api.exchange.set_actuator_value(state, self.adaptativo_min_handler[room], adaptativo - self.margem_adaptativo)
             
     def get_best_velocity_with_pmv(self, temp_ar, mrt, vel, hum_rel, clo):
         status_ac = 0
@@ -214,3 +219,32 @@ class ConditioningPmv:
             return 1
 
         return 0
+    
+    def acquire_handlers(self, state):
+        self.tdb_handler = self.ep_api.exchange.get_variable_handle(state, "Site Outdoor Air Drybulb Temperature", "Environment")
+        for room in self.rooms:
+            self.people_count_handler.update({ room : self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}")})
+            self.temp_ar_handler.update({ room : self.ep_api.exchange.get_variable_handle(state, "Zone Air Temperature", room)})
+            self.mrt_handler.update({ room : self.ep_api.exchange.get_variable_handle(state, "Zone Mean Radiant Temperature", room)})
+            self.hum_rel_handler.update({ room : self.ep_api.exchange.get_variable_handle(state, "Zone Air Relative Humidity", room)})
+            self.temp_op_handler.update({ room : self.ep_api.exchange.get_variable_handle(state, "Zone Operative Temperature", room)})
+            self.adaptativo_handler.update({ room : self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature", f"PEOPLE_{room.upper()}")})
+            self.co2_handler.update({ room : self.ep_api.exchange.get_variable_handle(state, "Zone Air CO2 Concentration", f"{room.upper()}")})
+            self.clo_handler.update({ room : self.ep_api.exchange.get_variable_handle(state, "Zone Thermal Comfort Clothing Value", f"PEOPLE_{room.upper()}")})
+            #self.clo_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Compact", "Schedule Value", f"CLO")})
+            self.status_janela_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"JANELA_{room.upper()}")})
+            self.status_vent_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VENT_{room.upper()}")})
+            self.vel_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"VEL_{room.upper()}")})
+            self.status_ac_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"AC_{room.upper()}")})
+            self.temp_cool_ac_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_COOL_AC_{room.upper()}")})
+            self.temp_heat_ac_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_HEAT_AC_{room.upper()}")})
+            self.pmv_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"PMV_{room.upper()}")})
+            self.temp_op_max_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"TEMP_OP_MAX_ADAP_{room.upper()}")})
+            self.adaptativo_min_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAP_MIN_{room.upper()}")})
+            self.adaptativo_max_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"ADAP_MAX_{room.upper()}")})
+            self.em_conforto_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"EM_CONFORTO_{room.upper()}")})
+            self.limite_co2_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")})
+            try:
+                self.status_doas_handler.update({ room : self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"DOAS_STATUS_{room.upper()}")})
+            except:
+                pass
