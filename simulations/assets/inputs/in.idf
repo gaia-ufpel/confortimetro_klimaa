@@ -1246,7 +1246,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     DOAS_SALA,                    !- Name
     DOAS_STATUS_SALA,                        !- System Availability Schedule Name
     DirectIntoZone,          !- Air Outlet Type
-    0.1281,                !- Supply Fan Flow Rate {m3/s}
+    0.25,                !- Supply Fan Flow Rate {m3/s}
     0.7,                     !- Supply Fan Total Efficiency
     1000,                    !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
