@@ -107,8 +107,8 @@ class ConditioningPmv:
 
                 if status_janela == 0:
                     # Executar com o modelo PMV
-                    vel, status_ac = self.get_best_velocity_with_pmv(temp_ar, mrt, vel, hum_rel, clo)
                     temp_cool_ac, temp_heat_ac = self.get_best_temperatures_with_pmv(mrt, vel, hum_rel, clo)
+                    vel, status_ac = self.get_best_velocity_with_pmv(temp_ar, mrt, vel, hum_rel, clo)
 
                 pmv = self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)
 
