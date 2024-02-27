@@ -224,10 +224,12 @@ class SimulationGUI(tk.Tk):
         self.run_button["state"] = tk.DISABLED
         self.run_button["cursor"] = "watch"
 
-        process = Process(target=simulation.run)
-        process.start()
+        simulation.run()
 
-        self.popup_running_simple()
+        #process = Process(target=simulation.run)
+        #process.start()
+
+        #self.popup_running_simple()
 
         self.run_button["state"] = tk.NORMAL
         self.run_button["cursor"] = "arrow"

@@ -296,7 +296,7 @@ ScheduleTypeLimits,
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:COMPACT ===========
 
 Schedule:Compact,
-    OCUPACAO Schedule,       !- Name
+    OCUPACAO,       !- Name
     Fraction,                !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: Weekdays,           !- Field 2
@@ -7282,7 +7282,7 @@ SurfaceProperty:OtherSideConditionsModel,
 People,
     People_sala_aula,        !- Name
     SALA_AULA,               !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Number of People Schedule Name
+    OCUPACAO,       !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     29,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
@@ -7305,7 +7305,7 @@ People,
 People,
     People_recepcao,         !- Name
     RECEPCAO,                !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Number of People Schedule Name
+    OCUPACAO,       !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     13,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
@@ -7328,7 +7328,7 @@ People,
 People,
     People_atelie1,          !- Name
     ATELIE1,                 !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Number of People Schedule Name
+    OCUPACAO,       !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     23,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
@@ -7351,7 +7351,7 @@ People,
 People,
     People_sec_linse,        !- Name
     SEC_LINSE,               !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Number of People Schedule Name
+    OCUPACAO,       !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     1,                       !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
@@ -7374,7 +7374,7 @@ People,
 People,
     People_linse,            !- Name
     LINSE,                   !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Number of People Schedule Name
+    OCUPACAO,       !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     12,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
@@ -7397,7 +7397,7 @@ People,
 People,
     People_atelie2,          !- Name
     ATELIE2,                 !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Number of People Schedule Name
+    OCUPACAO,       !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     21,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
@@ -7420,7 +7420,7 @@ People,
 People,
     People_atelie3,          !- Name
     ATELIE3,                 !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Number of People Schedule Name
+    OCUPACAO,       !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     29,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
@@ -7446,7 +7446,7 @@ People,
 Lights,
     iluminacao_recepcao,     !- Name
     RECEPCAO,                !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     6.44,                    !- Watts per Zone Floor Area {W/m2}
@@ -7461,7 +7461,7 @@ Lights,
 Lights,
     iluminacao_circulacao_terreo,  !- Name
     CIRC_TERREO,             !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     6.63,                    !- Watts per Zone Floor Area {W/m2}
@@ -7476,7 +7476,7 @@ Lights,
 Lights,
     iluminacao_sala_aula,    !- Name
     SALA_AULA,               !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     8.31,                    !- Watts per Zone Floor Area {W/m2}
@@ -7491,7 +7491,7 @@ Lights,
 Lights,
     iluminacao_atelie1,      !- Name
     ATELIE1,                 !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     9.23,                    !- Watts per Zone Floor Area {W/m2}
@@ -7506,7 +7506,7 @@ Lights,
 Lights,
     iluminacao_circ_segundo, !- Name
     CIRC_SEGUNDO,            !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     5.22,                    !- Watts per Zone Floor Area {W/m2}
@@ -7521,7 +7521,7 @@ Lights,
 Lights,
     iluminacao_sec_linse,    !- Name
     SEC_LINSE,               !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     8.06,                    !- Watts per Zone Floor Area {W/m2}
@@ -7536,7 +7536,7 @@ Lights,
 Lights,
     iluminacao_linse,        !- Name
     LINSE,                   !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     7.76,                    !- Watts per Zone Floor Area {W/m2}
@@ -7551,7 +7551,7 @@ Lights,
 Lights,
     iluminacao_atelie_2,     !- Name
     ATELIE2,                 !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     9.23,                    !- Watts per Zone Floor Area {W/m2}
@@ -7566,7 +7566,7 @@ Lights,
 Lights,
     iluminacao_circ_terceiro,!- Name
     CIRC_TERCEIRO,           !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     6.88,                    !- Watts per Zone Floor Area {W/m2}
@@ -7581,7 +7581,7 @@ Lights,
 Lights,
     iluminacao_atelie3,      !- Name
     ATELIE3,                 !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     8.5,                     !- Watts per Zone Floor Area {W/m2}
@@ -7612,7 +7612,7 @@ ElectricEquipment,
 ElectricEquipment,
     equipamentos,            !- Name
     AMBIENTES_PPROL,         !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Design Level {W}
     15,                      !- Watts per Zone Floor Area {W/m2}
@@ -7628,7 +7628,7 @@ ElectricEquipment,
 ZoneInfiltration:DesignFlowRate,
     INF_RECEPCAO,            !- Name
     RECEPCAO,                !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.0624,                  !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
@@ -7642,7 +7642,7 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     INF_SALA_AULA,           !- Name
     SALA_AULA,               !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.0208,                  !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
@@ -7656,7 +7656,7 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     INF_ATELIE1,             !- Name
     ATELIE1,                 !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.0435,                  !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
@@ -7670,7 +7670,7 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     INF_SEC_LINSE,           !- Name
     SEC_LINSE,               !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.0066,                  !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
@@ -7684,7 +7684,7 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     INF_LINSE,               !- Name
     LINSE,                   !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.0358,                  !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
@@ -7698,7 +7698,7 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     INF_ATELIE2,             !- Name
     ATELIE2,                 !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.0435,                  !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
@@ -7712,7 +7712,7 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     INF_ATELIE3,             !- Name
     ATELIE3,                 !- Zone or ZoneList Name
-    OCUPACAO Schedule,       !- Schedule Name
+    OCUPACAO,       !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.0435,                  !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
@@ -8462,23 +8462,23 @@ HVACTemplate:Zone:PTHP,
     ,                        !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    Flow/Zone,               !- Outdoor Air Method
+    DetailedSpecification,               !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.1031,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    OCUPACAO Schedule,       !- System Availability Schedule Name
+    OCUPACAO,       !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    OCUPACAO Schedule,       !- Cooling Coil Availability Schedule Name
+    OCUPACAO,       !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    OCUPACAO Schedule,       !- Heat Pump Heating Coil Availability Schedule Name
+    OCUPACAO,       !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -8487,7 +8487,7 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    OCUPACAO Schedule,       !- Supplemental Heating Coil Availability Schedule Name
+    ,       !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
@@ -8499,7 +8499,7 @@ HVACTemplate:Zone:PTHP,
     SupplyAirTemperature,    !- Zone Heating Design Supply Air Temperature Input Method
     50,                      !- Zone Heating Design Supply Air Temperature {C}
     30,                      !- Zone Heating Design Supply Air Temperature Difference {deltaC}
-    ,                        !- Design Specification Outdoor Air Object Name
+    DOAS_RECEPCAO,                        !- Design Specification Outdoor Air Object Name
     ,                        !- Design Specification Zone Air Distribution Object Name
     None,                    !- Baseboard Heating Type
     ,                        !- Baseboard Heating Availability Schedule Name
@@ -8514,23 +8514,23 @@ HVACTemplate:Zone:PTHP,
     ,                        !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    Flow/Zone,               !- Outdoor Air Method
+    DetailedSpecification,               !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.0408,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    OCUPACAO Schedule,       !- System Availability Schedule Name
+    OCUPACAO,       !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    OCUPACAO Schedule,       !- Cooling Coil Availability Schedule Name
+    OCUPACAO,       !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    OCUPACAO Schedule,       !- Heat Pump Heating Coil Availability Schedule Name
+    OCUPACAO,       !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -8539,7 +8539,7 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    OCUPACAO Schedule,       !- Supplemental Heating Coil Availability Schedule Name
+    ,       !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
@@ -8551,7 +8551,7 @@ HVACTemplate:Zone:PTHP,
     SupplyAirTemperature,    !- Zone Heating Design Supply Air Temperature Input Method
     50,                      !- Zone Heating Design Supply Air Temperature {C}
     30,                      !- Zone Heating Design Supply Air Temperature Difference {deltaC}
-    ,                        !- Design Specification Outdoor Air Object Name
+    DOAS_SALA_AULA,                        !- Design Specification Outdoor Air Object Name
     ,                        !- Design Specification Zone Air Distribution Object Name
     None,                    !- Baseboard Heating Type
     ,                        !- Baseboard Heating Availability Schedule Name
@@ -8566,23 +8566,23 @@ HVACTemplate:Zone:PTHP,
     ,                        !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    Flow/Zone,               !- Outdoor Air Method
+    DetailedSpecification,               !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.1281,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    OCUPACAO Schedule,       !- System Availability Schedule Name
+    OCUPACAO,       !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    OCUPACAO Schedule,       !- Cooling Coil Availability Schedule Name
+    OCUPACAO,       !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    OCUPACAO Schedule,       !- Heat Pump Heating Coil Availability Schedule Name
+    OCUPACAO,       !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -8591,7 +8591,7 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    OCUPACAO Schedule,       !- Supplemental Heating Coil Availability Schedule Name
+    ,       !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
@@ -8603,7 +8603,7 @@ HVACTemplate:Zone:PTHP,
     SupplyAirTemperature,    !- Zone Heating Design Supply Air Temperature Input Method
     50,                      !- Zone Heating Design Supply Air Temperature {C}
     30,                      !- Zone Heating Design Supply Air Temperature Difference {deltaC}
-    ,                        !- Design Specification Outdoor Air Object Name
+    DOAS_ATELIE1,                        !- Design Specification Outdoor Air Object Name
     ,                        !- Design Specification Zone Air Distribution Object Name
     None,                    !- Baseboard Heating Type
     ,                        !- Baseboard Heating Availability Schedule Name
@@ -8618,23 +8618,23 @@ HVACTemplate:Zone:PTHP,
     ,                        !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    Flow/Zone,               !- Outdoor Air Method
+    DetailedSpecification,               !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.0988,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    OCUPACAO Schedule,       !- System Availability Schedule Name
+    OCUPACAO,       !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    OCUPACAO Schedule,       !- Cooling Coil Availability Schedule Name
+    OCUPACAO,       !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    OCUPACAO Schedule,       !- Heat Pump Heating Coil Availability Schedule Name
+    OCUPACAO,       !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -8643,7 +8643,7 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    OCUPACAO Schedule,       !- Supplemental Heating Coil Availability Schedule Name
+    ,       !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
@@ -8655,7 +8655,7 @@ HVACTemplate:Zone:PTHP,
     SupplyAirTemperature,    !- Zone Heating Design Supply Air Temperature Input Method
     50,                      !- Zone Heating Design Supply Air Temperature {C}
     30,                      !- Zone Heating Design Supply Air Temperature Difference {deltaC}
-    ,                        !- Design Specification Outdoor Air Object Name
+    DOAS_LINSE,                        !- Design Specification Outdoor Air Object Name
     ,                        !- Design Specification Zone Air Distribution Object Name
     None,                    !- Baseboard Heating Type
     ,                        !- Baseboard Heating Availability Schedule Name
@@ -8670,23 +8670,23 @@ HVACTemplate:Zone:PTHP,
     ,                        !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    Flow/Zone,               !- Outdoor Air Method
+    DetailedSpecification,               !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.0081,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    OCUPACAO Schedule,       !- System Availability Schedule Name
+    OCUPACAO,       !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    OCUPACAO Schedule,       !- Cooling Coil Availability Schedule Name
+    OCUPACAO,       !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    OCUPACAO Schedule,       !- Heat Pump Heating Coil Availability Schedule Name
+    OCUPACAO,       !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -8695,7 +8695,7 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    OCUPACAO Schedule,       !- Supplemental Heating Coil Availability Schedule Name
+    ,       !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
@@ -8707,7 +8707,7 @@ HVACTemplate:Zone:PTHP,
     SupplyAirTemperature,    !- Zone Heating Design Supply Air Temperature Input Method
     50,                      !- Zone Heating Design Supply Air Temperature {C}
     30,                      !- Zone Heating Design Supply Air Temperature Difference {deltaC}
-    ,                        !- Design Specification Outdoor Air Object Name
+    DOAS_SEC_LINSE,                        !- Design Specification Outdoor Air Object Name
     ,                        !- Design Specification Zone Air Distribution Object Name
     None,                    !- Baseboard Heating Type
     ,                        !- Baseboard Heating Availability Schedule Name
@@ -8722,23 +8722,23 @@ HVACTemplate:Zone:PTHP,
     ,                        !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    Flow/Zone,               !- Outdoor Air Method
+    DetailedSpecification,               !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.1281,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    OCUPACAO Schedule,       !- System Availability Schedule Name
+    OCUPACAO,       !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    OCUPACAO Schedule,       !- Cooling Coil Availability Schedule Name
+    OCUPACAO,       !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    OCUPACAO Schedule,       !- Heat Pump Heating Coil Availability Schedule Name
+    OCUPACAO,       !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -8747,7 +8747,7 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    OCUPACAO Schedule,       !- Supplemental Heating Coil Availability Schedule Name
+    ,       !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
@@ -8759,7 +8759,7 @@ HVACTemplate:Zone:PTHP,
     SupplyAirTemperature,    !- Zone Heating Design Supply Air Temperature Input Method
     50,                      !- Zone Heating Design Supply Air Temperature {C}
     30,                      !- Zone Heating Design Supply Air Temperature Difference {deltaC}
-    ,                        !- Design Specification Outdoor Air Object Name
+    DOAS_ATELIE2,                        !- Design Specification Outdoor Air Object Name
     ,                        !- Design Specification Zone Air Distribution Object Name
     None,                    !- Baseboard Heating Type
     ,                        !- Baseboard Heating Availability Schedule Name
@@ -8774,23 +8774,23 @@ HVACTemplate:Zone:PTHP,
     ,                        !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    Flow/Zone,               !- Outdoor Air Method
+    DetailedSpecification,               !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.1281,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    OCUPACAO Schedule,       !- System Availability Schedule Name
+    OCUPACAO,       !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    OCUPACAO Schedule,       !- Cooling Coil Availability Schedule Name
+    OCUPACAO,       !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    OCUPACAO Schedule,       !- Heat Pump Heating Coil Availability Schedule Name
+    OCUPACAO,       !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -8799,7 +8799,7 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    OCUPACAO Schedule,       !- Supplemental Heating Coil Availability Schedule Name
+    ,       !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
@@ -8811,13 +8811,351 @@ HVACTemplate:Zone:PTHP,
     SupplyAirTemperature,    !- Zone Heating Design Supply Air Temperature Input Method
     50,                      !- Zone Heating Design Supply Air Temperature {C}
     30,                      !- Zone Heating Design Supply Air Temperature Difference {deltaC}
-    ,                        !- Design Specification Outdoor Air Object Name
+    DOAS_ATELIE3,                        !- Design Specification Outdoor Air Object Name
     ,                        !- Design Specification Zone Air Distribution Object Name
     None,                    !- Baseboard Heating Type
     ,                        !- Baseboard Heating Availability Schedule Name
     autosize,                !- Baseboard Heating Capacity {W}
     None;                    !- Capacity Control Method
 
+
+!-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:SYSTEM:DEDICATEDOUTDOORAIR ===========
+
+HVACTemplate:System:DedicatedOutdoorAir,
+    DOAS_RECEPCAO,               !- Name
+    DOAS_STATUS_RECEPCAO,        !- System Availability Schedule Name
+    DirectIntoZone,          !- Air Outlet Type
+    0.1031,                     !- Supply Fan Flow Rate {m3/s}
+    0.7,                     !- Supply Fan Total Efficiency
+    1000,                    !- Supply Fan Delta Pressure {Pa}
+    0.9,                     !- Supply Fan Motor Efficiency
+    1,                       !- Supply Fan Motor in Air Stream Fraction
+    DrawThrough,             !- Supply Fan Placement
+    None,                    !- Cooling Coil Type
+    Always Off,              !- Cooling Coil Availability Schedule Name
+    Scheduled,               !- Cooling Coil Setpoint Control Type
+    12.8,                    !- Cooling Coil Design Setpoint {C}
+    ,                        !- Cooling Coil Setpoint Schedule Name
+    15.6,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    15.6,                    !- Cooling Coil Reset Outdoor Dry-Bulb Low {C}
+    12.8,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb High {C}
+    23.3,                    !- Cooling Coil Reset Outdoor Dry-Bulb High {C}
+    autosize,                !- DX Cooling Coil Gross Rated Total Capacity {W}
+    autosize,                !- DX Cooling Coil Gross Rated Sensible Heat Ratio
+    3,                       !- DX Cooling Coil Gross Rated COP {W/W}
+    None,                    !- Heating Coil Type
+    Always Off,              !- Heating Coil Availability Schedule Name
+    Scheduled,               !- Heating Coil Setpoint Control Type
+    12.2,                    !- Heating Coil Design Setpoint {C}
+    ,                        !- Heating Coil Setpoint Schedule Name
+    15,                      !- Heating Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    7.8,                     !- Heating Coil Reset Outdoor Dry-Bulb Low {C}
+    12.2,                    !- Heating Coil Setpoint at Outdoor Dry-Bulb High {C}
+    12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
+    0.8,                     !- Gas Heating Coil Efficiency
+    ,                        !- Gas Heating Coil Parasitic Electric Load {W}
+    Sensible,                    !- Heat Recovery Type
+    0.65,                    !- Heat Recovery Sensible Effectiveness
+    0.65,                    !- Heat Recovery Latent Effectiveness
+    Plate,                   !- Heat Recovery Heat Exchanger Type
+    None,                    !- Heat Recovery Frost Control Type
+    None,                    !- Dehumidification Control Type
+    0.00924,                 !- Dehumidification Setpoint {kgWater/kgDryAir}
+    None,                    !- Humidifier Type
+    ,                        !- Humidifier Availability Schedule Name
+    0.000001,                !- Humidifier Rated Capacity {m3/s}
+    autosize,                !- Humidifier Rated Electric Power {W}
+    0.003,                   !- Humidifier Constant Setpoint {kgWater/kgDryAir}
+    ,                        !- Dehumidification Setpoint Schedule Name
+    ;                        !- Humidifier Setpoint Schedule Name
+
+HVACTemplate:System:DedicatedOutdoorAir,
+    DOAS_SALA_AULA,               !- Name
+    DOAS_STATUS_SALA_AULA,        !- System Availability Schedule Name
+    DirectIntoZone,          !- Air Outlet Type
+    0.0408,                     !- Supply Fan Flow Rate {m3/s}
+    0.7,                     !- Supply Fan Total Efficiency
+    1000,                    !- Supply Fan Delta Pressure {Pa}
+    0.9,                     !- Supply Fan Motor Efficiency
+    1,                       !- Supply Fan Motor in Air Stream Fraction
+    DrawThrough,             !- Supply Fan Placement
+    None,                    !- Cooling Coil Type
+    Always Off,              !- Cooling Coil Availability Schedule Name
+    Scheduled,               !- Cooling Coil Setpoint Control Type
+    12.8,                    !- Cooling Coil Design Setpoint {C}
+    ,                        !- Cooling Coil Setpoint Schedule Name
+    15.6,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    15.6,                    !- Cooling Coil Reset Outdoor Dry-Bulb Low {C}
+    12.8,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb High {C}
+    23.3,                    !- Cooling Coil Reset Outdoor Dry-Bulb High {C}
+    autosize,                !- DX Cooling Coil Gross Rated Total Capacity {W}
+    autosize,                !- DX Cooling Coil Gross Rated Sensible Heat Ratio
+    3,                       !- DX Cooling Coil Gross Rated COP {W/W}
+    None,                    !- Heating Coil Type
+    Always Off,              !- Heating Coil Availability Schedule Name
+    Scheduled,               !- Heating Coil Setpoint Control Type
+    12.2,                    !- Heating Coil Design Setpoint {C}
+    ,                        !- Heating Coil Setpoint Schedule Name
+    15,                      !- Heating Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    7.8,                     !- Heating Coil Reset Outdoor Dry-Bulb Low {C}
+    12.2,                    !- Heating Coil Setpoint at Outdoor Dry-Bulb High {C}
+    12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
+    0.8,                     !- Gas Heating Coil Efficiency
+    ,                        !- Gas Heating Coil Parasitic Electric Load {W}
+    Sensible,                    !- Heat Recovery Type
+    0.65,                    !- Heat Recovery Sensible Effectiveness
+    0.65,                    !- Heat Recovery Latent Effectiveness
+    Plate,                   !- Heat Recovery Heat Exchanger Type
+    None,                    !- Heat Recovery Frost Control Type
+    None,                    !- Dehumidification Control Type
+    0.00924,                 !- Dehumidification Setpoint {kgWater/kgDryAir}
+    None,                    !- Humidifier Type
+    ,                        !- Humidifier Availability Schedule Name
+    0.000001,                !- Humidifier Rated Capacity {m3/s}
+    autosize,                !- Humidifier Rated Electric Power {W}
+    0.003,                   !- Humidifier Constant Setpoint {kgWater/kgDryAir}
+    ,                        !- Dehumidification Setpoint Schedule Name
+    ;                        !- Humidifier Setpoint Schedule Name
+
+HVACTemplate:System:DedicatedOutdoorAir,
+    DOAS_SEC_LINSE,               !- Name
+    DOAS_STATUS_SEC_LINSE,        !- System Availability Schedule Name
+    DirectIntoZone,          !- Air Outlet Type
+    0.0081,                     !- Supply Fan Flow Rate {m3/s}
+    0.7,                     !- Supply Fan Total Efficiency
+    1000,                    !- Supply Fan Delta Pressure {Pa}
+    0.9,                     !- Supply Fan Motor Efficiency
+    1,                       !- Supply Fan Motor in Air Stream Fraction
+    DrawThrough,             !- Supply Fan Placement
+    None,                    !- Cooling Coil Type
+    Always Off,              !- Cooling Coil Availability Schedule Name
+    Scheduled,               !- Cooling Coil Setpoint Control Type
+    12.8,                    !- Cooling Coil Design Setpoint {C}
+    ,                        !- Cooling Coil Setpoint Schedule Name
+    15.6,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    15.6,                    !- Cooling Coil Reset Outdoor Dry-Bulb Low {C}
+    12.8,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb High {C}
+    23.3,                    !- Cooling Coil Reset Outdoor Dry-Bulb High {C}
+    autosize,                !- DX Cooling Coil Gross Rated Total Capacity {W}
+    autosize,                !- DX Cooling Coil Gross Rated Sensible Heat Ratio
+    3,                       !- DX Cooling Coil Gross Rated COP {W/W}
+    None,                    !- Heating Coil Type
+    Always Off,              !- Heating Coil Availability Schedule Name
+    Scheduled,               !- Heating Coil Setpoint Control Type
+    12.2,                    !- Heating Coil Design Setpoint {C}
+    ,                        !- Heating Coil Setpoint Schedule Name
+    15,                      !- Heating Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    7.8,                     !- Heating Coil Reset Outdoor Dry-Bulb Low {C}
+    12.2,                    !- Heating Coil Setpoint at Outdoor Dry-Bulb High {C}
+    12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
+    0.8,                     !- Gas Heating Coil Efficiency
+    ,                        !- Gas Heating Coil Parasitic Electric Load {W}
+    Sensible,                    !- Heat Recovery Type
+    0.65,                    !- Heat Recovery Sensible Effectiveness
+    0.65,                    !- Heat Recovery Latent Effectiveness
+    Plate,                   !- Heat Recovery Heat Exchanger Type
+    None,                    !- Heat Recovery Frost Control Type
+    None,                    !- Dehumidification Control Type
+    0.00924,                 !- Dehumidification Setpoint {kgWater/kgDryAir}
+    None,                    !- Humidifier Type
+    ,                        !- Humidifier Availability Schedule Name
+    0.000001,                !- Humidifier Rated Capacity {m3/s}
+    autosize,                !- Humidifier Rated Electric Power {W}
+    0.003,                   !- Humidifier Constant Setpoint {kgWater/kgDryAir}
+    ,                        !- Dehumidification Setpoint Schedule Name
+    ;                        !- Humidifier Setpoint Schedule Name
+
+HVACTemplate:System:DedicatedOutdoorAir,
+    DOAS_LINSE,               !- Name
+    DOAS_STATUS_LINSE,        !- System Availability Schedule Name
+    DirectIntoZone,          !- Air Outlet Type
+    0.0988,                     !- Supply Fan Flow Rate {m3/s}
+    0.7,                     !- Supply Fan Total Efficiency
+    1000,                    !- Supply Fan Delta Pressure {Pa}
+    0.9,                     !- Supply Fan Motor Efficiency
+    1,                       !- Supply Fan Motor in Air Stream Fraction
+    DrawThrough,             !- Supply Fan Placement
+    None,                    !- Cooling Coil Type
+    Always Off,              !- Cooling Coil Availability Schedule Name
+    Scheduled,               !- Cooling Coil Setpoint Control Type
+    12.8,                    !- Cooling Coil Design Setpoint {C}
+    ,                        !- Cooling Coil Setpoint Schedule Name
+    15.6,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    15.6,                    !- Cooling Coil Reset Outdoor Dry-Bulb Low {C}
+    12.8,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb High {C}
+    23.3,                    !- Cooling Coil Reset Outdoor Dry-Bulb High {C}
+    autosize,                !- DX Cooling Coil Gross Rated Total Capacity {W}
+    autosize,                !- DX Cooling Coil Gross Rated Sensible Heat Ratio
+    3,                       !- DX Cooling Coil Gross Rated COP {W/W}
+    None,                    !- Heating Coil Type
+    Always Off,              !- Heating Coil Availability Schedule Name
+    Scheduled,               !- Heating Coil Setpoint Control Type
+    12.2,                    !- Heating Coil Design Setpoint {C}
+    ,                        !- Heating Coil Setpoint Schedule Name
+    15,                      !- Heating Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    7.8,                     !- Heating Coil Reset Outdoor Dry-Bulb Low {C}
+    12.2,                    !- Heating Coil Setpoint at Outdoor Dry-Bulb High {C}
+    12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
+    0.8,                     !- Gas Heating Coil Efficiency
+    ,                        !- Gas Heating Coil Parasitic Electric Load {W}
+    Sensible,                    !- Heat Recovery Type
+    0.65,                    !- Heat Recovery Sensible Effectiveness
+    0.65,                    !- Heat Recovery Latent Effectiveness
+    Plate,                   !- Heat Recovery Heat Exchanger Type
+    None,                    !- Heat Recovery Frost Control Type
+    None,                    !- Dehumidification Control Type
+    0.00924,                 !- Dehumidification Setpoint {kgWater/kgDryAir}
+    None,                    !- Humidifier Type
+    ,                        !- Humidifier Availability Schedule Name
+    0.000001,                !- Humidifier Rated Capacity {m3/s}
+    autosize,                !- Humidifier Rated Electric Power {W}
+    0.003,                   !- Humidifier Constant Setpoint {kgWater/kgDryAir}
+    ,                        !- Dehumidification Setpoint Schedule Name
+    ;                        !- Humidifier Setpoint Schedule Name
+
+HVACTemplate:System:DedicatedOutdoorAir,
+    DOAS_ATELIE1,               !- Name
+    DOAS_STATUS_ATELIE1,        !- System Availability Schedule Name
+    DirectIntoZone,          !- Air Outlet Type
+    0.1281,                     !- Supply Fan Flow Rate {m3/s}
+    0.7,                     !- Supply Fan Total Efficiency
+    1000,                    !- Supply Fan Delta Pressure {Pa}
+    0.9,                     !- Supply Fan Motor Efficiency
+    1,                       !- Supply Fan Motor in Air Stream Fraction
+    DrawThrough,             !- Supply Fan Placement
+    None,                    !- Cooling Coil Type
+    Always Off,              !- Cooling Coil Availability Schedule Name
+    Scheduled,               !- Cooling Coil Setpoint Control Type
+    12.8,                    !- Cooling Coil Design Setpoint {C}
+    ,                        !- Cooling Coil Setpoint Schedule Name
+    15.6,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    15.6,                    !- Cooling Coil Reset Outdoor Dry-Bulb Low {C}
+    12.8,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb High {C}
+    23.3,                    !- Cooling Coil Reset Outdoor Dry-Bulb High {C}
+    autosize,                !- DX Cooling Coil Gross Rated Total Capacity {W}
+    autosize,                !- DX Cooling Coil Gross Rated Sensible Heat Ratio
+    3,                       !- DX Cooling Coil Gross Rated COP {W/W}
+    None,                    !- Heating Coil Type
+    Always Off,              !- Heating Coil Availability Schedule Name
+    Scheduled,               !- Heating Coil Setpoint Control Type
+    12.2,                    !- Heating Coil Design Setpoint {C}
+    ,                        !- Heating Coil Setpoint Schedule Name
+    15,                      !- Heating Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    7.8,                     !- Heating Coil Reset Outdoor Dry-Bulb Low {C}
+    12.2,                    !- Heating Coil Setpoint at Outdoor Dry-Bulb High {C}
+    12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
+    0.8,                     !- Gas Heating Coil Efficiency
+    ,                        !- Gas Heating Coil Parasitic Electric Load {W}
+    Sensible,                    !- Heat Recovery Type
+    0.65,                    !- Heat Recovery Sensible Effectiveness
+    0.65,                    !- Heat Recovery Latent Effectiveness
+    Plate,                   !- Heat Recovery Heat Exchanger Type
+    None,                    !- Heat Recovery Frost Control Type
+    None,                    !- Dehumidification Control Type
+    0.00924,                 !- Dehumidification Setpoint {kgWater/kgDryAir}
+    None,                    !- Humidifier Type
+    ,                        !- Humidifier Availability Schedule Name
+    0.000001,                !- Humidifier Rated Capacity {m3/s}
+    autosize,                !- Humidifier Rated Electric Power {W}
+    0.003,                   !- Humidifier Constant Setpoint {kgWater/kgDryAir}
+    ,                        !- Dehumidification Setpoint Schedule Name
+    ;                        !- Humidifier Setpoint Schedule Name
+
+HVACTemplate:System:DedicatedOutdoorAir,
+    DOAS_ATELIE2,               !- Name
+    DOAS_STATUS_ATELIE2,        !- System Availability Schedule Name
+    DirectIntoZone,          !- Air Outlet Type
+    0.1281,                     !- Supply Fan Flow Rate {m3/s}
+    0.7,                     !- Supply Fan Total Efficiency
+    1000,                    !- Supply Fan Delta Pressure {Pa}
+    0.9,                     !- Supply Fan Motor Efficiency
+    1,                       !- Supply Fan Motor in Air Stream Fraction
+    DrawThrough,             !- Supply Fan Placement
+    None,                    !- Cooling Coil Type
+    Always Off,              !- Cooling Coil Availability Schedule Name
+    Scheduled,               !- Cooling Coil Setpoint Control Type
+    12.8,                    !- Cooling Coil Design Setpoint {C}
+    ,                        !- Cooling Coil Setpoint Schedule Name
+    15.6,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    15.6,                    !- Cooling Coil Reset Outdoor Dry-Bulb Low {C}
+    12.8,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb High {C}
+    23.3,                    !- Cooling Coil Reset Outdoor Dry-Bulb High {C}
+    autosize,                !- DX Cooling Coil Gross Rated Total Capacity {W}
+    autosize,                !- DX Cooling Coil Gross Rated Sensible Heat Ratio
+    3,                       !- DX Cooling Coil Gross Rated COP {W/W}
+    None,                    !- Heating Coil Type
+    Always Off,              !- Heating Coil Availability Schedule Name
+    Scheduled,               !- Heating Coil Setpoint Control Type
+    12.2,                    !- Heating Coil Design Setpoint {C}
+    ,                        !- Heating Coil Setpoint Schedule Name
+    15,                      !- Heating Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    7.8,                     !- Heating Coil Reset Outdoor Dry-Bulb Low {C}
+    12.2,                    !- Heating Coil Setpoint at Outdoor Dry-Bulb High {C}
+    12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
+    0.8,                     !- Gas Heating Coil Efficiency
+    ,                        !- Gas Heating Coil Parasitic Electric Load {W}
+    Sensible,                    !- Heat Recovery Type
+    0.65,                    !- Heat Recovery Sensible Effectiveness
+    0.65,                    !- Heat Recovery Latent Effectiveness
+    Plate,                   !- Heat Recovery Heat Exchanger Type
+    None,                    !- Heat Recovery Frost Control Type
+    None,                    !- Dehumidification Control Type
+    0.00924,                 !- Dehumidification Setpoint {kgWater/kgDryAir}
+    None,                    !- Humidifier Type
+    ,                        !- Humidifier Availability Schedule Name
+    0.000001,                !- Humidifier Rated Capacity {m3/s}
+    autosize,                !- Humidifier Rated Electric Power {W}
+    0.003,                   !- Humidifier Constant Setpoint {kgWater/kgDryAir}
+    ,                        !- Dehumidification Setpoint Schedule Name
+    ;                        !- Humidifier Setpoint Schedule Name
+
+HVACTemplate:System:DedicatedOutdoorAir,
+    DOAS_ATELIE3,               !- Name
+    DOAS_STATUS_ATELIE3,        !- System Availability Schedule Name
+    DirectIntoZone,          !- Air Outlet Type
+    0.1281,                     !- Supply Fan Flow Rate {m3/s}
+    0.7,                     !- Supply Fan Total Efficiency
+    1000,                    !- Supply Fan Delta Pressure {Pa}
+    0.9,                     !- Supply Fan Motor Efficiency
+    1,                       !- Supply Fan Motor in Air Stream Fraction
+    DrawThrough,             !- Supply Fan Placement
+    None,                    !- Cooling Coil Type
+    Always Off,              !- Cooling Coil Availability Schedule Name
+    Scheduled,               !- Cooling Coil Setpoint Control Type
+    12.8,                    !- Cooling Coil Design Setpoint {C}
+    ,                        !- Cooling Coil Setpoint Schedule Name
+    15.6,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    15.6,                    !- Cooling Coil Reset Outdoor Dry-Bulb Low {C}
+    12.8,                    !- Cooling Coil Setpoint at Outdoor Dry-Bulb High {C}
+    23.3,                    !- Cooling Coil Reset Outdoor Dry-Bulb High {C}
+    autosize,                !- DX Cooling Coil Gross Rated Total Capacity {W}
+    autosize,                !- DX Cooling Coil Gross Rated Sensible Heat Ratio
+    3,                       !- DX Cooling Coil Gross Rated COP {W/W}
+    None,                    !- Heating Coil Type
+    Always Off,              !- Heating Coil Availability Schedule Name
+    Scheduled,               !- Heating Coil Setpoint Control Type
+    12.2,                    !- Heating Coil Design Setpoint {C}
+    ,                        !- Heating Coil Setpoint Schedule Name
+    15,                      !- Heating Coil Setpoint at Outdoor Dry-Bulb Low {C}
+    7.8,                     !- Heating Coil Reset Outdoor Dry-Bulb Low {C}
+    12.2,                    !- Heating Coil Setpoint at Outdoor Dry-Bulb High {C}
+    12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
+    0.8,                     !- Gas Heating Coil Efficiency
+    ,                        !- Gas Heating Coil Parasitic Electric Load {W}
+    Sensible,                    !- Heat Recovery Type
+    0.65,                    !- Heat Recovery Sensible Effectiveness
+    0.65,                    !- Heat Recovery Latent Effectiveness
+    Plate,                   !- Heat Recovery Heat Exchanger Type
+    None,                    !- Heat Recovery Frost Control Type
+    None,                    !- Dehumidification Control Type
+    0.00924,                 !- Dehumidification Setpoint {kgWater/kgDryAir}
+    None,                    !- Humidifier Type
+    ,                        !- Humidifier Availability Schedule Name
+    0.000001,                !- Humidifier Rated Capacity {m3/s}
+    autosize,                !- Humidifier Rated Electric Power {W}
+    0.003,                   !- Humidifier Constant Setpoint {kgWater/kgDryAir}
+    ,                        !- Dehumidification Setpoint Schedule Name
+    ;                        !- Humidifier Setpoint Schedule Name
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:VARIABLEDICTIONARY ===========
 

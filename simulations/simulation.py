@@ -1,5 +1,6 @@
 import sys
 import os
+import subprocess
 import platform
 
 from conditioning_pmv import ConditioningPmv
@@ -24,6 +25,7 @@ if platform.system() == "Windows":
 class Simulation:
     def __init__(self, idf_path, epw_path, output_path, energy_path, rooms, pmv_upperbound=0.5, pmv_lowerbound=0.0, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
         self.idf_path = idf_path
+        self.idf_filename = self.idf_path.split('/')[-1]
         self.input_path = "/".join(idf_path.split('/')[:-1])
         self.expanded_idf_path = f"{self.input_path}/expanded.idf"
         self.epw_path = epw_path
@@ -73,9 +75,9 @@ class Simulation:
     def run(self):
         # Expanding objects and creating expanded.idf
         if platform.system() == "Windows":
-            os.system(f"cd \"{self.input_path}\" && {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}")
+            os.system(f'cd \"{self.input_path}\" && cp \"{self.idf_filename}\" in.idf && \"{os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}\"')
         else:
-            os.system(f"cd \"{self.input_path}\" ; {os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}")
+            os.system(f'cd \"{self.input_path}\" ; cp \"{self.idf_filename}\" in.idf ; \"{os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}\"')
 
         # Moving expanded.idf to output folder
         os.rename(f"{self.expanded_idf_path}", f"{os.path.join(self.output_path, 'expanded.idf')}")
@@ -97,4 +99,4 @@ class Simulation:
             os.system(f"cd \"{self.output_path}\" ; {os.path.join(self.energy_path, TO_CSV_APP)} eplusout.eso")
 
         # Parsing results and spliting rooms into each file
-        utils.process_esofile(self.rooms, self.output_path)
+        #utils.process_esofile(self.rooms, self.output_path)

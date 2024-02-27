@@ -303,14 +303,6 @@ Schedule:Compact,
     For: Holidays AllOtherDays,  !- Field 16
     Until: 24:00,            !- Field 17
     0;                       !- Field 18
-
-Schedule:Compact,
-    METABOLISMO,!- Name
-    Any Number,              !- Schedule Type Limits Name
-    Through: 12/31,          !- Field 1
-    For: AllDays,            !- Field 2
-    Until: 24:00,            !- Field 3
-    120.0;                    !- Field 4
     
 Schedule:Compact,
     VN_25,                   !- Name
@@ -331,6 +323,11 @@ Schedule:Constant,
     CO2_LIMITE,
     Any Number,
     1000.0;
+
+Schedule:Constant,
+    METABOLISMO,
+    Any Number,
+    120.0;
 
 Schedule:Constant,
     WORK_EF,
@@ -385,7 +382,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_SALA_AULA,
+    PMV_SALA_AULA,
     Number,
     0;
 
@@ -452,7 +449,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_RECEPCAO,
+    PMV_RECEPCAO,
     Number,
     0;
 
@@ -519,7 +516,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_ATELIE1,
+    PMV_ATELIE1,
     Number,
     0;
 
@@ -586,7 +583,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_ATELIE2,
+    PMV_ATELIE2,
     Number,
     0;
 
@@ -653,7 +650,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_ATELIE3,
+    PMV_ATELIE3,
     Number,
     0;
 
@@ -720,7 +717,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_LINSE,
+    PMV_LINSE,
     Number,
     0;
 
@@ -787,7 +784,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_SEC_LINSE,
+    PMV_SEC_LINSE,
     Number,
     0;
 
