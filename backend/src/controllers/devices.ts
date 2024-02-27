@@ -4,10 +4,13 @@ import { getDevices, getDeviceByCampus, getDeviceByCampusAndBuilding, getDeviceB
 
 export const getDevice = async (req: express.Request, res: express.Response) => {
     try {
-        const { serial_number, campus, building, room } = req.query;
+        const [notAuth, authData] = requireAuth(req, res)
+        if (notAuth) return res.status(notAuth.status).json(notAuth.json)
 
-        // verifica se o serial_number foi enviado
-        if (!serial_number) {
+        const { serialNumber, campus, building, room } = req.query;
+
+        // verifica se o serialNumber foi enviado
+        if (!serialNumber) {
             // verifica se o campus foi enviado
             if (!campus) {
                 const devices = await getDevices();
@@ -34,7 +37,7 @@ export const getDevice = async (req: express.Request, res: express.Response) => 
             return res.status(200).json(devices);
         }
 
-        const devices = await getDevicesBySerialNumber(serial_number as string);
+        const devices = await getDevicesBySerialNumber(serialNumber as string);
 
         return res.status(200).json(devices);
     } catch (error) {
