@@ -378,7 +378,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_SALA_AULA,
+    PMV_SALA_AULA,
     Number,
     0;
 
@@ -440,7 +440,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_RECEPCAO,
+    PMV_RECEPCAO,
     Number,
     0;
 
@@ -502,7 +502,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_ATELIE1,
+    PMV_ATELIE1,
     Number,
     0;
 
@@ -564,7 +564,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_ATELIE2,
+    PMV_ATELIE2,
     Number,
     0;
 
@@ -626,7 +626,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_ATELIE3,
+    PMV_ATELIE3,
     Number,
     0;
 
@@ -688,7 +688,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_LINSE,
+    PMV_LINSE,
     Number,
     0;
 
@@ -750,7 +750,7 @@ Schedule:Constant,
     14;
 
 Schedule:Constant,
-    PMV_PYTHERMAL_SEC_LINSE,
+    PMV_SEC_LINSE,
     Number,
     0;
 
