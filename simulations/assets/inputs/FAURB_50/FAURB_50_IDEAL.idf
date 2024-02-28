@@ -17,8 +17,8 @@ Version,
 
 SimulationControl,
     Yes,                     !- Do Zone Sizing Calculation
-    No,                      !- Do System Sizing Calculation
-    No,                      !- Do Plant Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
     Yes,                     !- Run Simulation for Sizing Periods
     Yes;                     !- Run Simulation for Weather File Run Periods
 
@@ -300,15 +300,15 @@ Schedule:Compact,
     0;                       !- Field 18
 
 Schedule:Compact,
-    Office Activity Schedule,!- Name
+    METABOLISMO,!- Name
     Any Number,              !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: AllDays,            !- Field 2
     Until: 24:00,            !- Field 3
-    120.;                    !- Field 4
+    120.0;                    !- Field 4
 
 Schedule:Compact,
-    Office Work Eff. Schedule,  !- Name
+    WORK_EF,  !- Name
     Fraction,                !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: AllDays,            !- Field 2
@@ -316,39 +316,34 @@ Schedule:Compact,
     0.0;                     !- Field 4
 
 Schedule:Compact,
-    Office Clothing Schedule,!- Name
-    Any Number,              !- Schedule Type Limits Name
-    Through: 04/30,          !- Field 1
-    For: AllDays,            !- Field 2
-    Until: 24:00,            !- Field 3
-    1.0,                     !- Field 4
-    Through: 09/30,          !- Field 5
-    For: AllDays,            !- Field 6
-    Until: 24:00,            !- Field 7
-    0.5,                     !- Field 8
-    Through: 12/31,          !- Field 9
-    For: AllDays,            !- Field 10
-    Until: 24:00,            !- Field 11
-    1.0;                     !- Field 12
-
-Schedule:Compact,
-    VENTILA,                   !- Name
+    VN_25,                   !- Name
     Temperature,             !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: AllDays,            !- Field 2
     Until: 24:00,            !- Field 3
-    -100;                      !- Field 4
-
-Schedule:Compact,
-    Outdoor CO2 Schedule,    !- Name
-    Any Number,              !- Schedule Type Limits Name
-    Through: 12/31,          !- Field 1
-    For: AllDays,            !- Field 2
-    Until: 24:00,            !- Field 3
-    400.0;                   !- Field 4
-
+    25;                      !- Field 4
 
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:CONSTANT ===========
+
+Schedule:Constant,
+    Outdoor CO2 Schedule,
+    Any Number,
+    400.0;
+
+Schedule:Constant,
+    CO2_LIMITE,
+    Any Number,
+    1000.0;
+
+Schedule:Constant,
+    Always Off,
+    On/Off,
+    0;
+
+Schedule:Constant,
+    Always On,
+    On/Off,
+    1;
 
 !---- SALA_AULA ----
 
@@ -7656,12 +7651,12 @@ People,
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    Office Activity Schedule,!- Activity Level Schedule Name
+    METABOLISMO,!- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    Office Work Eff. Schedule,  !- Work Efficiency Schedule Name
+    WORK_EF,  !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
@@ -7679,12 +7674,12 @@ People,
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    Office Activity Schedule,!- Activity Level Schedule Name
+    METABOLISMO,!- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    Office Work Eff. Schedule,  !- Work Efficiency Schedule Name
+    WORK_EF,  !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
@@ -7702,12 +7697,12 @@ People,
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    Office Activity Schedule,!- Activity Level Schedule Name
+    METABOLISMO,!- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    Office Work Eff. Schedule,  !- Work Efficiency Schedule Name
+    WORK_EF,  !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
@@ -7725,12 +7720,12 @@ People,
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    Office Activity Schedule,!- Activity Level Schedule Name
+    METABOLISMO,!- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    Office Work Eff. Schedule,  !- Work Efficiency Schedule Name
+    WORK_EF,  !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
@@ -7748,12 +7743,12 @@ People,
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    Office Activity Schedule,!- Activity Level Schedule Name
+    METABOLISMO,!- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    Office Work Eff. Schedule,  !- Work Efficiency Schedule Name
+    WORK_EF,  !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
@@ -7771,12 +7766,12 @@ People,
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    Office Activity Schedule,!- Activity Level Schedule Name
+    METABOLISMO,!- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    Office Work Eff. Schedule,  !- Work Efficiency Schedule Name
+    WORK_EF,  !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
@@ -7794,12 +7789,12 @@ People,
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    Office Activity Schedule,!- Activity Level Schedule Name
+    METABOLISMO,!- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    Office Work Eff. Schedule,  !- Work Efficiency Schedule Name
+    WORK_EF,  !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
@@ -7973,7 +7968,7 @@ AirflowNetwork:SimulationControl,
 AirflowNetwork:MultiZone:Zone,
     RECEPCAO,                !- Zone Name
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -7986,7 +7981,7 @@ AirflowNetwork:MultiZone:Zone,
 AirflowNetwork:MultiZone:Zone,
     SALA_AULA,               !- Zone Name
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -7999,7 +7994,7 @@ AirflowNetwork:MultiZone:Zone,
 AirflowNetwork:MultiZone:Zone,
     ATELIE1,                 !- Zone Name
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8012,7 +8007,7 @@ AirflowNetwork:MultiZone:Zone,
 AirflowNetwork:MultiZone:Zone,
     SEC_LINSE,               !- Zone Name
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8025,7 +8020,7 @@ AirflowNetwork:MultiZone:Zone,
 AirflowNetwork:MultiZone:Zone,
     LINSE,                   !- Zone Name
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8038,7 +8033,7 @@ AirflowNetwork:MultiZone:Zone,
 AirflowNetwork:MultiZone:Zone,
     ATELIE2,                 !- Zone Name
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8051,7 +8046,7 @@ AirflowNetwork:MultiZone:Zone,
 AirflowNetwork:MultiZone:Zone,
     ATELIE3,                 !- Zone Name
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8070,7 +8065,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8087,7 +8082,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8104,7 +8099,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8121,7 +8116,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8138,7 +8133,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8155,7 +8150,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8172,7 +8167,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8189,7 +8184,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8206,7 +8201,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8223,7 +8218,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8240,7 +8235,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8257,7 +8252,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8274,7 +8269,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8291,7 +8286,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8308,7 +8303,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8325,7 +8320,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8342,7 +8337,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8359,7 +8354,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8376,7 +8371,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8393,7 +8388,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8410,7 +8405,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8427,7 +8422,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8444,7 +8439,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8461,7 +8456,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8478,7 +8473,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8495,7 +8490,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8512,7 +8507,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8529,7 +8524,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8546,7 +8541,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8563,7 +8558,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8580,7 +8575,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8597,7 +8592,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8614,7 +8609,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8631,7 +8626,7 @@ AirflowNetwork:MultiZone:Surface,
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
     Temperature,             !- Ventilation Control Mode
-    VENTILA,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
