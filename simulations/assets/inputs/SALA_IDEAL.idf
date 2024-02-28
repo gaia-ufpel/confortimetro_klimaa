@@ -373,14 +373,6 @@ Schedule:Compact,
     1,                       !- Field 14
     Until: 24:00,            !- Field 15
     0;                       !- Field 16
-    
-Schedule:Compact,
-    VENTILA,                 !- Name
-    Temperature,             !- Schedule Type Limits Name
-    Through: 12/31,          !- Field 1
-    For: AllDays,            !- Field 2
-    Until: 24:00,            !- Field 3
-    19;                      !- Field 4
 
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:CONSTANT ===========
 
@@ -1235,11 +1227,6 @@ Output:Variable,
     *,
     Zone Air Temperature,
     Timestep;
-
-Output:Variable,
-    *,                       !- Key Value
-    People Air Relative Humidity,  !- Variable Name
-    Timestep;                !- Reporting Frequency
 
 Output:Variable,
     *,                       !- Key Value

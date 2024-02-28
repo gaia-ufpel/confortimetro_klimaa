@@ -9005,19 +9005,19 @@ Output:Variable,
     Timestep;                !- Reporting Frequency
 
 Output:Variable,
-    *,                       !- Key Value
-    Zone Ideal Loads Supply Air Mass Flow Rate,  !- Variable Name
-    Timestep;                !- Reporting Frequency
-
-Output:Variable,
     *,
     Schedule Value,
     Timestep;
 
-!Output:Variable,
-!    *,                       !- Key Value
-!    Zone Ideal Loads Outdoor Air Mass Flow Rate,  !- Variable Name
-!    Timestep;                !- Reporting Frequency
+Output:Variable,
+    *,                       !- Key Value
+    Zone Ideal Loads Outdoor Air Mass Flow Rate,  !- Variable Name
+    Timestep;                !- Reporting Frequency
+
+Output:Variable,
+    *,                       !- Key Value
+    Zone Ideal Loads Supply Air Mass Flow Rate,  !- Variable Name
+    Timestep;                !- Reporting Frequency
 
 Output:Variable,
     *,                       !- Key Value

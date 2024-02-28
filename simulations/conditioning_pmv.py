@@ -96,7 +96,7 @@ class ConditioningPmv:
                             vel = round(vel, 2)
                             if vel > self.vel_max:
                                 vel = self.vel_max
-                                if temp_ar < tdb:
+                                if tdb > temp_ar:
                                     status_janela = 0
                             temp_op_max = self.get_temp_max_op(vel)
                         else:
