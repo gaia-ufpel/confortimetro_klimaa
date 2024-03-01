@@ -8221,92 +8221,92 @@ AirflowNetwork:SimulationControl,
 
 AirflowNetwork:MultiZone:Zone,
     RECEPCAO,                !- Zone Name
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    Sempre Ligado,           !- Venting Availability Schedule Name
+    JANELA_RECEPCAO,           !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     SALA_AULA,               !- Zone Name
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    Sempre Ligado,           !- Venting Availability Schedule Name
+    JANELA_SALA_AULA,           !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     ATELIE1,                 !- Zone Name
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    Sempre Ligado,           !- Venting Availability Schedule Name
+    JANELA_ATELIE1,           !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     SEC_LINSE,               !- Zone Name
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    Sempre Ligado,           !- Venting Availability Schedule Name
+    JANELA_SEC_LINSE,           !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     LINSE,                   !- Zone Name
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    Sempre Ligado,           !- Venting Availability Schedule Name
+    JANELA_LINSE,           !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     ATELIE2,                 !- Zone Name
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    Sempre Ligado,           !- Venting Availability Schedule Name
+    JANELA_ATELIE2,           !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     ATELIE3,                 !- Zone Name
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    Sempre Ligado,           !- Venting Availability Schedule Name
+    JANELA_ATELIE3,           !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
@@ -8471,8 +8471,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8968,7 +8968,7 @@ HVACTemplate:Thermostat,
     ;                      !- Constant Cooling Setpoint {C}
 
 
-!-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:ZONE:PTHP ===========
+!-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:ZONE: ===========
 
 HVACTemplate:Zone:PTHP,
     RECEPCAO,                !- Zone Name

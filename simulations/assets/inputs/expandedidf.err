@@ -1,0 +1,3 @@
+ExpandObjects: Cannot find Energy+.idd as specified in Energy+.ini.
+ExpandObjects: Since the Energy+.IDD file cannot be read no range or choice checking was performed.
+ExpandObjects: Warning:  In HVACTemplate:System:DedicatedOutdoorAir "DOAS_SALA" there is heat recovery with no heating coil. The heat recovery heating mode will be controlled to not exceed the cooling setpoint.
