@@ -5,10 +5,16 @@ import esoreader
 BASE_PATH = "/mnt/sda1/gabriellb/Documentos/Faculdade/projetos/gaia/klimaa/simulations/assets/outputs/FAURB_PTHP_2"
 CSV_PATH = os.path.join(BASE_PATH, "eplusout.csv")
 
+PEOPLE_COLUMN = 'PEOPLE_SALA:People Occupant Count [](TimeStep)'
+AC_COLUMN = 'AC_SALA:Schedule Value [](TimeStep)'
+VENT_COLUMN = 'VENT_SALA:Schedule Value [](TimeStep)'
+JANELA_COLUMN = 'JANELA_SALA:Schedule Value [](TimeStep)'
+EM_CONFORTO_COLUMN = 'EM_CONFORTO_SALA:Schedule Value [](TimeStep)'
+
 def summary_results_from_room(csv_path, room):
     df = pandas.read_csv(csv_path)
     base_path = csv_path[:-13]
-    print(base_path)
+    #print(base_path)
 
     target_cols = ["Date/Time",
                    "Environment:Site Outdoor Air Drybulb Temperature [C](TimeStep)"
@@ -18,6 +24,25 @@ def summary_results_from_room(csv_path, room):
     result = result.drop(result.index[:288])
 
     result.to_excel(os.path.join(base_path, f"{room}.xlsx"), index=False)
+
+def get_stats_from_simulation(excel_path):
+    df = pandas.read_excel(excel_path)
+    print(f'AC ON: {get_air_conditioning_use(df)} - VENT ON: {get_ventilation_use(df)} - WINDOW OPEN: {get_window_use(df)} - IN COMFORT: {get_num_in_comfort(df)} - NUM PEOPLE: {get_num_people_occupancy(df)}')
+
+def get_air_conditioning_use(df):
+    return len(df[(df[PEOPLE_COLUMN] != 0) & (df[AC_COLUMN] == 1)])
+
+def get_ventilation_use(df):
+    return len(df[(df[PEOPLE_COLUMN] != 0) & (df[VENT_COLUMN] == 1)])
+
+def get_window_use(df):
+    return len(df[(df[PEOPLE_COLUMN] != 0) & (df[JANELA_COLUMN] == 1)])
+
+def get_num_in_comfort(df):
+    return len(df[df[EM_CONFORTO_COLUMN] == 1])
+
+def get_num_people_occupancy(df):
+    return len(df[df[PEOPLE_COLUMN] != 0])
 
 def summary_results():
     df = pandas.read_csv(CSV_PATH)
@@ -235,4 +260,5 @@ def get_only_important_columns():
 
 if __name__ == "__main__":
     #process_esofile(["SALA_AULA","RECEPCAO","SEC_LINSE","LINSE","ATELIE1","ATELIE2","ATELIE3"], "./assets/outputs/FAURB_50_16/")
-    summary_results_from_room(CSV_PATH, 'ATELIE1')
+    #summary_results_from_room(CSV_PATH, 'ATELIE1')
+    get_stats_from_simulation("./assets/outputs/SALA_PTHP_16/SALA.xlsx")

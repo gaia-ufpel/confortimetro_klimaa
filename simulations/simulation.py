@@ -3,7 +3,8 @@ import os
 import subprocess
 import platform
 
-from conditioning_pmv import ConditioningPmv
+from conditioner_all import ConditionerAll
+from conditioner_ac import ConditionerAc
 import utils
 
 ENERGY_INFO = "./energy_path.txt"
@@ -49,7 +50,7 @@ class Simulation:
 
         self.save_parameters()
 
-        self.conditioner = ConditioningPmv(ep_api=self.ep_api,
+        self.conditioner = ConditionerAc(ep_api=self.ep_api,
                                     rooms=self.rooms,
                                     pmv_upperbound=self.pmv_upperbound, 
                                     pmv_lowerbound=self.pmv_lowerbound, 
