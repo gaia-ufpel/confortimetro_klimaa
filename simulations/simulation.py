@@ -50,7 +50,7 @@ class Simulation:
 
         self.save_parameters()
 
-        self.conditioner = ConditionerAc(ep_api=self.ep_api,
+        self.conditioner = ConditionerAll(ep_api=self.ep_api,
                                     rooms=self.rooms,
                                     pmv_upperbound=self.pmv_upperbound, 
                                     pmv_lowerbound=self.pmv_lowerbound, 
@@ -102,3 +102,4 @@ class Simulation:
         # Parsing results and spliting rooms into each file
         #utils.process_esofile(self.rooms, self.output_path)
         utils.summary_results_from_room(os.path.join(self.output_path, 'eplusout.csv'), self.rooms[0] if len(self.rooms) == 1 else "ATELIE1")
+        utils.get_stats_from_simulation(os.path.join(self.output_path, f'{self.rooms[0]}.xlsx' if len(self.rooms) == 1 else "ATELIE1.xlsx"))

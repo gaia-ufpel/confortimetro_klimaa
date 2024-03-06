@@ -39,7 +39,7 @@ def get_window_use(df):
     return len(df[(df[PEOPLE_COLUMN] != 0) & (df[JANELA_COLUMN] == 1)])
 
 def get_num_in_comfort(df):
-    return len(df[df[EM_CONFORTO_COLUMN] == 1])
+    return len(df[(df[PEOPLE_COLUMN] != 0) & (df[EM_CONFORTO_COLUMN] == 1)])
 
 def get_num_people_occupancy(df):
     return len(df[df[PEOPLE_COLUMN] != 0])
@@ -261,4 +261,4 @@ def get_only_important_columns():
 if __name__ == "__main__":
     #process_esofile(["SALA_AULA","RECEPCAO","SEC_LINSE","LINSE","ATELIE1","ATELIE2","ATELIE3"], "./assets/outputs/FAURB_50_16/")
     #summary_results_from_room(CSV_PATH, 'ATELIE1')
-    get_stats_from_simulation("./assets/outputs/SALA_PTHP_16/SALA.xlsx")
+    get_stats_from_simulation("./assets/outputs/SALA_PTHP_21/SALA.xlsx")

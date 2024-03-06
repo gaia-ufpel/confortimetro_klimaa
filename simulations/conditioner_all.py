@@ -98,6 +98,10 @@ class ConditionerAll:
 
                 #logging.info(f'data: {self.ep_api.exchange.day_of_month(state)} - temp_ar: {temp_ar} - mrt: {mrt} - vel: {vel} - rh: {hum_rel} - met: {self.met} - clo: {clo} - pmv: {self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)}')
 
+                if status_janela == 0 and status_ac == 0:
+                    if temp_op > temp_min_adaptativo:
+                        status_janela = 1
+
                 temp_op_max = self.get_temp_max_op(vel)
                 if status_janela == 1:
                     # Executar com o modelo adaptativo ou adaptativo com implemento
@@ -107,8 +111,8 @@ class ConditionerAll:
                             status_janela = 0
                             status_ac = 1
                         #elif temp_op > adaptativo + self.margem_adaptativo and tdb <= temp_ar:
-                        else:
-                            status_janela = 1
+                        elif tdb < temp_op - 8.0:
+                            status_janela = 0
                     if temp_op > temp_max_adaptativo:
                         if temp_op >= 25.0 and temp_op <= 27.2:
                             # Executar com o modelo adaptativo com incremento da velocidade
