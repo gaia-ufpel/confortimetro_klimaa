@@ -377,15 +377,15 @@ Schedule:Compact,
     For: Alldays,            !- Field 2
     Until: 8:00,             !- Field 3
     0,                       !- Field 4
-    Until: 11:59,            !- Field 5
+    Until: 12:00,            !- Field 5
     1,                       !- Field 6
     Until: 13:30,            !- Field 7
     0,                       !- Field 8
-    Until: 17:29,            !- Field 9
+    Until: 17:30,            !- Field 9
     1,                       !- Field 10
     Until: 19:00,            !- Field 11
     0,                       !- Field 12
-    Until: 21:59,            !- Field 13
+    Until: 22:00,            !- Field 13
     1,                       !- Field 14
     Until: 24:00,            !- Field 15
     0;                       !- Field 16

@@ -45,10 +45,11 @@ class ConditionerAll:
         self.limite_co2_handler = {}
         self.status_doas_handler = {}
 
-        self.air_speed_delta = 0.05
+        self.air_speed_delta = 0.1
+        self.margem_temperatura_abertura_janela = 8.0
 
         self.ac_on_counter = 0
-        self.ac_on_max_timesteps = 6 # Test at each 6 timesteps (1 hour)
+        self.ac_on_max_timesteps = 9 # Test at each 6 timesteps (1 hour)
 
         self.periodo_inverno = range(6, 10)
 
@@ -111,7 +112,7 @@ class ConditionerAll:
                             status_janela = 0
                             status_ac = 1
                         #elif temp_op > adaptativo + self.margem_adaptativo and tdb <= temp_ar:
-                        elif tdb < temp_op - 8.0:
+                        elif tdb < temp_ar - self.margem_temperatura_abertura_janela:
                             status_janela = 0
                     if temp_op > temp_max_adaptativo:
                         if temp_op >= 25.0 and temp_op <= 27.2:
