@@ -45,8 +45,6 @@ class ConditionerAc:
         self.limite_co2_handler = {}
         self.status_doas_handler = {}
 
-        self.air_speed_delta = 0.05
-
         self.ac_on_counter = 0
         self.ac_on_max_timesteps = 6
 
