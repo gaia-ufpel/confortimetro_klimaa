@@ -27,7 +27,7 @@ SimulationControl,
 !-   ===========  ALL OBJECTS IN CLASS: BUILDING ===========
 
 Building,
-    FaUrb PTHP,                !- Name
+    FAUrb PTHP,                !- Name
     0.0,                     !- North Axis {deg}
     City,                    !- Terrain
     0.04,                    !- Loads Convergence Tolerance Value {W}
@@ -287,20 +287,24 @@ Schedule:Compact,
     Fraction,                !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: Weekdays,           !- Field 2
-    Until: 08:00,            !- Field 3
+    Until: 8:00,             !- Field 3
     0,                       !- Field 4
     Until: 12:00,            !- Field 5
     1,                       !- Field 6
     Until: 13:30,            !- Field 7
     0,                       !- Field 8
-    Until: 19:00,            !- Field 9
+    Until: 17:30,            !- Field 9
     1,                       !- Field 10
-    Until: 24:00,            !- Field 11
+    Until: 19:00,            !- Field 11
     0,                       !- Field 12
-    For: Weekend,            !- Field 13
-    Until: 24:00,            !- Field 14
-    0,                       !- Field 15
-    For: Holidays AllOtherDays,  !- Field 16
+    Until: 22:00,            !- Field 13
+    1,                       !- Field 14
+    Until: 24:00,            !- Field 15
+    0,                       !- Field 16
+    For: Weekends Holidays,
+    Until: 24:00,
+    0,
+    For: AllOtherDays,  !- Field 16
     Until: 24:00,            !- Field 17
     0;                       !- Field 18
     
@@ -9370,7 +9374,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    None,                    !- Heat Recovery Type
+    Sensible,                    !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9418,7 +9422,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    None,                    !- Heat Recovery Type
+    Sensible,                    !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9466,7 +9470,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    None,                    !- Heat Recovery Type
+    Sensible,                    !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9514,7 +9518,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    None,                    !- Heat Recovery Type
+    Sensible,                    !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9562,7 +9566,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    None,                    !- Heat Recovery Type
+    Sensible,                    !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9610,7 +9614,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    None,                    !- Heat Recovery Type
+    Sensible,                    !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9658,7 +9662,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    None,                    !- Heat Recovery Type
+    Sensible,                    !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9761,6 +9765,11 @@ Output:Variable,
     Timestep;                !- Reporting Frequency
 
 Output:Variable,
+    DOAS_SALA OUTDOOR AIR INLET,                       !- Key Value
+    System Node Mass Flow Rate,  !- Variable Name
+    Timestep;                !- Reporting Frequency
+
+Output:Variable,
     *,
     Schedule Value,
     Timestep;
@@ -9784,3 +9793,8 @@ Output:Variable,
     *,
     Zone Infiltration Air Change Rate,
     hourly;
+
+!-   ===========  ALL OBJECTS IN CLASS: OUTPUT:DIAGNOSTICS ===========
+
+Output:Diagnostics,
+    DisplayUnusedSchedules;  !- Key 1

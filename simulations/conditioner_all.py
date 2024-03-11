@@ -49,7 +49,7 @@ class ConditionerAll:
         self.margem_temperatura_abertura_janela = 5.0
 
         self.ac_on_counter = 0
-        self.ac_on_max_timesteps = 12 # Test at each 6 timesteps (1 hour)
+        self.ac_on_max_timesteps = 12 # Test at each 12 timesteps (2 hours)
 
         self.periodo_inverno = range(6, 10)
 
@@ -91,7 +91,7 @@ class ConditionerAll:
                 temp_heat_ac = self.ep_api.exchange.get_actuator_value(state, self.temp_heat_ac_handler[room])
 
                 if self.ac_on_counter >= self.ac_on_max_timesteps:
-                    status_janela = 1
+                    status_janela = 0
                     vel = 0.0
                     status_ac = 0
                     self.ac_on_counter = 0
@@ -102,7 +102,7 @@ class ConditionerAll:
                     if temp_op > temp_min_adaptativo:
                         status_janela = 1
                         vel = 0.0
-
+                    
                 temp_op_max = self.get_temp_max_op(vel)
                 if status_janela == 1:
                     # Executar com o modelo adaptativo ou adaptativo com implemento
@@ -110,19 +110,16 @@ class ConditionerAll:
                         # Executar com o modelo adaptativo
                         if temp_op < temp_min_adaptativo or tdb > temp_ar:
                             status_janela = 0
-                            status_ac = 1
                         elif tdb < temp_ar - self.margem_temperatura_abertura_janela:
                             status_janela = 0
                     if temp_op > temp_max_adaptativo:
                         if temp_op >= 25.0 and temp_op <= 27.2:
-                            vel, status_ac = self.get_best_velocity_with_adaptative(temp_op, vel)
+                            vel, status_janela = self.get_best_velocity_with_adaptative(temp_op)
                             temp_op_max = self.get_temp_max_op(vel)
                         else:
                             # Para transiçao entre o modelo adaptativo e o modelo pmv
                             vel = 0
                             status_janela = 0
-                            #status_ac = 1
-                            temp_op_max = self.get_temp_max_op(vel)
 
                 if status_janela == 0:
                     if status_ac == 1:
@@ -157,7 +154,7 @@ class ConditionerAll:
             else:
                 # Eliminando CO2 da sala
                 status_janela = 0
-                if (co2 >= limite_co2 or (tdb > temp_min_adaptativo and tdb < temp_max_adaptativo)) and self.ep_api.exchange.month(state) not in self.periodo_inverno and tdb >= temp_ar - self.margem_temperatura_abertura_janela:
+                if (tdb < temp_max_adaptativo and self.ep_api.exchange.month(state) not in self.periodo_inverno and tdb >= temp_ar - self.margem_temperatura_abertura_janela):
                     status_janela = 1
 
                 self.ac_on_counter = 0
@@ -178,15 +175,17 @@ class ConditionerAll:
             self.ep_api.exchange.set_actuator_value(state, self.adaptativo_max_handler[room], temp_max_adaptativo)
             self.ep_api.exchange.set_actuator_value(state, self.adaptativo_min_handler[room], temp_min_adaptativo)
             
-    def get_best_velocity_with_adaptative(self, temp_op, vel):
-        status_ac = 0
+    def get_best_velocity_with_adaptative(self, temp_op):
+        status_janela = 1
         nova_vel = self.get_vel_adap(temp_op)
-        nova_vel = round(nova_vel, 2)
+        factor = nova_vel // self.air_speed_delta + 1
+        nova_vel = factor * self.air_speed_delta
 
         if nova_vel > self.vel_max:
             nova_vel = self.vel_max
-            status_ac = 1
-        return nova_vel, status_ac
+            status_janela = 0
+
+        return nova_vel, status_janela
         
     def get_best_velocity_with_pmv(self, temp_ar, mrt, vel, hum_rel, clo):
         status_ac = 0
