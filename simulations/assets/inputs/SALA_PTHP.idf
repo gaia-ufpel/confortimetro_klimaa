@@ -1296,10 +1296,6 @@ Output:Variable,
     Zone Operative Temperature,  !- Variable Name
     Timestep;                    !- Reporting Frequency
 
-Output:Variable,
-    *,                       !- Key Value
-    Zone Infiltration Mass Flow Rate,  !- Variable Name
-    Timestep;                !- Reporting Frequency
 
 Output:Variable,
     *,                       !- Key Value

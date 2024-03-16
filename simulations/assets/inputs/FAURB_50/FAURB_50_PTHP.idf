@@ -127,12 +127,12 @@ SizingPeriod:DesignDay,
 
 RunPeriod,
     Simulacao,              !- Name
-    1,                       !- Begin Month
+    2,                       !- Begin Month
     1,                       !- Begin Day of Month
-    ,                        !- Begin Year
-    12,                      !- End Month
-    31,                      !- End Day of Month
-    ,                        !- End Year
+    2015,                        !- Begin Year
+    2,                      !- End Month
+    28,                      !- End Day of Month
+    2015,                        !- End Year
     SUNDAY;                  !- Day of Week for Start Day
 
 
@@ -8215,7 +8215,7 @@ AirflowNetwork:SimulationControl,
     0.0001,                  !- Relative Airflow Convergence Tolerance {dimensionless}
     0.000001,                !- Absolute Airflow Convergence Tolerance {kg/s}
     -.5,                     !- Convergence Acceleration Limit {dimensionless}
-    ,                        !- Azimuth Angle of Long Axis of Building {deg}
+    90,                        !- Azimuth Angle of Long Axis of Building {deg}
     1,                       !- Ratio of Building Width Along Short Axis to Width Along Long Axis
     No,                      !- Height Dependence of External Node Temperature
     SkylineLU;               !- Solver
@@ -8322,8 +8322,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8339,8 +8339,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8356,8 +8356,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8373,8 +8373,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8390,8 +8390,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8407,8 +8407,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8424,8 +8424,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8441,8 +8441,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8458,8 +8458,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8474,10 +8474,10 @@ AirflowNetwork:MultiZone:Surface,
     ACF3B0,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Constant,             !- Ventilation Control Mode
+    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,             !- Ventilation Control Mode
     ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8492,8 +8492,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8509,8 +8509,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8526,8 +8526,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8543,8 +8543,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8560,8 +8560,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8577,8 +8577,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8593,10 +8593,10 @@ AirflowNetwork:MultiZone:Surface,
     A59CF8,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8610,10 +8610,10 @@ AirflowNetwork:MultiZone:Surface,
     D26B85,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8627,10 +8627,10 @@ AirflowNetwork:MultiZone:Surface,
     FE46D6,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8644,10 +8644,10 @@ AirflowNetwork:MultiZone:Surface,
     8BADDE,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8662,8 +8662,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8679,8 +8679,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8696,8 +8696,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8713,8 +8713,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8730,8 +8730,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8747,8 +8747,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8764,8 +8764,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8781,8 +8781,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8798,8 +8798,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8815,8 +8815,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8832,8 +8832,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8849,8 +8849,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8866,8 +8866,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8883,8 +8883,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    Temperature,             !- Ventilation Control Mode
-    VN_25,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,             !- Ventilation Control Mode
+    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -9748,7 +9748,6 @@ Output:Variable,
     Zone Thermal Comfort ASHRAE 55 Adaptive Model Temperature,  !- Variable Name
     Timestep;                !- Reporting Frequency
 
-
 Output:Variable,
     *,                       !- Key Value
     Zone Thermal Comfort Fanger Model PMV,  !- Variable Name
@@ -9765,19 +9764,9 @@ Output:Variable,
     Timestep;                !- Reporting Frequency
 
 Output:Variable,
-    DOAS_SALA OUTDOOR AIR INLET,                       !- Key Value
-    System Node Mass Flow Rate,  !- Variable Name
-    Timestep;                !- Reporting Frequency
-
-Output:Variable,
     *,
     Schedule Value,
     Timestep;
-
-Output:Variable,
-    *,                       !- Key Value
-    Zone Infiltration Mass Flow Rate,  !- Variable Name
-    Timestep;                !- Reporting Frequency
 
 Output:Variable,
     *,

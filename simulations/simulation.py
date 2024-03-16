@@ -102,4 +102,4 @@ class Simulation:
         # Parsing results and spliting rooms into each file
         #utils.process_esofile(self.rooms, self.output_path)
         utils.summary_results_from_room(os.path.join(self.output_path, 'eplusout.csv'), self.rooms[0] if len(self.rooms) == 1 else "ATELIE1")
-        utils.get_stats_from_simulation(os.path.join(self.output_path, f'{self.rooms[0]}.xlsx' if len(self.rooms) == 1 else "ATELIE1.xlsx"))
+        utils.get_stats_from_simulation(self.output_path, self.rooms[0] if len(self.rooms) == 1 else "ATELIE1")

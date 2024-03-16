@@ -5,13 +5,13 @@ import esoreader
 BASE_PATH = "/mnt/sda1/gabriellb/Documentos/Faculdade/projetos/gaia/klimaa/simulations/assets/outputs/FAURB_PTHP_2"
 CSV_PATH = os.path.join(BASE_PATH, "eplusout.csv")
 
-PEOPLE_COLUMN = 'PEOPLE_SALA:People Occupant Count [](TimeStep)'
-AC_COLUMN = 'AC_SALA:Schedule Value [](TimeStep)'
-COOLING_COLUMN = 'SALA PTHP:Zone Packaged Terminal Heat Pump Total Cooling Rate [W](TimeStep)'
-HEATING_COLUMN = 'SALA PTHP:Zone Packaged Terminal Heat Pump Total Heating Rate [W](TimeStep)'
-VENT_COLUMN = 'VENT_SALA:Schedule Value [](TimeStep)'
-JANELA_COLUMN = 'JANELA_SALA:Schedule Value [](TimeStep)'
-EM_CONFORTO_COLUMN = 'EM_CONFORTO_SALA:Schedule Value [](TimeStep)'
+PEOPLE_COLUMN = 'PEOPLE_{}:People Occupant Count [](TimeStep)'
+AC_COLUMN = 'AC_{}:Schedule Value [](TimeStep)'
+COOLING_COLUMN = '{} PTHP:Zone Packaged Terminal Heat Pump Total Cooling Rate [W](TimeStep) '
+HEATING_COLUMN = '{} PTHP:Zone Packaged Terminal Heat Pump Total Heating Rate [W](TimeStep)'
+VENT_COLUMN = 'VENT_{}:Schedule Value [](TimeStep)'
+JANELA_COLUMN = 'JANELA_{}:Schedule Value [](TimeStep)'
+EM_CONFORTO_COLUMN = 'EM_CONFORTO_{}:Schedule Value [](TimeStep)'
 
 def summary_results_from_room(csv_path, room):
     df = pandas.read_csv(csv_path)
@@ -27,30 +27,30 @@ def summary_results_from_room(csv_path, room):
 
     result.to_excel(os.path.join(base_path, f"{room}.xlsx"), index=False)
 
-def get_stats_from_simulation(excel_path):
-    df = pandas.read_excel(excel_path)
-    print(f'AC ON: {get_air_conditioning_use(df)} | {get_air_heating_use(df)} | {get_air_cooling_use(df)} - VENT ON: {get_ventilation_use(df)} - WINDOW OPEN: {get_window_use(df)} - IN COMFORT: {get_num_in_comfort(df)} - NUM PEOPLE: {get_num_people_occupancy(df)}')
+def get_stats_from_simulation(output_path, room):
+    df = pandas.read_excel(os.path.join(output_path, f"{room}.xlsx"))
+    print(f'AC ON: {get_air_conditioning_use(df, room)} | {get_air_heating_use(df, room)} | {get_air_cooling_use(df, room)} - VENT ON: {get_ventilation_use(df, room)} - WINDOW OPEN: {get_window_use(df, room)} - IN COMFORT: {get_num_in_comfort(df, room)} - NUM PEOPLE: {get_num_people_occupancy(df, room)}')
 
-def get_air_conditioning_use(df):
-    return get_air_cooling_use(df) + get_air_heating_use(df)
+def get_air_conditioning_use(df, room):
+    return get_air_cooling_use(df, room) + get_air_heating_use(df, room)
 
-def get_air_cooling_use(df):
-    return len(df[(df[PEOPLE_COLUMN] != 0) & (df[COOLING_COLUMN] != 0)])
+def get_air_cooling_use(df, room):
+    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[COOLING_COLUMN.format(room)] != 0)])
 
-def get_air_heating_use(df):
-    return len(df[(df[PEOPLE_COLUMN] != 0) & (df[HEATING_COLUMN] != 0)])
+def get_air_heating_use(df, room):
+    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[HEATING_COLUMN.format(room)] != 0)])
 
-def get_ventilation_use(df):
-    return len(df[(df[PEOPLE_COLUMN] != 0) & (df[VENT_COLUMN] == 1)])
+def get_ventilation_use(df, room):
+    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[VENT_COLUMN.format(room)] == 1)])
 
-def get_window_use(df):
-    return len(df[(df[PEOPLE_COLUMN] != 0) & (df[JANELA_COLUMN] == 1)])
+def get_window_use(df, room):
+    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[JANELA_COLUMN.format(room)] == 1)])
 
-def get_num_in_comfort(df):
-    return len(df[(df[PEOPLE_COLUMN] != 0) & (df[EM_CONFORTO_COLUMN] == 1)])
+def get_num_in_comfort(df, room):
+    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[EM_CONFORTO_COLUMN.format(room)] == 1)])
 
-def get_num_people_occupancy(df):
-    return len(df[df[PEOPLE_COLUMN] != 0])
+def get_num_people_occupancy(df, room):
+    return len(df[df[PEOPLE_COLUMN.format(room)] != 0])
 
 def summary_results():
     df = pandas.read_csv(CSV_PATH)
@@ -269,4 +269,4 @@ def get_only_important_columns():
 if __name__ == "__main__":
     #process_esofile(["SALA_AULA","RECEPCAO","SEC_LINSE","LINSE","ATELIE1","ATELIE2","ATELIE3"], "./assets/outputs/FAURB_50_16/")
     #summary_results_from_room(CSV_PATH, 'ATELIE1')
-    get_stats_from_simulation("./assets/outputs/SALA_PTHP_27/SALA.xlsx")
+    get_stats_from_simulation("./assets/outputs/FAURB_50_PTHP_2", "ATELIE1")
