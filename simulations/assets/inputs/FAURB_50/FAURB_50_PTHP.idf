@@ -4,9 +4,6 @@
 !-NOTE: All comments with '!-' are ignored by the IDFEditor and are generated automatically.
 !-      Use '!' comments if they need to be retained when using the IDFEditor.
 
-!- IDF with normal ar conditioning
-
-!- COMENTÁRIO: ESTE IDF NÃO ESTAVA COM A ILUMINAÇÃO CONFORME O PROJETO E ESTAVA COM O AR CONDICIONADO COMO AUTOSIZE
 
 !-   ===========  ALL OBJECTS IN CLASS: VERSION ===========
 
@@ -18,16 +15,18 @@ Version,
 
 SimulationControl,
     Yes,                     !- Do Zone Sizing Calculation
-    Yes,                      !- Do System Sizing Calculation
-    Yes,                      !- Do Plant Sizing Calculation
+    Yes,                     !- Do System Sizing Calculation
+    Yes,                     !- Do Plant Sizing Calculation
     Yes,                     !- Run Simulation for Sizing Periods
-    Yes;                     !- Run Simulation for Weather File Run Periods
+    Yes,                     !- Run Simulation for Weather File Run Periods
+    ,                        !- Do HVAC Sizing Simulation for Sizing Periods
+    ;                        !- Maximum Number of HVAC Sizing Simulation Passes
 
 
 !-   ===========  ALL OBJECTS IN CLASS: BUILDING ===========
 
 Building,
-    FAUrb PTHP,                !- Name
+    FAUrb PTHP,              !- Name
     0.0,                     !- North Axis {deg}
     City,                    !- Terrain
     0.04,                    !- Loads Convergence Tolerance Value {W}
@@ -66,12 +65,12 @@ SizingPeriod:DesignDay,
     Camaqua_Inverno,         !- Name
     7,                       !- Month
     21,                      !- Day of Month
-    WinterDesignDay,               !- Day Type
+    WinterDesignDay,         !- Day Type
     3.1,                     !- Maximum Dry-Bulb Temperature {C}
     10.2,                    !- Daily Dry-Bulb Temperature Range {deltaC}
     DefaultMultipliers,      !- Dry-Bulb Temperature Range Modifier Type
     ,                        !- Dry-Bulb Temperature Range Modifier Day Schedule Name
-    DewPoint,                 !- Humidity Condition Type
+    DewPoint,                !- Humidity Condition Type
     3.1,                     !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
     ,                        !- Humidity Condition Day Schedule Name
     ,                        !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
@@ -96,12 +95,12 @@ SizingPeriod:DesignDay,
     Camaqua_Verao,           !- Name
     1,                       !- Month
     21,                      !- Day of Month
-    SummerDesignDay,               !- Day Type
+    SummerDesignDay,         !- Day Type
     28.6,                    !- Maximum Dry-Bulb Temperature {C}
     10.2,                    !- Daily Dry-Bulb Temperature Range {deltaC}
     DefaultMultipliers,      !- Dry-Bulb Temperature Range Modifier Type
     ,                        !- Dry-Bulb Temperature Range Modifier Day Schedule Name
-    DewPoint,                 !- Humidity Condition Type
+    DewPoint,                !- Humidity Condition Type
     21,                      !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
     ,                        !- Humidity Condition Day Schedule Name
     ,                        !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
@@ -126,13 +125,13 @@ SizingPeriod:DesignDay,
 !-   ===========  ALL OBJECTS IN CLASS: RUNPERIOD ===========
 
 RunPeriod,
-    Simulacao,              !- Name
-    2,                       !- Begin Month
+    Simulacao,               !- Name
+    1,                       !- Begin Month
     1,                       !- Begin Day of Month
-    2015,                        !- Begin Year
-    2,                      !- End Month
-    28,                      !- End Day of Month
-    2015,                        !- End Year
+    2015,                    !- Begin Year
+    12,                       !- End Month
+    31,                      !- End Day of Month
+    2015,                    !- End Year
     SUNDAY;                  !- Day of Week for Start Day
 
 
@@ -283,7 +282,7 @@ ScheduleTypeLimits,
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:COMPACT ===========
 
 Schedule:Compact,
-    OCUPACAO,       !- Name
+    OCUPACAO,                !- Name
     Fraction,                !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: Weekdays,           !- Field 2
@@ -301,13 +300,13 @@ Schedule:Compact,
     1,                       !- Field 14
     Until: 24:00,            !- Field 15
     0,                       !- Field 16
-    For: Weekends Holidays,
-    Until: 24:00,
-    0,
-    For: AllOtherDays,  !- Field 16
-    Until: 24:00,            !- Field 17
-    0;                       !- Field 18
-    
+    For: Weekends Holidays,  !- Field 17
+    Until: 24:00,            !- Field 18
+    0,                       !- Field 19
+    For: AllOtherDays,       !- Field 20
+    Until: 24:00,            !- Field 21
+    0;                       !- Field 22
+
 Schedule:Compact,
     VN_25,                   !- Name
     Temperature,             !- Schedule Type Limits Name
@@ -316,506 +315,494 @@ Schedule:Compact,
     Until: 24:00,            !- Field 3
     25;                      !- Field 4
 
+
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:CONSTANT ===========
 
 Schedule:Constant,
-    Outdoor CO2 Schedule,
-    Any Number,
-    400.0;
+    Outdoor CO2 Schedule,    !- Name
+    Any Number,              !- Schedule Type Limits Name
+    400.0;                   !- Hourly Value
 
 Schedule:Constant,
-    CO2_LIMITE,
-    Any Number,
-    1000.0;
+    CO2_LIMITE,              !- Name
+    Any Number,              !- Schedule Type Limits Name
+    1000;                  !- Hourly Value
 
 Schedule:Constant,
-    METABOLISMO,
-    Any Number,
-    120.0;
+    METABOLISMO,             !- Name
+    Any Number,              !- Schedule Type Limits Name
+    120.0;                   !- Hourly Value
 
 Schedule:Constant,
-    WORK_EF,
-    Fraction,
-    0.0;
+    WORK_EF,                 !- Name
+    Fraction,                !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    Always Off,
-    On/Off,
-    0;
+    Always Off,              !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    Always On,
-    On/Off,
-    1;
+    Always On,               !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    1;                       !- Hourly Value
 
-!---- SALA_AULA ----
-
 Schedule:Constant,
-    JANELA_SALA_AULA,        
-    On/Off,                  
-    0;                      
+    JANELA_SALA_AULA,        !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    1;                       !- Hourly Value
 
 Schedule:Constant,
-    VENT_SALA_AULA,                !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VENT_SALA_AULA,          !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    VEL_SALA_AULA,            !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VEL_SALA_AULA,           !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    AC_SALA_AULA,
-    Any Number,
-    0;
+    AC_SALA_AULA,            !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    DOAS_STATUS_SALA_AULA,
-    On/Off,
-    0;
+    DOAS_STATUS_SALA_AULA,   !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_COOL_AC_SALA_AULA,
-    Temperature,
-    32;
+    TEMP_COOL_AC_SALA_AULA,  !- Name
+    Temperature,             !- Schedule Type Limits Name
+    32;                      !- Hourly Value
 
 Schedule:Constant,
-    TEMP_HEAT_AC_SALA_AULA,
-    Temperature,
-    14;
+    TEMP_HEAT_AC_SALA_AULA,  !- Name
+    Temperature,             !- Schedule Type Limits Name
+    14;                      !- Hourly Value
 
 Schedule:Constant,
-    PMV_SALA_AULA,
-    Number,
-    0;
+    PMV_SALA_AULA,           !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAPTATIVO_PYTHERMAL_SALA_AULA,
-    Number,
-    0;
+    ADAPTATIVO_PYTHERMAL_SALA_AULA,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_OP_MAX_ADAP_SALA_AULA,
-    Number,
-    0;
+    TEMP_OP_MAX_ADAP_SALA_AULA,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MIN_SALA_AULA,
-    Number,
-    0;
+    ADAP_MIN_SALA_AULA,      !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MAX_SALA_AULA,
-    Number,
-    0;
+    ADAP_MAX_SALA_AULA,      !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    EM_CONFORTO_SALA_AULA,
-    Number,
-    0;
-
-!---- RECEPCAO ----
+    EM_CONFORTO_SALA_AULA,   !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    JANELA_RECEPCAO,        
-    On/Off,                  
-    0;    
+    JANELA_RECEPCAO,         !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    VENT_RECEPCAO,                !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VENT_RECEPCAO,           !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    VEL_RECEPCAO,                !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VEL_RECEPCAO,            !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    AC_RECEPCAO,
-    Any Number,
-    0;
+    AC_RECEPCAO,             !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    DOAS_STATUS_RECEPCAO,
-    On/Off,
-    0;
+    DOAS_STATUS_RECEPCAO,    !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_COOL_AC_RECEPCAO,
-    Temperature,
-    32;
+    TEMP_COOL_AC_RECEPCAO,   !- Name
+    Temperature,             !- Schedule Type Limits Name
+    32;                      !- Hourly Value
 
 Schedule:Constant,
-    TEMP_HEAT_AC_RECEPCAO,
-    Temperature,
-    14;
+    TEMP_HEAT_AC_RECEPCAO,   !- Name
+    Temperature,             !- Schedule Type Limits Name
+    14;                      !- Hourly Value
 
 Schedule:Constant,
-    PMV_RECEPCAO,
-    Number,
-    0;
+    PMV_RECEPCAO,            !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAPTATIVO_PYTHERMAL_RECEPCAO,
-    Number,
-    0;
+    ADAPTATIVO_PYTHERMAL_RECEPCAO,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_OP_MAX_ADAP_RECEPCAO,
-    Number,
-    0;
+    TEMP_OP_MAX_ADAP_RECEPCAO,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MIN_RECEPCAO,
-    Number,
-    0;
+    ADAP_MIN_RECEPCAO,       !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MAX_RECEPCAO,
-    Number,
-    0;
+    ADAP_MAX_RECEPCAO,       !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    EM_CONFORTO_RECEPCAO,
-    Number,
-    0;
+    EM_CONFORTO_RECEPCAO,    !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
-!---- ATELIE1 ----
-
 Schedule:Constant,
-    JANELA_ATELIE1,        
-    On/Off,                  
-    0;
+    JANELA_ATELIE1,          !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    VENT_ATELIE1,                !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VENT_ATELIE1,            !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    VEL_ATELIE1,              !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VEL_ATELIE1,             !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    AC_ATELIE1,
-    Any Number,
-    0;
+    AC_ATELIE1,              !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    DOAS_STATUS_ATELIE1,
-    On/Off,
-    0;
+    DOAS_STATUS_ATELIE1,     !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_COOL_AC_ATELIE1,
-    Temperature,
-    32;
+    TEMP_COOL_AC_ATELIE1,    !- Name
+    Temperature,             !- Schedule Type Limits Name
+    32;                      !- Hourly Value
 
 Schedule:Constant,
-    TEMP_HEAT_AC_ATELIE1,
-    Temperature,
-    14;
+    TEMP_HEAT_AC_ATELIE1,    !- Name
+    Temperature,             !- Schedule Type Limits Name
+    14;                      !- Hourly Value
 
 Schedule:Constant,
-    PMV_ATELIE1,
-    Number,
-    0;
+    PMV_ATELIE1,             !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAPTATIVO_PYTHERMAL_ATELIE1,
-    Number,
-    0;
+    ADAPTATIVO_PYTHERMAL_ATELIE1,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_OP_MAX_ADAP_ATELIE1,
-    Number,
-    0;
+    TEMP_OP_MAX_ADAP_ATELIE1,!- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MIN_ATELIE1,
-    Number,
-    0;
+    ADAP_MIN_ATELIE1,        !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MAX_ATELIE1,
-    Number,
-    0;
+    ADAP_MAX_ATELIE1,        !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    EM_CONFORTO_ATELIE1,
-    Number,
-    0;
-
-!---- ATELIE2 ----
+    EM_CONFORTO_ATELIE1,     !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    JANELA_ATELIE2,        
-    On/Off,                  
-    0;                      
+    JANELA_ATELIE2,          !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    VENT_ATELIE2,                !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VENT_ATELIE2,            !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    VEL_ATELIE2,              !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VEL_ATELIE2,             !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    AC_ATELIE2,
-    Any Number,
-    0;
+    AC_ATELIE2,              !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    DOAS_STATUS_ATELIE2,
-    On/Off,
-    0;
+    DOAS_STATUS_ATELIE2,     !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_COOL_AC_ATELIE2,
-    Temperature,
-    32;
+    TEMP_COOL_AC_ATELIE2,    !- Name
+    Temperature,             !- Schedule Type Limits Name
+    32;                      !- Hourly Value
 
 Schedule:Constant,
-    TEMP_HEAT_AC_ATELIE2,
-    Temperature,
-    14;
+    TEMP_HEAT_AC_ATELIE2,    !- Name
+    Temperature,             !- Schedule Type Limits Name
+    14;                      !- Hourly Value
 
 Schedule:Constant,
-    PMV_ATELIE2,
-    Number,
-    0;
+    PMV_ATELIE2,             !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAPTATIVO_PYTHERMAL_ATELIE2,
-    Number,
-    0;
+    ADAPTATIVO_PYTHERMAL_ATELIE2,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_OP_MAX_ADAP_ATELIE2,
-    Number,
-    0;
+    TEMP_OP_MAX_ADAP_ATELIE2,!- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MIN_ATELIE2,
-    Number,
-    0;
+    ADAP_MIN_ATELIE2,        !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MAX_ATELIE2,
-    Number,
-    0;
+    ADAP_MAX_ATELIE2,        !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    EM_CONFORTO_ATELIE2,
-    Number,
-    0;
+    EM_CONFORTO_ATELIE2,     !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
-!---- ATELIE3 ----
-
 Schedule:Constant,
-    JANELA_ATELIE3,        
-    On/Off,                  
-    0;                      
+    JANELA_ATELIE3,          !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    VENT_ATELIE3,                !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VENT_ATELIE3,            !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    VEL_ATELIE3,              !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VEL_ATELIE3,             !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    AC_ATELIE3,
-    Any Number,
-    0;
+    AC_ATELIE3,              !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    DOAS_STATUS_ATELIE3,
-    On/Off,
-    0;
+    DOAS_STATUS_ATELIE3,     !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_COOL_AC_ATELIE3,
-    Temperature,
-    32;
+    TEMP_COOL_AC_ATELIE3,    !- Name
+    Temperature,             !- Schedule Type Limits Name
+    32;                      !- Hourly Value
 
 Schedule:Constant,
-    TEMP_HEAT_AC_ATELIE3,
-    Temperature,
-    14;
+    TEMP_HEAT_AC_ATELIE3,    !- Name
+    Temperature,             !- Schedule Type Limits Name
+    14;                      !- Hourly Value
 
 Schedule:Constant,
-    PMV_ATELIE3,
-    Number,
-    0;
+    PMV_ATELIE3,             !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAPTATIVO_PYTHERMAL_ATELIE3,
-    Number,
-    0;
+    ADAPTATIVO_PYTHERMAL_ATELIE3,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_OP_MAX_ADAP_ATELIE3,
-    Number,
-    0;
+    TEMP_OP_MAX_ADAP_ATELIE3,!- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MIN_ATELIE3,
-    Number,
-    0;
+    ADAP_MIN_ATELIE3,        !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MAX_ATELIE3,
-    Number,
-    0;
+    ADAP_MAX_ATELIE3,        !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    EM_CONFORTO_ATELIE3,
-    Number,
-    0;
-
-!---- LINSE ----
+    EM_CONFORTO_ATELIE3,     !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    JANELA_LINSE,        
-    On/Off,                  
-    0;                      
+    JANELA_LINSE,            !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    VENT_LINSE,                !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VENT_LINSE,              !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    VEL_LINSE,                !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VEL_LINSE,               !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    AC_LINSE,
-    Any Number,
-    0;
+    AC_LINSE,                !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    DOAS_STATUS_LINSE,
-    On/Off,
-    0;
+    DOAS_STATUS_LINSE,       !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_COOL_AC_LINSE,
-    Temperature,
-    32;
+    TEMP_COOL_AC_LINSE,      !- Name
+    Temperature,             !- Schedule Type Limits Name
+    32;                      !- Hourly Value
 
 Schedule:Constant,
-    TEMP_HEAT_AC_LINSE,
-    Temperature,
-    14;
+    TEMP_HEAT_AC_LINSE,      !- Name
+    Temperature,             !- Schedule Type Limits Name
+    14;                      !- Hourly Value
 
 Schedule:Constant,
-    PMV_LINSE,
-    Number,
-    0;
+    PMV_LINSE,               !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAPTATIVO_PYTHERMAL_LINSE,
-    Number,
-    0;
+    ADAPTATIVO_PYTHERMAL_LINSE,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_OP_MAX_ADAP_LINSE,
-    Number,
-    0;
+    TEMP_OP_MAX_ADAP_LINSE,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MIN_LINSE,
-    Number,
-    0;
+    ADAP_MIN_LINSE,          !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MAX_LINSE,
-    Number,
-    0;
+    ADAP_MAX_LINSE,          !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    EM_CONFORTO_LINSE,
-    Number,
-    0;
+    EM_CONFORTO_LINSE,       !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
-!---- SEC_LINSE ----
-
 Schedule:Constant,
-    JANELA_SEC_LINSE,        
-    On/Off,                  
-    0;                      
+    JANELA_SEC_LINSE,        !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    VENT_SEC_LINSE,                !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VENT_SEC_LINSE,          !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    VEL_SEC_LINSE,            !- Name
-    Any Number,               !- Schedule Type Limits Name
-    0.0;                      !- Hourly Value
+    VEL_SEC_LINSE,           !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0.0;                     !- Hourly Value
 
 Schedule:Constant,
-    AC_SEC_LINSE,
-    Any Number,
-    0;
+    AC_SEC_LINSE,            !- Name
+    Any Number,              !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    DOAS_STATUS_SEC_LINSE,
-    On/Off,
-    0;
+    DOAS_STATUS_SEC_LINSE,   !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_COOL_AC_SEC_LINSE,
-    Temperature,
-    32;
+    TEMP_COOL_AC_SEC_LINSE,  !- Name
+    Temperature,             !- Schedule Type Limits Name
+    32;                      !- Hourly Value
 
 Schedule:Constant,
-    TEMP_HEAT_AC_SEC_LINSE,
-    Temperature,
-    14;
+    TEMP_HEAT_AC_SEC_LINSE,  !- Name
+    Temperature,             !- Schedule Type Limits Name
+    14;                      !- Hourly Value
 
 Schedule:Constant,
-    PMV_SEC_LINSE,
-    Number,
-    0;
+    PMV_SEC_LINSE,           !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAPTATIVO_PYTHERMAL_SEC_LINSE,
-    Number,
-    0;
+    ADAPTATIVO_PYTHERMAL_SEC_LINSE,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    TEMP_OP_MAX_ADAP_SEC_LINSE,
-    Number,
-    0;
+    TEMP_OP_MAX_ADAP_SEC_LINSE,  !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MIN_SEC_LINSE,
-    Number,
-    0;
+    ADAP_MIN_SEC_LINSE,      !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    ADAP_MAX_SEC_LINSE,
-    Number,
-    0;
+    ADAP_MAX_SEC_LINSE,      !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
 
 Schedule:Constant,
-    EM_CONFORTO_SEC_LINSE,
-    Number,
-    0;
+    EM_CONFORTO_SEC_LINSE,   !- Name
+    Number,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
+
 
 !-   ===========  ALL OBJECTS IN CLASS: MATERIAL ===========
 
@@ -7682,19 +7669,19 @@ SurfaceProperty:OtherSideConditionsModel,
 People,
     People_sala_aula,        !- Name
     SALA_AULA,               !- Zone or ZoneList Name
-    OCUPACAO,       !- Number of People Schedule Name
+    OCUPACAO,                !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     29,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.5,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    METABOLISMO,!- Activity Level Schedule Name
+    METABOLISMO,             !- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EF,  !- Work Efficiency Schedule Name
+    WORK_EF,                 !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
@@ -7705,138 +7692,138 @@ People,
 People,
     People_recepcao,         !- Name
     RECEPCAO,                !- Zone or ZoneList Name
-    OCUPACAO,       !- Number of People Schedule Name
+    OCUPACAO,                !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     13,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.5,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    METABOLISMO,!- Activity Level Schedule Name
+    METABOLISMO,             !- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EF,  !- Work Efficiency Schedule Name
+    WORK_EF,                 !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
-    VEL_RECEPCAO,              !- Air Velocity Schedule Name
+    VEL_RECEPCAO,            !- Air Velocity Schedule Name
     Fanger,                  !- Thermal Comfort Model 1 Type
     AdaptiveASH55;           !- Thermal Comfort Model 2 Type
 
 People,
     People_atelie1,          !- Name
     ATELIE1,                 !- Zone or ZoneList Name
-    OCUPACAO,       !- Number of People Schedule Name
+    OCUPACAO,                !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     23,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.5,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    METABOLISMO,!- Activity Level Schedule Name
+    METABOLISMO,             !- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EF,  !- Work Efficiency Schedule Name
+    WORK_EF,                 !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
-    VEL_ATELIE1,              !- Air Velocity Schedule Name
+    VEL_ATELIE1,             !- Air Velocity Schedule Name
     Fanger,                  !- Thermal Comfort Model 1 Type
     AdaptiveASH55;           !- Thermal Comfort Model 2 Type
 
 People,
     People_sec_linse,        !- Name
     SEC_LINSE,               !- Zone or ZoneList Name
-    OCUPACAO,       !- Number of People Schedule Name
+    OCUPACAO,                !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     1,                       !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.5,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    METABOLISMO,!- Activity Level Schedule Name
+    METABOLISMO,             !- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EF,  !- Work Efficiency Schedule Name
+    WORK_EF,                 !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
-    VEL_SEC_LINSE,              !- Air Velocity Schedule Name
+    VEL_SEC_LINSE,           !- Air Velocity Schedule Name
     Fanger,                  !- Thermal Comfort Model 1 Type
     AdaptiveASH55;           !- Thermal Comfort Model 2 Type
 
 People,
     People_linse,            !- Name
     LINSE,                   !- Zone or ZoneList Name
-    OCUPACAO,       !- Number of People Schedule Name
+    OCUPACAO,                !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     12,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.5,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    METABOLISMO,!- Activity Level Schedule Name
+    METABOLISMO,             !- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EF,  !- Work Efficiency Schedule Name
+    WORK_EF,                 !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
-    VEL_LINSE,              !- Air Velocity Schedule Name
+    VEL_LINSE,               !- Air Velocity Schedule Name
     Fanger,                  !- Thermal Comfort Model 1 Type
     AdaptiveASH55;           !- Thermal Comfort Model 2 Type
 
 People,
     People_atelie2,          !- Name
     ATELIE2,                 !- Zone or ZoneList Name
-    OCUPACAO,       !- Number of People Schedule Name
+    OCUPACAO,                !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     21,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    METABOLISMO,!- Activity Level Schedule Name
+    METABOLISMO,             !- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EF,  !- Work Efficiency Schedule Name
+    WORK_EF,                 !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
-    VEL_ATELIE2,              !- Air Velocity Schedule Name
+    VEL_ATELIE2,             !- Air Velocity Schedule Name
     Fanger,                  !- Thermal Comfort Model 1 Type
     AdaptiveASH55;           !- Thermal Comfort Model 2 Type
 
 People,
     People_atelie3,          !- Name
     ATELIE3,                 !- Zone or ZoneList Name
-    OCUPACAO,       !- Number of People Schedule Name
+    OCUPACAO,                !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
     29,                      !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.5,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
-    METABOLISMO,!- Activity Level Schedule Name
+    METABOLISMO,             !- Activity Level Schedule Name
     0.0000000382,            !- Carbon Dioxide Generation Rate {m3/s-W}
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EF,  !- Work Efficiency Schedule Name
+    WORK_EF,                 !- Work Efficiency Schedule Name
     DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     ,                        !- Clothing Insulation Schedule Name
-    VEL_ATELIE3,              !- Air Velocity Schedule Name
+    VEL_ATELIE3,             !- Air Velocity Schedule Name
     Fanger,                  !- Thermal Comfort Model 1 Type
     AdaptiveASH55;           !- Thermal Comfort Model 2 Type
 
@@ -7846,7 +7833,7 @@ People,
 Lights,
     iluminacao_recepcao,     !- Name
     RECEPCAO,                !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     6.44,                    !- Watts per Zone Floor Area {W/m2}
@@ -7861,7 +7848,7 @@ Lights,
 Lights,
     iluminacao_circulacao_terreo,  !- Name
     CIRC_TERREO,             !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     6.63,                    !- Watts per Zone Floor Area {W/m2}
@@ -7876,7 +7863,7 @@ Lights,
 Lights,
     iluminacao_sala_aula,    !- Name
     SALA_AULA,               !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     8.31,                    !- Watts per Zone Floor Area {W/m2}
@@ -7891,7 +7878,7 @@ Lights,
 Lights,
     iluminacao_atelie1,      !- Name
     ATELIE1,                 !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     9.23,                    !- Watts per Zone Floor Area {W/m2}
@@ -7906,7 +7893,7 @@ Lights,
 Lights,
     iluminacao_circ_segundo, !- Name
     CIRC_SEGUNDO,            !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     5.22,                    !- Watts per Zone Floor Area {W/m2}
@@ -7921,7 +7908,7 @@ Lights,
 Lights,
     iluminacao_sec_linse,    !- Name
     SEC_LINSE,               !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     8.06,                    !- Watts per Zone Floor Area {W/m2}
@@ -7936,7 +7923,7 @@ Lights,
 Lights,
     iluminacao_linse,        !- Name
     LINSE,                   !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     7.76,                    !- Watts per Zone Floor Area {W/m2}
@@ -7951,7 +7938,7 @@ Lights,
 Lights,
     iluminacao_atelie_2,     !- Name
     ATELIE2,                 !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     9.23,                    !- Watts per Zone Floor Area {W/m2}
@@ -7966,7 +7953,7 @@ Lights,
 Lights,
     iluminacao_circ_terceiro,!- Name
     CIRC_TERCEIRO,           !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     6.88,                    !- Watts per Zone Floor Area {W/m2}
@@ -7981,7 +7968,7 @@ Lights,
 Lights,
     iluminacao_atelie3,      !- Name
     ATELIE3,                 !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
     8.5,                     !- Watts per Zone Floor Area {W/m2}
@@ -7999,7 +7986,7 @@ Lights,
 ElectricEquipment,
     Equipamentos_fixos,      !- Name
     AMBIENTES_PPROL,         !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
+    OCUPACAO,                !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Design Level {W}
     15,                      !- Watts per Zone Floor Area {W/m2}
@@ -8012,7 +7999,7 @@ ElectricEquipment,
 ElectricEquipment,
     VENTILADOR_SALA_AULA,    !- Name
     SALA_AULA,               !- Zone or ZoneList Name
-    VENT_SALA_AULA,           !- Schedule Name
+    VENT_SALA_AULA,          !- Schedule Name
     EquipmentLevel,          !- Design Level Calculation Method
     50,                      !- Design Level {W}
     ,                        !- Watts per Zone Floor Area {W/m2}
@@ -8025,7 +8012,7 @@ ElectricEquipment,
 ElectricEquipment,
     VENTILADOR_SEC_LINSE,    !- Name
     SEC_LINSE,               !- Zone or ZoneList Name
-    VENT_SEC_LINSE,           !- Schedule Name
+    VENT_SEC_LINSE,          !- Schedule Name
     EquipmentLevel,          !- Design Level Calculation Method
     50,                      !- Design Level {W}
     ,                        !- Watts per Zone Floor Area {W/m2}
@@ -8036,9 +8023,9 @@ ElectricEquipment,
     General;                 !- End-Use Subcategory
 
 ElectricEquipment,
-    VENTILADOR_LINSE,    !- Name
-    LINSE,               !- Zone or ZoneList Name
-    VENT_LINSE,           !- Schedule Name
+    VENTILADOR_LINSE,        !- Name
+    LINSE,                   !- Zone or ZoneList Name
+    VENT_LINSE,              !- Schedule Name
     EquipmentLevel,          !- Design Level Calculation Method
     50,                      !- Design Level {W}
     ,                        !- Watts per Zone Floor Area {W/m2}
@@ -8049,9 +8036,9 @@ ElectricEquipment,
     General;                 !- End-Use Subcategory
 
 ElectricEquipment,
-    VENTILADOR_ATELIE1,    !- Name
-    ATELIE1,               !- Zone or ZoneList Name
-    VENT_ATELIE1,           !- Schedule Name
+    VENTILADOR_ATELIE1,      !- Name
+    ATELIE1,                 !- Zone or ZoneList Name
+    VENT_ATELIE1,            !- Schedule Name
     EquipmentLevel,          !- Design Level Calculation Method
     50,                      !- Design Level {W}
     ,                        !- Watts per Zone Floor Area {W/m2}
@@ -8062,9 +8049,9 @@ ElectricEquipment,
     General;                 !- End-Use Subcategory
 
 ElectricEquipment,
-    VENTILADOR_ATELIE2,    !- Name
-    ATELIE2,               !- Zone or ZoneList Name
-    VENT_ATELIE2,           !- Schedule Name
+    VENTILADOR_ATELIE2,      !- Name
+    ATELIE2,                 !- Zone or ZoneList Name
+    VENT_ATELIE2,            !- Schedule Name
     EquipmentLevel,          !- Design Level Calculation Method
     50,                      !- Design Level {W}
     ,                        !- Watts per Zone Floor Area {W/m2}
@@ -8075,9 +8062,9 @@ ElectricEquipment,
     General;                 !- End-Use Subcategory
 
 ElectricEquipment,
-    VENTILADOR_ATELIE3,    !- Name
-    ATELIE3,               !- Zone or ZoneList Name
-    VENT_ATELIE3,           !- Schedule Name
+    VENTILADOR_ATELIE3,      !- Name
+    ATELIE3,                 !- Zone or ZoneList Name
+    VENT_ATELIE3,            !- Schedule Name
     EquipmentLevel,          !- Design Level Calculation Method
     50,                      !- Design Level {W}
     ,                        !- Watts per Zone Floor Area {W/m2}
@@ -8088,8 +8075,8 @@ ElectricEquipment,
     General;                 !- End-Use Subcategory
 
 ElectricEquipment,
-    VENTILADOR_RECEPCAO,    !- Name
-    RECEPCAO,               !- Zone or ZoneList Name
+    VENTILADOR_RECEPCAO,     !- Name
+    RECEPCAO,                !- Zone or ZoneList Name
     VENT_RECEPCAO,           !- Schedule Name
     EquipmentLevel,          !- Design Level Calculation Method
     50,                      !- Design Level {W}
@@ -8101,112 +8088,11 @@ ElectricEquipment,
     General;                 !- End-Use Subcategory
 
 
-!-   ===========  ALL OBJECTS IN CLASS: ZONEINFILTRATION:DESIGNFLOWRATE ===========
-
-ZoneInfiltration:DesignFlowRate,
-    INF_RECEPCAO,            !- Name
-    RECEPCAO,                !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
-    Flow/Zone,               !- Design Flow Rate Calculation Method
-    0.0624,                  !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
-    1,                       !- Constant Term Coefficient
-    ,                        !- Temperature Term Coefficient
-    ,                        !- Velocity Term Coefficient
-    ;                        !- Velocity Squared Term Coefficient
-
-ZoneInfiltration:DesignFlowRate,
-    INF_SALA_AULA,           !- Name
-    SALA_AULA,               !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
-    Flow/Zone,               !- Design Flow Rate Calculation Method
-    0.0208,                  !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
-    1,                       !- Constant Term Coefficient
-    ,                        !- Temperature Term Coefficient
-    ,                        !- Velocity Term Coefficient
-    ;                        !- Velocity Squared Term Coefficient
-
-ZoneInfiltration:DesignFlowRate,
-    INF_ATELIE1,             !- Name
-    ATELIE1,                 !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
-    Flow/Zone,               !- Design Flow Rate Calculation Method
-    0.0435,                  !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
-    1,                       !- Constant Term Coefficient
-    ,                        !- Temperature Term Coefficient
-    ,                        !- Velocity Term Coefficient
-    ;                        !- Velocity Squared Term Coefficient
-
-ZoneInfiltration:DesignFlowRate,
-    INF_SEC_LINSE,           !- Name
-    SEC_LINSE,               !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
-    Flow/Zone,               !- Design Flow Rate Calculation Method
-    0.0066,                  !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
-    1,                       !- Constant Term Coefficient
-    ,                        !- Temperature Term Coefficient
-    ,                        !- Velocity Term Coefficient
-    ;                        !- Velocity Squared Term Coefficient
-
-ZoneInfiltration:DesignFlowRate,
-    INF_LINSE,               !- Name
-    LINSE,                   !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
-    Flow/Zone,               !- Design Flow Rate Calculation Method
-    0.0358,                  !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
-    1,                       !- Constant Term Coefficient
-    ,                        !- Temperature Term Coefficient
-    ,                        !- Velocity Term Coefficient
-    ;                        !- Velocity Squared Term Coefficient
-
-ZoneInfiltration:DesignFlowRate,
-    INF_ATELIE2,             !- Name
-    ATELIE2,                 !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
-    Flow/Zone,               !- Design Flow Rate Calculation Method
-    0.0435,                  !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
-    1,                       !- Constant Term Coefficient
-    ,                        !- Temperature Term Coefficient
-    ,                        !- Velocity Term Coefficient
-    ;                        !- Velocity Squared Term Coefficient
-
-ZoneInfiltration:DesignFlowRate,
-    INF_ATELIE3,             !- Name
-    ATELIE3,                 !- Zone or ZoneList Name
-    OCUPACAO,       !- Schedule Name
-    Flow/Zone,               !- Design Flow Rate Calculation Method
-    0.0435,                  !- Design Flow Rate {m3/s}
-    ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    ,                        !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
-    1,                       !- Constant Term Coefficient
-    ,                        !- Temperature Term Coefficient
-    ,                        !- Velocity Term Coefficient
-    ;                        !- Velocity Squared Term Coefficient
-
-
 !-   ===========  ALL OBJECTS IN CLASS: AIRFLOWNETWORK:SIMULATIONCONTROL ===========
 
 AirflowNetwork:SimulationControl,
     controle,                !- Name
-    NoMultizoneOrDistribution,  !- AirflowNetwork Control
+    MultizoneWithoutDistribution,  !- AirflowNetwork Control
     SurfaceAverageCalculation,  !- Wind Pressure Coefficient Type
     OpeningHeight,           !- Height Selection for Local Wind Pressure Calculation
     LowRise,                 !- Building Type
@@ -8215,7 +8101,7 @@ AirflowNetwork:SimulationControl,
     0.0001,                  !- Relative Airflow Convergence Tolerance {dimensionless}
     0.000001,                !- Absolute Airflow Convergence Tolerance {kg/s}
     -.5,                     !- Convergence Acceleration Limit {dimensionless}
-    90,                        !- Azimuth Angle of Long Axis of Building {deg}
+    90,                      !- Azimuth Angle of Long Axis of Building {deg}
     1,                       !- Ratio of Building Width Along Short Axis to Width Along Long Axis
     No,                      !- Height Dependence of External Node Temperature
     SkylineLU;               !- Solver
@@ -8225,79 +8111,79 @@ AirflowNetwork:SimulationControl,
 
 AirflowNetwork:MultiZone:Zone,
     RECEPCAO,                !- Zone Name
-    Constant,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    JANELA_RECEPCAO,           !- Venting Availability Schedule Name
+    JANELA_RECEPCAO,         !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     SALA_AULA,               !- Zone Name
-    Constant,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    JANELA_SALA_AULA,           !- Venting Availability Schedule Name
+    JANELA_SALA_AULA,        !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     ATELIE1,                 !- Zone Name
-    Constant,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    JANELA_ATELIE1,           !- Venting Availability Schedule Name
+    JANELA_ATELIE1,          !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     SEC_LINSE,               !- Zone Name
-    Constant,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    JANELA_SEC_LINSE,           !- Venting Availability Schedule Name
+    JANELA_SEC_LINSE,        !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     LINSE,                   !- Zone Name
-    Constant,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    JANELA_LINSE,           !- Venting Availability Schedule Name
+    JANELA_LINSE,            !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     ATELIE2,                 !- Zone Name
-    Constant,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    JANELA_ATELIE2,           !- Venting Availability Schedule Name
+    JANELA_ATELIE2,          !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
@@ -8310,7 +8196,111 @@ AirflowNetwork:MultiZone:Zone,
     5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    JANELA_ATELIE3,           !- Venting Availability Schedule Name
+    JANELA_ATELIE3,          !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
+
+AirflowNetwork:MultiZone:Zone,
+    CIRC_TERREO,             !- Zone Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    Always On,          !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
+
+AirflowNetwork:MultiZone:Zone,
+    CIRC_SEGUNDO,            !- Zone Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    Always On,          !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
+
+AirflowNetwork:MultiZone:Zone,
+    CIRC_TERCEIRO,           !- Zone Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    Always On,          !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
+
+AirflowNetwork:MultiZone:Zone,
+    COPA,                    !- Zone Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    Always On,          !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
+
+AirflowNetwork:MultiZone:Zone,
+    LAVAND,                  !- Zone Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    Always On,          !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
+
+AirflowNetwork:MultiZone:Zone,
+    WC_TERREO,               !- Zone Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    Always On,          !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
+
+AirflowNetwork:MultiZone:Zone,
+    WC_SEGUNDO,              !- Zone Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    Always On,          !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
+
+AirflowNetwork:MultiZone:Zone,
+    WC_TERCEIRO,             !- Zone Name
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    5,                       !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    Always On,          !- Venting Availability Schedule Name
     Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
     10;                      !- Facade Width {m}
 
@@ -8322,8 +8312,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8339,8 +8329,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8356,8 +8346,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8373,8 +8363,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8390,8 +8380,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8407,8 +8397,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8424,8 +8414,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8441,8 +8431,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8458,8 +8448,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8474,10 +8464,10 @@ AirflowNetwork:MultiZone:Surface,
     ACF3B0,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    ,                       !- Minimum Venting Open Factor {dimensionless}
+    0.5,                     !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ,                        !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8492,8 +8482,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8509,8 +8499,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8526,8 +8516,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8543,8 +8533,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8560,8 +8550,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8577,8 +8567,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8593,10 +8583,10 @@ AirflowNetwork:MultiZone:Surface,
     A59CF8,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    ,                       !- Minimum Venting Open Factor {dimensionless}
+    0.5,                     !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ,                        !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8610,10 +8600,10 @@ AirflowNetwork:MultiZone:Surface,
     D26B85,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    ,                       !- Minimum Venting Open Factor {dimensionless}
+    0.5,                     !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ,                        !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8627,10 +8617,10 @@ AirflowNetwork:MultiZone:Surface,
     FE46D6,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    ,                       !- Minimum Venting Open Factor {dimensionless}
+    0.5,                     !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ,                        !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8644,10 +8634,10 @@ AirflowNetwork:MultiZone:Surface,
     8BADDE,                  !- Surface Name
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
-    0.5,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    ,                       !- Minimum Venting Open Factor {dimensionless}
+    0.5,                     !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ,                        !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
     ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
@@ -8662,8 +8652,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8679,8 +8669,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8696,8 +8686,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8713,8 +8703,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8730,8 +8720,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8747,8 +8737,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8764,8 +8754,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8781,8 +8771,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8798,8 +8788,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8815,8 +8805,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8832,8 +8822,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8849,8 +8839,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8866,8 +8856,8 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8883,8 +8873,586 @@ AirflowNetwork:MultiZone:Surface,
     infiltracao,             !- Leakage Component Name
     ,                        !- External Node Name
     1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ZoneLevel,             !- Ventilation Control Mode
-    ,                   !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    8E0395,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    A2EFAD,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    116D4A,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    528008,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    7EBBF1,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    86A0FD,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    46E299,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    13001B,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    4B749A,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    734858,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    C2CF3F,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    300690,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    AED7A2,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    8AD845,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    3FCAA7,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    5C6139,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    918FD5,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    DA4CBD,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    677AE7,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    FFD00B,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    951054,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    7F456C,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    DB263D,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    707B88,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    3ACDAF,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    27A3E0,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    B8A186,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    CA0403,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    572811,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    4C57E3,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    E5B8D3,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    BAB2D7,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    BB50DC,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    1,                       !- Minimum Venting Open Factor {dimensionless}
+    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    ,                        !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    30CEDE,                  !- Surface Name
+    INFILTR_PORTA,           !- Leakage Component Name
+    ,                        !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    ZoneLevel,               !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
     1,                       !- Minimum Venting Open Factor {dimensionless}
     ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
     100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
@@ -8923,82 +9491,82 @@ AirflowNetwork:MultiZone:Component:SimpleOpening,
 !-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:THERMOSTAT ===========
 
 HVACTemplate:Thermostat,
-    THERMOSTAT_SALA_AULA,  !- Name
-    TEMP_HEAT_AC_SALA_AULA,                        !- Heating Setpoint Schedule Name
-    ,                      !- Constant Heating Setpoint {C}
-    TEMP_COOL_AC_SALA_AULA,                        !- Cooling Setpoint Schedule Name
-    ;                      !- Constant Cooling Setpoint {C}
+    THERMOSTAT_SALA_AULA,    !- Name
+    TEMP_HEAT_AC_SALA_AULA,  !- Heating Setpoint Schedule Name
+    ,                        !- Constant Heating Setpoint {C}
+    TEMP_COOL_AC_SALA_AULA,  !- Cooling Setpoint Schedule Name
+    ;                        !- Constant Cooling Setpoint {C}
 
 HVACTemplate:Thermostat,
-    THERMOSTAT_RECEPCAO,  !- Name
-    TEMP_HEAT_AC_RECEPCAO,                        !- Heating Setpoint Schedule Name
-    ,                      !- Constant Heating Setpoint {C}
-    TEMP_COOL_AC_RECEPCAO,                        !- Cooling Setpoint Schedule Name
-    ;                      !- Constant Cooling Setpoint {C}
+    THERMOSTAT_RECEPCAO,     !- Name
+    TEMP_HEAT_AC_RECEPCAO,   !- Heating Setpoint Schedule Name
+    ,                        !- Constant Heating Setpoint {C}
+    TEMP_COOL_AC_RECEPCAO,   !- Cooling Setpoint Schedule Name
+    ;                        !- Constant Cooling Setpoint {C}
 
 HVACTemplate:Thermostat,
-    THERMOSTAT_ATELIE1,  !- Name
-    TEMP_HEAT_AC_ATELIE1,                        !- Heating Setpoint Schedule Name
-    ,                      !- Constant Heating Setpoint {C}
-    TEMP_COOL_AC_ATELIE1,                        !- Cooling Setpoint Schedule Name
-    ;                      !- Constant Cooling Setpoint {C}
+    THERMOSTAT_ATELIE1,      !- Name
+    TEMP_HEAT_AC_ATELIE1,    !- Heating Setpoint Schedule Name
+    ,                        !- Constant Heating Setpoint {C}
+    TEMP_COOL_AC_ATELIE1,    !- Cooling Setpoint Schedule Name
+    ;                        !- Constant Cooling Setpoint {C}
 
 HVACTemplate:Thermostat,
-    THERMOSTAT_ATELIE2,  !- Name
-    TEMP_HEAT_AC_ATELIE2,                        !- Heating Setpoint Schedule Name
-    ,                      !- Constant Heating Setpoint {C}
-    TEMP_COOL_AC_ATELIE2,                        !- Cooling Setpoint Schedule Name
-    ;                      !- Constant Cooling Setpoint {C}
+    THERMOSTAT_ATELIE2,      !- Name
+    TEMP_HEAT_AC_ATELIE2,    !- Heating Setpoint Schedule Name
+    ,                        !- Constant Heating Setpoint {C}
+    TEMP_COOL_AC_ATELIE2,    !- Cooling Setpoint Schedule Name
+    ;                        !- Constant Cooling Setpoint {C}
 
 HVACTemplate:Thermostat,
-    THERMOSTAT_ATELIE3,  !- Name
-    TEMP_HEAT_AC_ATELIE3,                        !- Heating Setpoint Schedule Name
-    ,                      !- Constant Heating Setpoint {C}
-    TEMP_COOL_AC_ATELIE3,                        !- Cooling Setpoint Schedule Name
-    ;                      !- Constant Cooling Setpoint {C}
+    THERMOSTAT_ATELIE3,      !- Name
+    TEMP_HEAT_AC_ATELIE3,    !- Heating Setpoint Schedule Name
+    ,                        !- Constant Heating Setpoint {C}
+    TEMP_COOL_AC_ATELIE3,    !- Cooling Setpoint Schedule Name
+    ;                        !- Constant Cooling Setpoint {C}
 
 HVACTemplate:Thermostat,
-    THERMOSTAT_SEC_LINSE,  !- Name
-    TEMP_HEAT_AC_SEC_LINSE,                        !- Heating Setpoint Schedule Name
-    ,                      !- Constant Heating Setpoint {C}
-    TEMP_COOL_AC_SEC_LINSE,                        !- Cooling Setpoint Schedule Name
-    ;                      !- Constant Cooling Setpoint {C}
+    THERMOSTAT_SEC_LINSE,    !- Name
+    TEMP_HEAT_AC_SEC_LINSE,  !- Heating Setpoint Schedule Name
+    ,                        !- Constant Heating Setpoint {C}
+    TEMP_COOL_AC_SEC_LINSE,  !- Cooling Setpoint Schedule Name
+    ;                        !- Constant Cooling Setpoint {C}
 
 HVACTemplate:Thermostat,
-    THERMOSTAT_LINSE,  !- Name
-    TEMP_HEAT_AC_LINSE,                        !- Heating Setpoint Schedule Name
-    ,                      !- Constant Heating Setpoint {C}
-    TEMP_COOL_AC_LINSE,                        !- Cooling Setpoint Schedule Name
-    ;                      !- Constant Cooling Setpoint {C}
+    THERMOSTAT_LINSE,        !- Name
+    TEMP_HEAT_AC_LINSE,      !- Heating Setpoint Schedule Name
+    ,                        !- Constant Heating Setpoint {C}
+    TEMP_COOL_AC_LINSE,      !- Cooling Setpoint Schedule Name
+    ;                        !- Constant Cooling Setpoint {C}
 
 
-!-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:ZONE: ===========
+!-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:ZONE:PTHP ===========
 
 HVACTemplate:Zone:PTHP,
     RECEPCAO,                !- Zone Name
-    THERMOSTAT_RECEPCAO,  !- Template Thermostat Name
+    THERMOSTAT_RECEPCAO,     !- Template Thermostat Name
     0.596,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.596,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                        !- No Load Supply Air Flow Rate {m3/s}
+    autosize,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    DetailedSpecification,               !- Outdoor Air Method
+    DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.1031,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    AC_RECEPCAO,       !- System Availability Schedule Name
+    AC_RECEPCAO,             !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    ,       !- Cooling Coil Availability Schedule Name
+    ,                        !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    ,       !- Heat Pump Heating Coil Availability Schedule Name
+    ,                        !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -9007,12 +9575,12 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    ,       !- Supplemental Heating Coil Availability Schedule Name
+    ,                        !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
     ,                        !- Supplemental Gas Heating Coil Parasitic Electric Load {W}
-    DOAS_RECEPCAO,                        !- Dedicated Outdoor Air System Name
+    DOAS_RECEPCAO,           !- Dedicated Outdoor Air System Name
     SupplyAirTemperature,    !- Zone Cooling Design Supply Air Temperature Input Method
     14,                      !- Zone Cooling Design Supply Air Temperature {C}
     11.11,                   !- Zone Cooling Design Supply Air Temperature Difference {deltaC}
@@ -9028,29 +9596,29 @@ HVACTemplate:Zone:PTHP,
 
 HVACTemplate:Zone:PTHP,
     SALA_AULA,               !- Zone Name
-    THERMOSTAT_SALA_AULA,  !- Template Thermostat Name
+    THERMOSTAT_SALA_AULA,    !- Template Thermostat Name
     0.586,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.586,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                        !- No Load Supply Air Flow Rate {m3/s}
+    autosize,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    DetailedSpecification,               !- Outdoor Air Method
+    DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.0408,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    AC_SALA_AULA,       !- System Availability Schedule Name
+    AC_SALA_AULA,            !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    ,       !- Cooling Coil Availability Schedule Name
+    ,                        !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    ,       !- Heat Pump Heating Coil Availability Schedule Name
+    ,                        !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -9059,12 +9627,12 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    ,       !- Supplemental Heating Coil Availability Schedule Name
+    ,                        !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
     ,                        !- Supplemental Gas Heating Coil Parasitic Electric Load {W}
-    DOAS_SALA_AULA,                        !- Dedicated Outdoor Air System Name
+    DOAS_SALA_AULA,          !- Dedicated Outdoor Air System Name
     SupplyAirTemperature,    !- Zone Cooling Design Supply Air Temperature Input Method
     14,                      !- Zone Cooling Design Supply Air Temperature {C}
     11.11,                   !- Zone Cooling Design Supply Air Temperature Difference {deltaC}
@@ -9080,29 +9648,29 @@ HVACTemplate:Zone:PTHP,
 
 HVACTemplate:Zone:PTHP,
     LINSE,                   !- Zone Name
-    THERMOSTAT_LINSE,  !- Template Thermostat Name
+    THERMOSTAT_LINSE,        !- Template Thermostat Name
     0.786,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.786,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                        !- No Load Supply Air Flow Rate {m3/s}
+    autosize,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    DetailedSpecification,               !- Outdoor Air Method
+    DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.0988,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    AC_LINSE,       !- System Availability Schedule Name
+    AC_LINSE,                !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    ,       !- Cooling Coil Availability Schedule Name
+    ,                        !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    ,       !- Heat Pump Heating Coil Availability Schedule Name
+    ,                        !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -9111,12 +9679,12 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    ,       !- Supplemental Heating Coil Availability Schedule Name
+    ,                        !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
     ,                        !- Supplemental Gas Heating Coil Parasitic Electric Load {W}
-    DOAS_LINSE,                        !- Dedicated Outdoor Air System Name
+    DOAS_LINSE,              !- Dedicated Outdoor Air System Name
     SupplyAirTemperature,    !- Zone Cooling Design Supply Air Temperature Input Method
     14,                      !- Zone Cooling Design Supply Air Temperature {C}
     11.11,                   !- Zone Cooling Design Supply Air Temperature Difference {deltaC}
@@ -9132,29 +9700,29 @@ HVACTemplate:Zone:PTHP,
 
 HVACTemplate:Zone:PTHP,
     SEC_LINSE,               !- Zone Name
-    THERMOSTAT_SEC_LINSE,  !- Template Thermostat Name
+    THERMOSTAT_SEC_LINSE,    !- Template Thermostat Name
     0.182,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.182,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                        !- No Load Supply Air Flow Rate {m3/s}
+    autosize,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    DetailedSpecification,               !- Outdoor Air Method
+    DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.0081,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    AC_SEC_LINSE,       !- System Availability Schedule Name
+    AC_SEC_LINSE,            !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    ,       !- Cooling Coil Availability Schedule Name
+    ,                        !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    ,       !- Heat Pump Heating Coil Availability Schedule Name
+    ,                        !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -9163,12 +9731,12 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    ,       !- Supplemental Heating Coil Availability Schedule Name
+    ,                        !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
     ,                        !- Supplemental Gas Heating Coil Parasitic Electric Load {W}
-    DOAS_SEC_LINSE,                        !- Dedicated Outdoor Air System Name
+    DOAS_SEC_LINSE,          !- Dedicated Outdoor Air System Name
     SupplyAirTemperature,    !- Zone Cooling Design Supply Air Temperature Input Method
     14,                      !- Zone Cooling Design Supply Air Temperature {C}
     11.11,                   !- Zone Cooling Design Supply Air Temperature Difference {deltaC}
@@ -9184,29 +9752,29 @@ HVACTemplate:Zone:PTHP,
 
 HVACTemplate:Zone:PTHP,
     ATELIE1,                 !- Zone Name
-    THERMOSTAT_ATELIE1,  !- Template Thermostat Name
+    THERMOSTAT_ATELIE1,      !- Template Thermostat Name
     0.596,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.596,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                        !- No Load Supply Air Flow Rate {m3/s}
+    autosize,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    DetailedSpecification,               !- Outdoor Air Method
+    DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.1281,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    AC_ATELIE1,       !- System Availability Schedule Name
+    AC_ATELIE1,              !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    ,       !- Cooling Coil Availability Schedule Name
+    ,                        !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    ,       !- Heat Pump Heating Coil Availability Schedule Name
+    ,                        !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -9215,12 +9783,12 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    ,       !- Supplemental Heating Coil Availability Schedule Name
+    ,                        !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
     ,                        !- Supplemental Gas Heating Coil Parasitic Electric Load {W}
-    DOAS_ATELIE1,                        !- Dedicated Outdoor Air System Name
+    DOAS_ATELIE1,            !- Dedicated Outdoor Air System Name
     SupplyAirTemperature,    !- Zone Cooling Design Supply Air Temperature Input Method
     14,                      !- Zone Cooling Design Supply Air Temperature {C}
     11.11,                   !- Zone Cooling Design Supply Air Temperature Difference {deltaC}
@@ -9236,29 +9804,29 @@ HVACTemplate:Zone:PTHP,
 
 HVACTemplate:Zone:PTHP,
     ATELIE2,                 !- Zone Name
-    THERMOSTAT_ATELIE2,  !- Template Thermostat Name
+    THERMOSTAT_ATELIE2,      !- Template Thermostat Name
     0.596,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.596,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                        !- No Load Supply Air Flow Rate {m3/s}
+    autosize,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    DetailedSpecification,               !- Outdoor Air Method
+    DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.1281,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    AC_ATELIE2,       !- System Availability Schedule Name
+    AC_ATELIE2,              !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    ,       !- Cooling Coil Availability Schedule Name
+    ,                        !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    ,       !- Heat Pump Heating Coil Availability Schedule Name
+    ,                        !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -9267,12 +9835,12 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    ,       !- Supplemental Heating Coil Availability Schedule Name
+    ,                        !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
     ,                        !- Supplemental Gas Heating Coil Parasitic Electric Load {W}
-    DOAS_ATELIE2,                        !- Dedicated Outdoor Air System Name
+    DOAS_ATELIE2,            !- Dedicated Outdoor Air System Name
     SupplyAirTemperature,    !- Zone Cooling Design Supply Air Temperature Input Method
     14,                      !- Zone Cooling Design Supply Air Temperature {C}
     11.11,                   !- Zone Cooling Design Supply Air Temperature Difference {deltaC}
@@ -9288,29 +9856,29 @@ HVACTemplate:Zone:PTHP,
 
 HVACTemplate:Zone:PTHP,
     ATELIE3,                 !- Zone Name
-    THERMOSTAT_ATELIE3,  !- Template Thermostat Name
+    THERMOSTAT_ATELIE3,      !- Template Thermostat Name
     0.864,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.864,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                        !- No Load Supply Air Flow Rate {m3/s}
+    autosize,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
-    DetailedSpecification,               !- Outdoor Air Method
+    DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0.1281,                  !- Outdoor Air Flow Rate per Zone {m3/s}
-    AC_ATELIE3,       !- System Availability Schedule Name
+    AC_ATELIE3,              !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
     0.7,                     !- Supply Fan Total Efficiency
     75,                      !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
     SingleSpeedDX,           !- Cooling Coil Type
-    ,       !- Cooling Coil Availability Schedule Name
+    ,                        !- Cooling Coil Availability Schedule Name
     autosize,                !- Cooling Coil Gross Rated Total Capacity {W}
     autosize,                !- Cooling Coil Gross Rated Sensible Heat Ratio
     3.24,                    !- Cooling Coil Gross Rated COP {W/W}
     SingleSpeedDXHeatPump,   !- Heat Pump Heating Coil Type
-    ,       !- Heat Pump Heating Coil Availability Schedule Name
+    ,                        !- Heat Pump Heating Coil Availability Schedule Name
     autosize,                !- Heat Pump Heating Coil Gross Rated Capacity {W}
     3.24,                    !- Heat Pump Heating Coil Gross Rated COP {W/W}
     -8,                      !- Heat Pump Heating Minimum Outdoor Dry-Bulb Temperature {C}
@@ -9319,12 +9887,12 @@ HVACTemplate:Zone:PTHP,
     Timed,                   !- Heat Pump Defrost Control
     0.058333,                !- Heat Pump Defrost Time Period Fraction
     Electric,                !- Supplemental Heating Coil Type
-    ,       !- Supplemental Heating Coil Availability Schedule Name
+    ,                        !- Supplemental Heating Coil Availability Schedule Name
     autosize,                !- Supplemental Heating Coil Capacity {W}
     21,                      !- Supplemental Heating Coil Maximum Outdoor Dry-Bulb Temperature {C}
     0.8,                     !- Supplemental Gas Heating Coil Efficiency
     ,                        !- Supplemental Gas Heating Coil Parasitic Electric Load {W}
-    DOAS_ATELIE3,                        !- Dedicated Outdoor Air System Name
+    DOAS_ATELIE3,            !- Dedicated Outdoor Air System Name
     SupplyAirTemperature,    !- Zone Cooling Design Supply Air Temperature Input Method
     14,                      !- Zone Cooling Design Supply Air Temperature {C}
     11.11,                   !- Zone Cooling Design Supply Air Temperature Difference {deltaC}
@@ -9337,15 +9905,15 @@ HVACTemplate:Zone:PTHP,
     ,                        !- Baseboard Heating Availability Schedule Name
     autosize,                !- Baseboard Heating Capacity {W}
     None;                    !- Capacity Control Method
-    
+
 
 !-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:SYSTEM:DEDICATEDOUTDOORAIR ===========
 
 HVACTemplate:System:DedicatedOutdoorAir,
-    DOAS_RECEPCAO,               !- Name
-    DOAS_STATUS_RECEPCAO,        !- System Availability Schedule Name
+    DOAS_RECEPCAO,           !- Name
+    DOAS_STATUS_RECEPCAO,    !- System Availability Schedule Name
     DirectIntoZone,          !- Air Outlet Type
-    0.1031,                     !- Supply Fan Flow Rate {m3/s}
+    0.0975,                  !- Supply Fan Flow Rate {m3/s}
     0.7,                     !- Supply Fan Total Efficiency
     1000,                    !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
@@ -9374,7 +9942,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    Sensible,                    !- Heat Recovery Type
+    Sensible,                !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9390,10 +9958,10 @@ HVACTemplate:System:DedicatedOutdoorAir,
     ;                        !- Humidifier Setpoint Schedule Name
 
 HVACTemplate:System:DedicatedOutdoorAir,
-    DOAS_SALA_AULA,               !- Name
-    DOAS_STATUS_SALA_AULA,        !- System Availability Schedule Name
+    DOAS_SALA_AULA,          !- Name
+    DOAS_STATUS_SALA_AULA,   !- System Availability Schedule Name
     DirectIntoZone,          !- Air Outlet Type
-    0.0408,                     !- Supply Fan Flow Rate {m3/s}
+    0.2175,                  !- Supply Fan Flow Rate {m3/s}
     0.7,                     !- Supply Fan Total Efficiency
     1000,                    !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
@@ -9422,7 +9990,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    Sensible,                    !- Heat Recovery Type
+    Sensible,                !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9438,10 +10006,10 @@ HVACTemplate:System:DedicatedOutdoorAir,
     ;                        !- Humidifier Setpoint Schedule Name
 
 HVACTemplate:System:DedicatedOutdoorAir,
-    DOAS_SEC_LINSE,               !- Name
-    DOAS_STATUS_SEC_LINSE,        !- System Availability Schedule Name
+    DOAS_SEC_LINSE,          !- Name
+    DOAS_STATUS_SEC_LINSE,   !- System Availability Schedule Name
     DirectIntoZone,          !- Air Outlet Type
-    0.0081,                     !- Supply Fan Flow Rate {m3/s}
+    0.0075,                  !- Supply Fan Flow Rate {m3/s}
     0.7,                     !- Supply Fan Total Efficiency
     1000,                    !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
@@ -9470,7 +10038,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    Sensible,                    !- Heat Recovery Type
+    Sensible,                !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9486,10 +10054,10 @@ HVACTemplate:System:DedicatedOutdoorAir,
     ;                        !- Humidifier Setpoint Schedule Name
 
 HVACTemplate:System:DedicatedOutdoorAir,
-    DOAS_LINSE,               !- Name
-    DOAS_STATUS_LINSE,        !- System Availability Schedule Name
+    DOAS_LINSE,              !- Name
+    DOAS_STATUS_LINSE,       !- System Availability Schedule Name
     DirectIntoZone,          !- Air Outlet Type
-    0.0988,                     !- Supply Fan Flow Rate {m3/s}
+    0.09,                  !- Supply Fan Flow Rate {m3/s}
     0.7,                     !- Supply Fan Total Efficiency
     1000,                    !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
@@ -9518,7 +10086,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    Sensible,                    !- Heat Recovery Type
+    Sensible,                !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9534,10 +10102,10 @@ HVACTemplate:System:DedicatedOutdoorAir,
     ;                        !- Humidifier Setpoint Schedule Name
 
 HVACTemplate:System:DedicatedOutdoorAir,
-    DOAS_ATELIE1,               !- Name
-    DOAS_STATUS_ATELIE1,        !- System Availability Schedule Name
+    DOAS_ATELIE1,            !- Name
+    DOAS_STATUS_ATELIE1,     !- System Availability Schedule Name
     DirectIntoZone,          !- Air Outlet Type
-    0.1281,                     !- Supply Fan Flow Rate {m3/s}
+    0.1725,                  !- Supply Fan Flow Rate {m3/s}
     0.7,                     !- Supply Fan Total Efficiency
     1000,                    !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
@@ -9566,7 +10134,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    Sensible,                    !- Heat Recovery Type
+    Sensible,                !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9582,10 +10150,10 @@ HVACTemplate:System:DedicatedOutdoorAir,
     ;                        !- Humidifier Setpoint Schedule Name
 
 HVACTemplate:System:DedicatedOutdoorAir,
-    DOAS_ATELIE2,               !- Name
-    DOAS_STATUS_ATELIE2,        !- System Availability Schedule Name
+    DOAS_ATELIE2,            !- Name
+    DOAS_STATUS_ATELIE2,     !- System Availability Schedule Name
     DirectIntoZone,          !- Air Outlet Type
-    0.1281,                     !- Supply Fan Flow Rate {m3/s}
+    0.1575,                  !- Supply Fan Flow Rate {m3/s}
     0.7,                     !- Supply Fan Total Efficiency
     1000,                    !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
@@ -9614,7 +10182,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    Sensible,                    !- Heat Recovery Type
+    Sensible,                !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9630,10 +10198,10 @@ HVACTemplate:System:DedicatedOutdoorAir,
     ;                        !- Humidifier Setpoint Schedule Name
 
 HVACTemplate:System:DedicatedOutdoorAir,
-    DOAS_ATELIE3,               !- Name
-    DOAS_STATUS_ATELIE3,        !- System Availability Schedule Name
+    DOAS_ATELIE3,            !- Name
+    DOAS_STATUS_ATELIE3,     !- System Availability Schedule Name
     DirectIntoZone,          !- Air Outlet Type
-    0.1281,                     !- Supply Fan Flow Rate {m3/s}
+    0.2175,                  !- Supply Fan Flow Rate {m3/s}
     0.7,                     !- Supply Fan Total Efficiency
     1000,                    !- Supply Fan Delta Pressure {Pa}
     0.9,                     !- Supply Fan Motor Efficiency
@@ -9662,7 +10230,7 @@ HVACTemplate:System:DedicatedOutdoorAir,
     12.2,                    !- Heating Coil Reset Outdoor Dry-Bulb High {C}
     0.8,                     !- Gas Heating Coil Efficiency
     ,                        !- Gas Heating Coil Parasitic Electric Load {W}
-    Sensible,                    !- Heat Recovery Type
+    Sensible,                !- Heat Recovery Type
     0.65,                    !- Heat Recovery Sensible Effectiveness
     0.65,                    !- Heat Recovery Latent Effectiveness
     Plate,                   !- Heat Recovery Heat Exchanger Type
@@ -9676,15 +10244,6 @@ HVACTemplate:System:DedicatedOutdoorAir,
     0.003,                   !- Humidifier Constant Setpoint {kgWater/kgDryAir}
     ,                        !- Dehumidification Setpoint Schedule Name
     ;                        !- Humidifier Setpoint Schedule Name
-    
-!-   ===========  ALL OBJECTS IN CLASS: DESIGNSPECIFICATION:OUTDOORAIR ===========
-
-DesignSpecification:OutdoorAir,
-    OUTDOOR_AIR_SPEC,        !- Name
-    Flow/Zone,               !- Outdoor Air Method
-    ,                        !- Outdoor Air Flow per Person {m3/s-person}
-    ,                        !- Outdoor Air Flow per Zone Floor Area {m3/s-m2}
-    0.175;                   !- Outdoor Air Flow per Zone {m3/s}
 
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:VARIABLEDICTIONARY ===========
@@ -9722,16 +10281,16 @@ Output:Variable,
     *,                       !- Key Value
     Zone Mean Radiant Temperature,  !- Variable Name
     Timestep;                !- Reporting Frequency
-    
+
 Output:Variable,
     *,                       !- Key Value
     Zone Operative Temperature,  !- Variable Name
     Timestep;                !- Reporting Frequency
 
 Output:Variable,
-    *,
-    Zone Air Temperature,
-    Timestep;
+    *,                       !- Key Value
+    Zone Air Temperature,    !- Variable Name
+    Timestep;                !- Reporting Frequency
 
 Output:Variable,
     *,                       !- Key Value
@@ -9754,7 +10313,7 @@ Output:Variable,
     Timestep;                !- Reporting Frequency
 
 Output:Variable,
-    *,                        !- Key Value
+    *,                       !- Key Value
     Zone Thermal Comfort Clothing Value,  !- Variable Name
     Timestep;                !- Reporting Frequency
 
@@ -9764,26 +10323,32 @@ Output:Variable,
     Timestep;                !- Reporting Frequency
 
 Output:Variable,
-    *,
-    Schedule Value,
-    Timestep;
+    *,                       !- Key Value
+    Schedule Value,          !- Variable Name
+    Timestep;                !- Reporting Frequency
+
+Output:Variable,
+    *,                       !- Key Value
+    Zone Packaged Terminal Heat Pump Total Heating Energy,  !- Variable Name
+    Timestep;                !- Reporting Frequency
+
+Output:Variable,
+    *,                       !- Key Value
+    Zone Packaged Terminal Heat Pump Total Cooling Energy,  !- Variable Name
+    Timestep;                !- Reporting Frequency
+
+Output:Variable,
+    *,                       !- Key Value
+    Zone Infiltration Air Change Rate,  !- Variable Name
+    hourly;                  !- Reporting Frequency
 
 Output:Variable,
     *,
-    Zone Packaged Terminal Heat Pump Total Heating Energy,
+    System Node Mass Flow Rate,
     Timestep;
-
-Output:Variable,
-    *,
-    Zone Packaged Terminal Heat Pump Total Cooling Energy,
-    Timestep;
-
-Output:Variable,
-    *,
-    Zone Infiltration Air Change Rate,
-    hourly;
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:DIAGNOSTICS ===========
 
 Output:Diagnostics,
     DisplayUnusedSchedules;  !- Key 1
+

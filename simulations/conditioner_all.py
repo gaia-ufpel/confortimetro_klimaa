@@ -42,7 +42,7 @@ class ConditionerAll:
         self.adaptativo_min_handler = {}
         self.adaptativo_max_handler = {}
         self.em_conforto_handler = {}
-        self.limite_co2_handler = {}
+        self.limite_co2_handler = None
         self.status_doas_handler = {}
 
         self.air_speed_delta = 0.15
@@ -71,7 +71,8 @@ class ConditionerAll:
             temp_max_adaptativo = temp_neutra_adaptativo + self.margem_adaptativo
             temp_min_adaptativo = temp_neutra_adaptativo - self.margem_adaptativo
             co2 = self.ep_api.exchange.get_variable_value(state, self.co2_handler[room])
-            limite_co2 = self.ep_api.exchange.get_actuator_value(state, self.limite_co2_handler[room])
+            #limite_co2 = self.ep_api.exchange.get_actuator_value(state, self.limite_co2_handler)
+            limite_co2 = 1000.0
             temp_op = self.ep_api.exchange.get_variable_value(state, self.temp_op_handler[room])
             temp_ar = self.ep_api.exchange.get_variable_value(state, self.temp_ar_handler[room])
             tdb = self.ep_api.exchange.get_variable_value(state, self.tdb_handler)
@@ -259,6 +260,13 @@ class ConditionerAll:
     
     def acquire_handlers(self, state):
         self.tdb_handler = self.ep_api.exchange.get_variable_handle(state, "Site Outdoor Air Drybulb Temperature", "Environment")
+        if self.tdb_handler <= 0:
+                logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
+
+        self.limite_co2_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
+        if self.limite_co2_handler <= 0:
+                logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
+
         for room in self.rooms:
             handler = self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}")
             if handler <= 0:
@@ -354,11 +362,6 @@ class ConditionerAll:
             if handler <= 0:
                 logging.error(f"Não foi possível pegar o tratador ADAP_MAX da sala {room}")
             self.em_conforto_handler.update({ room : handler })
-            
-            handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
-            if handler <= 0:
-                logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
-            self.limite_co2_handler.update({ room : handler})
             
             handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"DOAS_STATUS_{room.upper()}")
             if handler <= 0:
