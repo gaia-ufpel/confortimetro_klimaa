@@ -2,7 +2,7 @@ import pandas
 import os
 import esoreader
 
-BASE_PATH = "/mnt/sda1/gabriellb/Documentos/Faculdade/projetos/gaia/klimaa/simulations/assets/outputs/FAURB_PTHP_2"
+BASE_PATH = "/mnt/sda1/gabriellb/Documentos/Faculdade/projetos/gaia/klimaa/simulations/assets/outputs/FAURB_50_PTHP_8"
 CSV_PATH = os.path.join(BASE_PATH, "eplusout.csv")
 
 PEOPLE_COLUMN = 'PEOPLE_{}:People Occupant Count [](TimeStep)'
@@ -267,6 +267,16 @@ def get_only_important_columns():
     clean_df.to_csv(os.path.join(BASE_PATH, f"clean.csv"), index=False)
 
 if __name__ == "__main__":
+    rooms = [
+        "SALA_AULA",
+        "ATELIE1",
+        "ATELIE2",
+        "ATELIE3",
+        "RECEPCAO",
+        "SEC_LINSE",
+        "LINSE"
+    ]
     #process_esofile(["SALA_AULA","RECEPCAO","SEC_LINSE","LINSE","ATELIE1","ATELIE2","ATELIE3"], "./assets/outputs/FAURB_50_16/")
-    #summary_results_from_room(CSV_PATH, 'ATELIE1')
-    get_stats_from_simulation("./assets/outputs/FAURB_50_PTHP_2", "ATELIE1")
+    for room in rooms:
+        summary_results_from_room(CSV_PATH, room)
+    #get_stats_from_simulation("./assets/outputs/FAURB_50_PTHP_2", "ATELIE1")

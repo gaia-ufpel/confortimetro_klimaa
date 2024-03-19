@@ -9468,22 +9468,22 @@ AirflowNetwork:MultiZone:Surface,
 
 AirflowNetwork:MultiZone:Component:SimpleOpening,
     INFILTR_PORTA,           !- Name
-    1.58,                    !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
-    0.59,                    !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
+    0.00187,                    !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
+    0.66,                    !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
     0.0001,                  !- Minimum Density Difference for Two-Way Flow {kg/m3}
     0.6;                     !- Discharge Coefficient {dimensionless}
 
 AirflowNetwork:MultiZone:Component:SimpleOpening,
     INFILTR_JANELA,          !- Name
-    0.00004,                 !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
-    ,                        !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
+    0.00054,                 !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
+    0.66,                        !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
     0.0001,                  !- Minimum Density Difference for Two-Way Flow {kg/m3}
     0.6;                     !- Discharge Coefficient {dimensionless}
 
 AirflowNetwork:MultiZone:Component:SimpleOpening,
     infiltracao,             !- Name
-    0.001,                   !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
-    0.65,                    !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
+    0.00054,                   !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
+    0.66,                    !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
     0.0001,                  !- Minimum Density Difference for Two-Way Flow {kg/m3}
     0.6;                     !- Discharge Coefficient {dimensionless}
 
