@@ -3,7 +3,7 @@ from ladybug_comfort.pmv import predicted_mean_vote
 import logging
 import datetime
 
-class ConditionerAc:
+class ConditionerWithoutWindow:
     def __init__(self, ep_api, rooms, pmv_upperbound=0.5, pmv_lowerbound=-0.5, confort_bound=2, vel_max=1.2, margem_adaptativo=2.5, temp_ac_min=14, temp_ac_max=32, reduce_consume=False, met=1.2, wme=0.0, limite_co2=1000):
         logging.basicConfig(filename=f'logs/simulation_{datetime.datetime.now().isoformat()}.log', format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
@@ -44,7 +44,6 @@ class ConditionerAc:
         self.adaptativo_min_handler = {}
         self.adaptativo_max_handler = {}
         self.em_conforto_handler = {}
-        #self.limite_co2_handler = None
         self.status_doas_handler = {}
 
         self.air_speed_delta = 0.15
@@ -73,7 +72,6 @@ class ConditionerAc:
             temp_max_adaptativo = temp_neutra_adaptativo + self.margem_adaptativo
             temp_min_adaptativo = temp_neutra_adaptativo - self.margem_adaptativo
             co2 = self.ep_api.exchange.get_variable_value(state, self.co2_handler[room])
-            #limite_co2 = self.ep_api.exchange.get_actuator_value(state, self.limite_co2_handler)
             temp_op = self.ep_api.exchange.get_variable_value(state, self.temp_op_handler[room])
             temp_ar = self.ep_api.exchange.get_variable_value(state, self.temp_ar_handler[room])
             tdb = self.ep_api.exchange.get_variable_value(state, self.tdb_handler)
@@ -85,7 +83,6 @@ class ConditionerAc:
                 temp_op_max = self.ep_api.exchange.get_actuator_value(state, self.temp_op_max_handler[room])
 
                 # Valores iniciais
-                status_janela = self.ep_api.exchange.get_actuator_value(state, self.status_janela_handler[room])
                 vel = self.ep_api.exchange.get_actuator_value(state, self.vel_handler[room])
                 status_ac = self.ep_api.exchange.get_actuator_value(state, self.status_ac_handler[room])
                 status_doas = 0
@@ -93,41 +90,15 @@ class ConditionerAc:
                 temp_heat_ac = self.ep_api.exchange.get_actuator_value(state, self.temp_heat_ac_handler[room])
 
                 if self.ac_on_counter >= self.ac_on_max_timesteps:
-                    status_janela = 0
                     vel = 0.0
                     status_ac = 0
                     self.ac_on_counter = 0
 
                 #logging.info(f'data: {self.ep_api.exchange.day_of_month(state)} - temp_ar: {temp_ar} - mrt: {mrt} - vel: {vel} - rh: {hum_rel} - met: {self.met} - clo: {clo} - pmv: {self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)}')
-
-                if status_janela == 0 and status_ac == 0:
-                    if temp_op > temp_min_adaptativo:
-                        status_janela = 1
-                        vel = 0.0
-                    
-                temp_op_max = self.get_temp_max_op(vel)
-                if status_janela == 1:
-                    # Executar com o modelo adaptativo ou adaptativo com implemento
-                    if vel == 0.0:
-                        # Executar com o modelo adaptativo
-                        if temp_op < temp_min_adaptativo or tdb > temp_ar:
-                            status_janela = 0
-                        elif tdb < temp_ar - self.margem_temperatura_abertura_janela:
-                            status_janela = 0
-                    if temp_op > temp_max_adaptativo:
-                        if temp_op >= 25.0 and temp_op <= 27.2:
-                            vel, status_janela = self.get_best_velocity_with_adaptative(temp_op)
-                            temp_op_max = self.get_temp_max_op(vel)
-                        else:
-                            # Para transiçao entre o modelo adaptativo e o modelo pmv
-                            vel = 0
-                            status_janela = 0
-
-                if status_janela == 0:
-                    if status_ac == 1:
-                        vel, _ = self.get_best_velocity_with_pmv(temp_ar, mrt, vel, hum_rel, clo)
-                    else:
-                        vel, status_ac = self.get_best_velocity_with_pmv(temp_ar, mrt, vel, hum_rel, clo)
+                if status_ac == 1:
+                    vel, _ = self.get_best_velocity_with_pmv(temp_ar, mrt, vel, hum_rel, clo)
+                else:
+                    vel, status_ac = self.get_best_velocity_with_pmv(temp_ar, mrt, vel, hum_rel, clo)
 
                 if status_ac == 1:
                     # Executar com o modelo PMV
@@ -176,19 +147,7 @@ class ConditionerAc:
 
             self.ep_api.exchange.set_actuator_value(state, self.adaptativo_max_handler[room], temp_max_adaptativo)
             self.ep_api.exchange.set_actuator_value(state, self.adaptativo_min_handler[room], temp_min_adaptativo)
-            
-    def get_best_velocity_with_adaptative(self, temp_op):
-        status_janela = 1
-        nova_vel = self.get_vel_adap(temp_op)
-        factor = nova_vel // self.air_speed_delta + 1
-        nova_vel = factor * self.air_speed_delta
 
-        if nova_vel > self.vel_max:
-            nova_vel = self.vel_max
-            status_janela = 0
-
-        return nova_vel, status_janela
-        
     def get_best_velocity_with_pmv(self, temp_ar, mrt, vel, hum_rel, clo):
         status_ac = 0
         pmv = self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)
@@ -263,10 +222,6 @@ class ConditionerAc:
         self.tdb_handler = self.ep_api.exchange.get_variable_handle(state, "Site Outdoor Air Drybulb Temperature", "Environment")
         if self.tdb_handler <= 0:
                 logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
-
-        #self.limite_co2_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
-        #if self.limite_co2_handler <= 0:
-        #        logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
 
         for room in self.rooms:
             handler = self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}")

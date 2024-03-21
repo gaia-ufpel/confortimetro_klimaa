@@ -2,15 +2,16 @@ import pandas
 import os
 import esoreader
 
-BASE_PATH = "/mnt/sda1/gabriellb/Documentos/Faculdade/projetos/gaia/klimaa/simulations/assets/outputs/FAURB_50_PTHP_8"
+BASE_PATH = "/mnt/sda1/gabriellb/Documentos/Faculdade/projetos/gaia/klimaa/simulations/assets/outputs/FAURB_50_PTHP_10"
 CSV_PATH = os.path.join(BASE_PATH, "eplusout.csv")
 
 PEOPLE_COLUMN = 'PEOPLE_{}:People Occupant Count [](TimeStep)'
 AC_COLUMN = 'AC_{}:Schedule Value [](TimeStep)'
-COOLING_COLUMN = '{} PTHP:Zone Packaged Terminal Heat Pump Total Cooling Rate [W](TimeStep) '
-HEATING_COLUMN = '{} PTHP:Zone Packaged Terminal Heat Pump Total Heating Rate [W](TimeStep)'
+COOLING_COLUMN = '{} PTHP:Zone Packaged Terminal Heat Pump Total Cooling Energy [J](TimeStep)'
+HEATING_COLUMN = '{} PTHP:Zone Packaged Terminal Heat Pump Total Heating Energy [J](TimeStep)'
 VENT_COLUMN = 'VENT_{}:Schedule Value [](TimeStep)'
 JANELA_COLUMN = 'JANELA_{}:Schedule Value [](TimeStep)'
+DOAS_COLUMN = 'DOAS_STATUS_{}:Schedule Value [](TimeStep)'
 EM_CONFORTO_COLUMN = 'EM_CONFORTO_{}:Schedule Value [](TimeStep)'
 
 def summary_results_from_room(csv_path, room):
@@ -27,30 +28,73 @@ def summary_results_from_room(csv_path, room):
 
     result.to_excel(os.path.join(base_path, f"{room}.xlsx"), index=False)
 
-def get_stats_from_simulation(output_path, room):
-    df = pandas.read_excel(os.path.join(output_path, f"{room}.xlsx"))
-    print(f'AC ON: {get_air_conditioning_use(df, room)} | {get_air_heating_use(df, room)} | {get_air_cooling_use(df, room)} - VENT ON: {get_ventilation_use(df, room)} - WINDOW OPEN: {get_window_use(df, room)} - IN COMFORT: {get_num_in_comfort(df, room)} - NUM PEOPLE: {get_num_people_occupancy(df, room)}')
+def get_stats_from_simulation(output_path, rooms):
+    """
+    Pega as estatísticas de cada informação, necessário executar a summary_results_from_room antes.
+    """
+    id_arquivo = output_path.split("/")[-1]
 
-def get_air_conditioning_use(df, room):
-    return get_air_cooling_use(df, room) + get_air_heating_use(df, room)
+    stats_df = pandas.DataFrame({'Nome do arquivo': [],
+            'Nome da sala': [],
+            'Número ocupação': [],
+            'Ar condicionado ligado': [],
+            'Aquecimento': [],
+            'Resfriamento': [],
+            'Ventilação ligada': [],
+            'Ventilação ligada e ar ligado': [],
+            'Ventilação ligada, ar desligado e janela fechada': [],
+            'Janela aberta': [],
+            'Janela aberta e ventilação ligada': [],
+            'DOAS ligado': [],
+            'Janela fechada, ar desligado e ventilador desligado': [],
+            'Desconforto': [],
+            'CO2 máximo': [],
+            'Janela aberta sem pessoas': []})
 
-def get_air_cooling_use(df, room):
-    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[COOLING_COLUMN.format(room)] != 0)])
+    for i, room in enumerate(rooms):
+        if not os.path.exists(os.path.join(output_path, f"{room}.xlsx")):
+            print(f"File {room}.xlsx not found! Skipping...")
+            continue
 
-def get_air_heating_use(df, room):
-    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[HEATING_COLUMN.format(room)] != 0)])
+        df = pandas.read_excel(os.path.join(output_path, f"{room}.xlsx"))   
+    
+        row = {'Nome do arquivo': None,
+                'Nome da sala': None,
+                'Número ocupação': None,
+                'Ar condicionado ligado': None,
+                'Aquecimento': None,
+                'Resfriamento': None,
+                'Ventilação ligada': None,
+                'Ventilação ligada e ar ligado': None,
+                'Ventilação ligada, ar desligado e janela fechada': None,
+                'Janela aberta': None,
+                'Janela aberta e ventilação ligada': None,
+                'DOAS ligado': None,
+                'Janela fechada, ar desligado e ventilador desligado': None,
+                'Desconforto': None,
+                'CO2 máximo': None,
+                'Janela aberta sem pessoas': None}
 
-def get_ventilation_use(df, room):
-    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[VENT_COLUMN.format(room)] == 1)])
+        row['Nome do arquivo'] = id_arquivo
+        row['Nome da sala'] = room
+        row['Número ocupação'] = len(df[df[PEOPLE_COLUMN.format(room)] != 0])
+        row['Aquecimento'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[HEATING_COLUMN.format(room)] != 0)]) / row['Número ocupação']
+        row['Resfriamento'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[COOLING_COLUMN.format(room)] != 0)]) / row['Número ocupação']
+        row['Ar condicionado ligado'] = row['Aquecimento'] + row['Resfriamento']
+        row['Ventilação ligada'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[VENT_COLUMN.format(room)] == 1)]) / row['Número ocupação']
+        row['Ventilação ligada e ar ligado'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[VENT_COLUMN.format(room)] == 1) & (df[AC_COLUMN.format(room)] == 1)]) / row['Número ocupação']
+        row['Ventilação ligada, ar desligado e janela fechada'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[VENT_COLUMN.format(room)] == 1) & (df[AC_COLUMN.format(room)] == 0) & (df[JANELA_COLUMN.format(room)] == 0)]) / row['Número ocupação']
+        row['Janela aberta'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[JANELA_COLUMN.format(room)] == 1)]) / row['Número ocupação']
+        row['Janela aberta e ventilação ligada'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[VENT_COLUMN.format(room)] == 1) & (df[JANELA_COLUMN.format(room)] == 1)]) / row['Número ocupação']
+        row['DOAS ligado'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[DOAS_COLUMN.format(room)] == 1)]) / row['Número ocupação']
+        row['Janela fechada, ar desligado e ventilador desligado'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[VENT_COLUMN.format(room)] == 0) & (df[JANELA_COLUMN.format(room)] == 0) & (df[AC_COLUMN.format(room)] == 0)]) / row['Número ocupação']
+        row['Desconforto'] = len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[EM_CONFORTO_COLUMN.format(room)] == 0)]) / row['Número ocupação']
+        row['CO2 máximo'] = df[f"{room.upper()}:Zone Air CO2 Concentration [ppm](TimeStep)"].max()
+        row['Janela aberta sem pessoas'] = len(df[(df[PEOPLE_COLUMN.format(room)] == 0) & (df[JANELA_COLUMN.format(room)] == 1)]) / len(df[df[PEOPLE_COLUMN.format(room)] == 0])
 
-def get_window_use(df, room):
-    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[JANELA_COLUMN.format(room)] == 1)])
+        stats_df = pandas.concat([stats_df, pandas.DataFrame(row, index=[len(stats_df)])])
 
-def get_num_in_comfort(df, room):
-    return len(df[(df[PEOPLE_COLUMN.format(room)] != 0) & (df[EM_CONFORTO_COLUMN.format(room)] == 1)])
-
-def get_num_people_occupancy(df, room):
-    return len(df[df[PEOPLE_COLUMN.format(room)] != 0])
+    stats_df.to_excel(os.path.join(output_path, f"ESTATISTICAS.xlsx"), index=False)
 
 def summary_results():
     df = pandas.read_csv(CSV_PATH)
@@ -277,6 +321,6 @@ if __name__ == "__main__":
         "LINSE"
     ]
     #process_esofile(["SALA_AULA","RECEPCAO","SEC_LINSE","LINSE","ATELIE1","ATELIE2","ATELIE3"], "./assets/outputs/FAURB_50_16/")
-    for room in rooms:
-        summary_results_from_room(CSV_PATH, room)
+    #for room in rooms:
+        #summary_results_from_room(CSV_PATH, room)
     #get_stats_from_simulation("./assets/outputs/FAURB_50_PTHP_2", "ATELIE1")

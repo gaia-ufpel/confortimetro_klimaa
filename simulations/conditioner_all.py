@@ -4,15 +4,15 @@ import logging
 import datetime
 
 class ConditionerAll:
-    def __init__(self, ep_api, rooms, pmv_upperbound=0.5, pmv_lowerbound=-0.5, vel_max=1.2, margem_adaptativo=2.5, temp_ac_min=14, temp_ac_max=32, reduce_consume=False, met=1.2, wme=0.0):
+    def __init__(self, ep_api, rooms, pmv_upperbound=0.5, pmv_lowerbound=-0.5, confort_bound=2, vel_max=1.2, margem_adaptativo=2.5, temp_ac_min=14, temp_ac_max=32, reduce_consume=False, met=1.2, wme=0.0, limite_co2=900):
         logging.basicConfig(filename=f'logs/simulation_{datetime.datetime.now().isoformat()}.log', format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
         self.ep_api = ep_api
         self.rooms = rooms
         self.pmv_upperbound = pmv_upperbound
-        self.pmv_upperbound_comfort = self.pmv_upperbound + 0.2
+        self.pmv_upperbound_comfort = self.pmv_upperbound + confort_bound
         self.pmv_lowerbound = pmv_lowerbound
-        self.pmv_lowerbound_comfort = self.pmv_lowerbound - 0.2
+        self.pmv_lowerbound_comfort = self.pmv_lowerbound - confort_bound
         self.vel_max = vel_max
         self.margem_adaptativo = margem_adaptativo
         self.temp_ac_min = temp_ac_min
@@ -20,6 +20,8 @@ class ConditionerAll:
         self.reduce_consume = reduce_consume
         self.met = met
         self.wme = wme
+        self.limite_co2 = limite_co2
+
         self.handlers_acquired = False
 
         self.people_count_handler = {}
@@ -42,7 +44,7 @@ class ConditionerAll:
         self.adaptativo_min_handler = {}
         self.adaptativo_max_handler = {}
         self.em_conforto_handler = {}
-        self.limite_co2_handler = None
+        #self.limite_co2_handler = None
         self.status_doas_handler = {}
 
         self.air_speed_delta = 0.15
@@ -50,6 +52,8 @@ class ConditionerAll:
 
         self.ac_on_counter = 0
         self.ac_on_max_timesteps = 12 # Test at each 12 timesteps (2 hours)
+        
+        self.janela_sem_pessoas_bloqueada = False
 
         self.periodo_inverno = range(6, 10)
 
@@ -72,7 +76,6 @@ class ConditionerAll:
             temp_min_adaptativo = temp_neutra_adaptativo - self.margem_adaptativo
             co2 = self.ep_api.exchange.get_variable_value(state, self.co2_handler[room])
             #limite_co2 = self.ep_api.exchange.get_actuator_value(state, self.limite_co2_handler)
-            limite_co2 = 1000.0
             temp_op = self.ep_api.exchange.get_variable_value(state, self.temp_op_handler[room])
             temp_ar = self.ep_api.exchange.get_variable_value(state, self.temp_ar_handler[room])
             tdb = self.ep_api.exchange.get_variable_value(state, self.tdb_handler)
@@ -134,7 +137,7 @@ class ConditionerAll:
                     self.ac_on_counter += 1
                     
                 status_doas = 0
-                if co2 >= limite_co2 and status_janela == 0:
+                if co2 >= self.limite_co2 and status_janela == 0:
                     status_doas = 1
 
                 pmv = self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)
@@ -155,8 +158,15 @@ class ConditionerAll:
             else:
                 # Eliminando CO2 da sala
                 status_janela = 0
-                if (tdb < temp_max_adaptativo and self.ep_api.exchange.month(state) not in self.periodo_inverno and tdb >= temp_ar - self.margem_temperatura_abertura_janela):
-                    status_janela = 1
+                if temp_op <= temp_min_adaptativo:
+                    self.janela_sem_pessoas_bloqueada = True
+
+                if (tdb < temp_max_adaptativo and self.ep_api.exchange.month(state) not in self.periodo_inverno and tdb >= temp_ar - self.margem_temperatura_abertura_janela and temp_op > temp_min_adaptativo):
+                    if not self.janela_sem_pessoas_bloqueada:
+                        status_janela = 1
+                    elif temp_op >= (temp_min_adaptativo + temp_max_adaptativo) / 2:
+                        status_janela = 1
+                        self.janela_sem_pessoas_bloqueada = False
 
                 self.ac_on_counter = 0
 
@@ -263,9 +273,9 @@ class ConditionerAll:
         if self.tdb_handler <= 0:
                 logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
 
-        self.limite_co2_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
-        if self.limite_co2_handler <= 0:
-                logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
+        #self.limite_co2_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
+        #if self.limite_co2_handler <= 0:
+        #        logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
 
         for room in self.rooms:
             handler = self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}")

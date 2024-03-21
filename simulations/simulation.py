@@ -5,6 +5,7 @@ import platform
 
 from conditioner_all import ConditionerAll
 from conditioner_ac import ConditionerAc
+from conditioner_without_window import ConditionerWithoutWindow
 import utils
 
 ENERGY_INFO = "./energy_path.txt"
@@ -24,7 +25,7 @@ if platform.system() == "Windows":
     TO_CSV_APP = "RunReadESO.bat"
 
 class Simulation:
-    def __init__(self, idf_path, epw_path, output_path, energy_path, rooms, pmv_upperbound=0.5, pmv_lowerbound=0.0, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
+    def __init__(self, idf_path, epw_path, output_path, energy_path, rooms, pmv_upperbound=0.5, pmv_lowerbound=0.0, limite_co2=900, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
         self.idf_path = idf_path
         self.idf_filename = self.idf_path.split('/')[-1]
         self.input_path = "/".join(idf_path.split('/')[:-1])
@@ -35,6 +36,7 @@ class Simulation:
         self.rooms = rooms
         self.pmv_upperbound = pmv_upperbound
         self.pmv_lowerbound = pmv_lowerbound
+        self.limite_co2 = limite_co2
         self.vel_max = vel_max
         self.margem_adaptativo = margem_adaptativo
         self.temp_ac_min = temp_ac_min
@@ -53,7 +55,8 @@ class Simulation:
         self.conditioner = ConditionerAll(ep_api=self.ep_api,
                                     rooms=self.rooms,
                                     pmv_upperbound=self.pmv_upperbound, 
-                                    pmv_lowerbound=self.pmv_lowerbound, 
+                                    pmv_lowerbound=self.pmv_lowerbound,
+                                    limite_co2=self.limite_co2,
                                     vel_max=self.vel_max, 
                                     margem_adaptativo=self.margem_adaptativo, 
                                     temp_ac_min=self.temp_ac_min, 
@@ -72,6 +75,7 @@ class Simulation:
             writer.write(f"temp_ac_max={self.temp_ac_max}\n")
             writer.write(f"met={self.met}\n")
             writer.write(f"wme={self.wme}\n")
+            writer.write(f"limite_co2={self.limite_co2}\n")
 
     def run(self):
         # Expanding objects and creating expanded.idf
@@ -99,7 +103,7 @@ class Simulation:
         else:
             os.system(f"cd \"{self.output_path}\" ; {os.path.join(self.energy_path, TO_CSV_APP)} eplusout.eso")
 
-        # Parsing results and spliting rooms into each file
-        #utils.process_esofile(self.rooms, self.output_path)
-        utils.summary_results_from_room(os.path.join(self.output_path, 'eplusout.csv'), self.rooms[0] if len(self.rooms) == 1 else "ATELIE1")
-        utils.get_stats_from_simulation(self.output_path, self.rooms[0] if len(self.rooms) == 1 else "ATELIE1")
+        for room in self.rooms:
+            utils.summary_results_from_room(os.path.join(self.output_path, 'eplusout.csv'), room)
+
+        utils.get_stats_from_simulation(self.output_path, self.rooms)

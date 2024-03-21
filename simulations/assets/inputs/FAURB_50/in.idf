@@ -9475,8 +9475,8 @@ AirflowNetwork:MultiZone:Component:SimpleOpening,
 
 AirflowNetwork:MultiZone:Component:SimpleOpening,
     INFILTR_JANELA,          !- Name
-    0.00004,                 !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
-    ,                        !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
+    0.00054,                 !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
+    0.66,                        !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
     0.0001,                  !- Minimum Density Difference for Two-Way Flow {kg/m3}
     0.6;                     !- Discharge Coefficient {dimensionless}
 
@@ -9547,13 +9547,13 @@ HVACTemplate:Zone:PTHP,
     THERMOSTAT_RECEPCAO,     !- Template Thermostat Name
     0.596,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.596,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                !- No Load Supply Air Flow Rate {m3/s}
+    0.0,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
     DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
-    0.1031,                  !- Outdoor Air Flow Rate per Zone {m3/s}
+    ,                  !- Outdoor Air Flow Rate per Zone {m3/s}
     AC_RECEPCAO,             !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
@@ -9599,13 +9599,13 @@ HVACTemplate:Zone:PTHP,
     THERMOSTAT_SALA_AULA,    !- Template Thermostat Name
     0.586,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.586,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                !- No Load Supply Air Flow Rate {m3/s}
+    0.0,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
     DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
-    0.0408,                  !- Outdoor Air Flow Rate per Zone {m3/s}
+    ,                  !- Outdoor Air Flow Rate per Zone {m3/s}
     AC_SALA_AULA,            !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
@@ -9651,13 +9651,13 @@ HVACTemplate:Zone:PTHP,
     THERMOSTAT_LINSE,        !- Template Thermostat Name
     0.786,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.786,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                !- No Load Supply Air Flow Rate {m3/s}
+    0.0,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
     DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
-    0.0988,                  !- Outdoor Air Flow Rate per Zone {m3/s}
+    ,                  !- Outdoor Air Flow Rate per Zone {m3/s}
     AC_LINSE,                !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
@@ -9703,13 +9703,13 @@ HVACTemplate:Zone:PTHP,
     THERMOSTAT_SEC_LINSE,    !- Template Thermostat Name
     0.182,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.182,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                !- No Load Supply Air Flow Rate {m3/s}
+    0.0,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
     DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
-    0.0081,                  !- Outdoor Air Flow Rate per Zone {m3/s}
+    ,                  !- Outdoor Air Flow Rate per Zone {m3/s}
     AC_SEC_LINSE,            !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
@@ -9755,13 +9755,13 @@ HVACTemplate:Zone:PTHP,
     THERMOSTAT_ATELIE1,      !- Template Thermostat Name
     0.596,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.596,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                !- No Load Supply Air Flow Rate {m3/s}
+    0.0,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
     DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
-    0.1281,                  !- Outdoor Air Flow Rate per Zone {m3/s}
+    ,                  !- Outdoor Air Flow Rate per Zone {m3/s}
     AC_ATELIE1,              !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
@@ -9807,13 +9807,13 @@ HVACTemplate:Zone:PTHP,
     THERMOSTAT_ATELIE2,      !- Template Thermostat Name
     0.596,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.596,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                !- No Load Supply Air Flow Rate {m3/s}
+    0.0,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
     DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
-    0.1281,                  !- Outdoor Air Flow Rate per Zone {m3/s}
+    ,                  !- Outdoor Air Flow Rate per Zone {m3/s}
     AC_ATELIE2,              !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
@@ -9859,13 +9859,13 @@ HVACTemplate:Zone:PTHP,
     THERMOSTAT_ATELIE3,      !- Template Thermostat Name
     0.864,                   !- Cooling Supply Air Flow Rate {m3/s}
     0.864,                   !- Heating Supply Air Flow Rate {m3/s}
-    autosize,                !- No Load Supply Air Flow Rate {m3/s}
+    0.0,                !- No Load Supply Air Flow Rate {m3/s}
     ,                        !- Zone Heating Sizing Factor
     ,                        !- Zone Cooling Sizing Factor
     DetailedSpecification,   !- Outdoor Air Method
     ,                        !- Outdoor Air Flow Rate per Person {m3/s}
     ,                        !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
-    0.1281,                  !- Outdoor Air Flow Rate per Zone {m3/s}
+    ,                  !- Outdoor Air Flow Rate per Zone {m3/s}
     AC_ATELIE3,              !- System Availability Schedule Name
     ,                        !- Supply Fan Operating Mode Schedule Name
     DrawThrough,             !- Supply Fan Placement
@@ -10342,8 +10342,39 @@ Output:Variable,
     Zone Infiltration Air Change Rate,  !- Variable Name
     hourly;                  !- Reporting Frequency
 
+!- Funcionamento do DOAS
 Output:Variable,
-    *,
+    DOAS_SALA_AULA OUTDOOR AIR INLET,
+    System Node Mass Flow Rate,
+    Timestep;
+
+Output:Variable,
+    DOAS_RECEPCAO OUTDOOR AIR INLET,
+    System Node Mass Flow Rate,
+    Timestep;
+
+Output:Variable,
+    DOAS_SEC_LINSE OUTDOOR AIR INLET,
+    System Node Mass Flow Rate,
+    Timestep;
+
+Output:Variable,
+    DOAS_LINSE OUTDOOR AIR INLET,
+    System Node Mass Flow Rate,
+    Timestep;
+
+Output:Variable,
+    DOAS_ATELIE1 OUTDOOR AIR INLET,
+    System Node Mass Flow Rate,
+    Timestep;
+
+Output:Variable,
+    DOAS_ATELIE2 OUTDOOR AIR INLET,
+    System Node Mass Flow Rate,
+    Timestep;
+
+Output:Variable,
+    DOAS_ATELIE3 OUTDOOR AIR INLET,
     System Node Mass Flow Rate,
     Timestep;
 
