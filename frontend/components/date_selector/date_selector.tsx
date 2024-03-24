@@ -5,7 +5,7 @@ const Date_selector = (props: any) => {
     var [date, setDate] = useState(null);
     useEffect(() => {
         if(date){
-            props.handleCallback(`${props.id}`,date)
+            props.handleCallback(`${props.id}`, date)
         }
     }, [date])
     return (
