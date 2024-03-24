@@ -1,10 +1,11 @@
-import Navigation from '@/components/navigation'
+import QUERY_PARAMS_PAGE from '@/components/navigation'
 import React from 'react'
+
 
 const page = () => {
   return (
     <div className='absolute min-h-[100vh] min-w-[100vw]'>
-      <Navigation></Navigation>
+      <QUERY_PARAMS_PAGE></QUERY_PARAMS_PAGE>
     </div>
   )
 }
