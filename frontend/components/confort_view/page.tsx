@@ -2,13 +2,16 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react';
 import DATE_CONTROL from '../date_selector/page';
+import GRAPHIC_VIEWER from '../chart/page';
 
 const CONFORT_VIEW = (props: any) => {
     var startid = `START_DATE`;
     var endid = `END_DATE`;
     const [date, setDate] = useState({ [startid]: null, [endid]: null })
-    const [clickedButtons, setClickedButtons] = useState([]);
+    const isValidDate:Boolean = false
     const params = ['Temperatura', 'Temperatura de globo', 'Pressão atmosférica', 'Umidade', 'Velocidade do vento']
+    const [clickedButtons, setClickedButtons] = useState(params);
+
     function fromContextSetDates(id: string, selector_date: any) {
         if (id == startid) {
             setDate({ ...date, [startid]: selector_date })
@@ -17,7 +20,8 @@ const CONFORT_VIEW = (props: any) => {
             setDate({ ...date, [endid]: selector_date })
         }
     }
-    const handleClick = (option: never) => {
+
+    const handleClick = (option: any) => {
         const index = clickedButtons.indexOf(option);
         if (index === -1) {
             setClickedButtons([...clickedButtons, option]);
@@ -27,18 +31,19 @@ const CONFORT_VIEW = (props: any) => {
             setClickedButtons(newButtons);
         }
     };
+
     useEffect(() => {
-    }, [date, clickedButtons])
+    }, [])
+
     return (
         <div className='relative flex flex-col'>
-            <DATE_CONTROL getState={fromContextSetDates} startid={startid} endid={endid}></DATE_CONTROL>
-
+            <DATE_CONTROL getState={fromContextSetDates} startid={startid} endid={endid} />
             <div className='text-center'>
-                HELO
+                <GRAPHIC_VIEWER metrics={clickedButtons} start_datetime={date[startid]} end_datetime={date[endid]}></GRAPHIC_VIEWER>
             </div>
-            <div className='flex flex-col text-center md:flex-row  justify-center space-x-10'>
+            <div className='flex flex-col text-center md:flex-row justify-center space-x-10'>
                 {
-                    params.map((value, index) => <button className='bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded flex items-center' key={index} onClick={() => { handleClick(value) }}>{value}</button>)
+                    params.map((value, index) => <button className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded' key={index} onClick={() => { handleClick(value) }}>{value}</button>)
                 }
             </div>
 

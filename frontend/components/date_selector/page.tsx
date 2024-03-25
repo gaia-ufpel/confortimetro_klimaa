@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Date_selector from './date_selector'
 
-const DATE_CONTROL = (props:any) => {
+const DATE_CONTROL = (props: any) => {
     return (
         <div className='absolute flex flex-col min-h-screen justify-center p-10 space-y-10 font-sans'>
             <span>
