@@ -11,6 +11,7 @@ const DATE_CONTROL = (props: any) => {
                 <Date_selector id={props.startid} text="Data de início:" handleCallback={props.getState} />
                 <Date_selector id={props.endid} text="Data de fim:" handleCallback={props.getState} />
             </div>
+            {props.children}
         </div>
     )
 }

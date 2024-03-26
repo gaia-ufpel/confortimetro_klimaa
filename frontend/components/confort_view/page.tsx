@@ -3,12 +3,12 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react';
 import DATE_CONTROL from '../date_selector/page';
 import GRAPHIC_VIEWER from '../chart/page';
+import DATE_PATCHER from '../date_selector/date_patcher';
 
 const CONFORT_VIEW = (props: any) => {
     var startid = `START_DATE`;
     var endid = `END_DATE`;
     const [date, setDate] = useState({ [startid]: null, [endid]: null })
-    const isValidDate:Boolean = false
     const params = ['Temperatura', 'Temperatura de globo', 'Pressão atmosférica', 'Umidade', 'Velocidade do vento']
     const [clickedButtons, setClickedButtons] = useState(params);
 
@@ -32,12 +32,15 @@ const CONFORT_VIEW = (props: any) => {
         }
     };
 
+
     useEffect(() => {
     }, [])
 
     return (
         <div className='relative flex flex-col'>
-            <DATE_CONTROL getState={fromContextSetDates} startid={startid} endid={endid} />
+            <DATE_CONTROL getState={fromContextSetDates} startid={startid} endid={endid} >
+                <DATE_PATCHER start_datetime={props.start_datetime} end_datetime={props.end_datetime}></DATE_PATCHER>
+            </DATE_CONTROL>
             <div className='text-center'>
                 <GRAPHIC_VIEWER metrics={clickedButtons} start_datetime={date[startid]} end_datetime={date[endid]}></GRAPHIC_VIEWER>
             </div>
