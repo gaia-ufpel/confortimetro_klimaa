@@ -7,18 +7,16 @@ from tkinter import Tk, Label, Entry, Button, filedialog, ttk, Frame
 from tkinter import messagebox
 
 from simulation import Simulation
-from simulation import ENERGY_PATH
-
-CONFIGS_PATH = "./config.json"
+from simulation_config import SimulationConfig
 
 class SimulationGUI(tk.Tk):
-    def __init__(self, config_path="./config.json"):
+    def __init__(self, config_path="config.json"):
         super().__init__()
 
         self._build()        
 
         self.config_path = config_path
-        self.configs = self.load_configs()
+        self.configs = SimulationConfig.from_json(config_path)
         self.show_configs()
 
     def _build(self):
@@ -53,15 +51,8 @@ class SimulationGUI(tk.Tk):
         paths_frame = ttk.Frame(master=self)
 
         # Input file
-        self.lbl_idf = ttk.Label(paths_frame, text="Arquivo IDF:", justify="left")
-        self.lbl_idf.grid(row=0, column=0)
-
-        ttk.Button(paths_frame, 
-                text="Procurar", 
-                width=10,
-                command=self.browse_idf
-                ).grid(row=0, column=1, rowspan=2)
-        
+        ttk.Label(paths_frame, text="Arquivo IDF:", justify="left").grid(row=0, column=0)
+        ttk.Button(paths_frame, text="Procurar", width=10, command=self.browse_idf).grid(row=0, column=1, rowspan=2)
         self.inputfile_entry = ttk.Entry(paths_frame, width=60)
         self.inputfile_entry.grid(row=1, column=0)
 
@@ -125,10 +116,25 @@ class SimulationGUI(tk.Tk):
         self.wme_entry = ttk.Entry(simulation_frame, width=10)
         self.wme_entry.grid(row=9, column=3)
 
+        # Confort bound
+        ttk.Label(simulation_frame, text="Banda de conforto:").grid(row=10, column=0)
+        self.comfort_bound_entry = ttk.Entry(simulation_frame, width=10)
+        self.comfort_bound_entry.grid(row=11, column=0)
+
         # CO2 limit
-        ttk.Label(simulation_frame, text="CO2 Limit:").grid(row=10, column=0)
+        ttk.Label(simulation_frame, text="Limite CO2:").grid(row=10, column=1)
         self.co2_limit_entry = ttk.Entry(simulation_frame, width=10)
-        self.co2_limit_entry.grid(row=11, column=0)
+        self.co2_limit_entry.grid(row=11, column=1)
+
+        # Air speed delta
+        ttk.Label(simulation_frame, text="Variação da vel. ventilação:").grid(row=10, column=2)
+        self.air_speed_delta_entry = ttk.Entry(simulation_frame, width=10)
+        self.air_speed_delta_entry.grid(row=11, column=2)
+
+        # Temp open window bound
+        ttk.Label(simulation_frame, text="Margem temp. abertura janela:").grid(row=10, column=3)
+        self.temp_open_window_bound_entry = ttk.Entry(simulation_frame, width=10)
+        self.temp_open_window_bound_entry.grid(row=11, column=3)
 
         # Rooms
         ttk.Label(simulation_frame, text="Rooms:").grid(row=12, column=0)
@@ -152,95 +158,70 @@ class SimulationGUI(tk.Tk):
         self.epwfile_entry.delete(0, 'end')
         self.epwfile_entry.insert(0, filename)
 
-    def load_configs(self):
-        content = ""
-        with open(CONFIGS_PATH, "r") as reader:
-            content = reader.read()
+    def show_configs(self):
+        self.inputfile_entry.insert(0, self.configs.idf_path)
+        self.outputfolder_entry.insert(0, self.configs.output_path)
+        self.epwfile_entry.insert(0, self.configs.epw_path)
+        self.pmv_upperbound_entry.insert(0, self.configs.pmv_upperbound)
+        self.pmv_lowerbound_entry.insert(0, self.configs.pmv_lowerbound)
+        self.vel_max_entry.insert(0, self.configs.max_vel)
+        if self.configs.adaptative_bound == 2.5:
+            self.selected_adaptative.set("90%")
+        else:
+            self.selected_adaptative.set("80%")
+        self.temp_ac_min_entry.insert(0, self.configs.temp_ac_min)
+        self.temp_ac_max_entry.insert(0, self.configs.temp_ac_max)
+        self.met_entry.insert(0, self.configs.met)
+        self.wme_entry.insert(0, self.configs.wme)
+        self.comfort_bound_entry.insert(0, self.configs.pmv_comfort_bound)
+        self.co2_limit_entry.insert(0, self.configs.co2_limit)
+        self.air_speed_delta_entry.insert(0, self.configs.air_speed_delta)
+        self.temp_open_window_bound_entry.insert(0, self.configs.temp_open_window_bound)
+        self.rooms_entry.insert(0, ",".join(self.configs.rooms))
 
-        content = json.loads(content)
-
-        content["rooms"] = ";".join(content["rooms"])
-
-        return content
+    def update_configs(self):
+        self.configs.idf_path = self.inputfile_entry.get()
+        self.configs.output_path = self.outputfolder_entry.get()
+        self.configs.epw_path = self.epwfile_entry.get()
+        self.configs.pmv_upperbound = float(self.pmv_upperbound_entry.get())
+        self.configs.pmv_lowerbound = float(self.pmv_lowerbound_entry.get())
+        self.configs.max_vel = float(self.vel_max_entry.get())
+        if self.selected_adaptative.get() == "80%":
+            self.configs.adaptative_bound = 3.5
+        else:
+            self.configs.adaptative_bound = 2.5
+        self.configs.temp_ac_min = float(self.temp_ac_min_entry.get())
+        self.configs.temp_ac_max = float(self.temp_ac_max_entry.get())
+        self.configs.met = float(self.met_entry.get())
+        self.configs.wme = float(self.wme_entry.get())
+        self.configs.co2_limit = float(self.co2_limit_entry.get())
+        self.configs.air_speed_delta = float(self.air_speed_delta_entry.get())
+        self.configs.temp_open_window_bound = float(self.temp_open_window_bound_entry.get())
+        self.configs.rooms = self.rooms_entry.get().split(',')
 
     def save_configs(self):
-        self.configs = {
-            "idf_path": self.inputfile_entry.get(),
-            "output_path": self.outputfolder_entry.get(),
-            "epw_path": self.epwfile_entry.get(),
-            "energy_path": ENERGY_PATH,
-            "pmv_upperbound": self.pmv_upperbound_entry.get(),
-            "pmv_lowerbound": self.pmv_lowerbound_entry.get(),
-            "vel_max": self.vel_max_entry.get(),
-            "margem_adaptativo": self.selected_adaptative.get(),
-            "temp_ac_min": self.temp_ac_min_entry.get(),
-            "temp_ac_max": self.temp_ac_max_entry.get(),
-            "met": self.met_entry.get(),
-            "wme": self.wme_entry.get(),
-            "limite_co2": self.co2_limit_entry.get(),
-            "rooms": self.rooms_entry.get().upper().split(";")
-        }
-
-        with open(self.config_path, "w") as writer:
-            writer.write(json.dumps(self.configs))
-
-    def show_configs(self):
-        self.inputfile_entry.insert(0, self.configs["idf_path"])
-        self.outputfolder_entry.insert(0, self.configs["output_path"])
-        self.epwfile_entry.insert(0, self.configs["epw_path"])
-        self.pmv_upperbound_entry.insert(0, self.configs["pmv_upperbound"])
-        self.pmv_lowerbound_entry.insert(0, self.configs["pmv_lowerbound"])
-        self.vel_max_entry.insert(0, self.configs["vel_max"])
-        self.selected_adaptative.set(self.configs["margem_adaptativo"])
-        self.temp_ac_min_entry.insert(0, self.configs["temp_ac_min"])
-        self.temp_ac_max_entry.insert(0, self.configs["temp_ac_max"])
-        self.met_entry.insert(0, self.configs["met"])
-        self.wme_entry.insert(0, self.configs["wme"])
-        self.co2_limit_entry.insert(0, self.configs["limite_co2"])
-        self.rooms_entry.insert(0, self.configs["rooms"])
+        self.update_configs()
+        self.configs.to_json(self.config_path)
 
     def run(self):
         if self.run_button['state'] == tk.DISABLED:
             return None
         
-        inputfile = self.inputfile_entry.get()
-        if not os.path.exists(inputfile):
+        self.update_configs()
+
+        if not os.path.exists(self.configs.input_path):
             tk.messagebox.showerror("Erro", "Arquivo IDF não encontrado!")
             return None
-        
-        output_path = self.outputfolder_entry.get()
 
-        epwfile = self.epwfile_entry.get()
-        if not os.path.exists(epwfile):
+        if not os.path.exists(self.configs.epw_path):
             tk.messagebox.showerror("Erro", "Arquivo EPW não encontrado!")
             return None
         
-        epfolder = ENERGY_PATH
-        if not os.path.exists(epfolder):
+        if not os.path.exists(self.configs.energy_path):
             tk.messagebox.showerror("Erro", "Pasta do EnergyPlus não existe!")
             return None
-        
-        margem_adaptativo = self.selected_adaptative.get()
-        if margem_adaptativo == "80%":
-            margem_adaptativo = 3.5
-        elif margem_adaptativo == "90%":
-            margem_adaptativo = 2.5
 
-        simulation = Simulation(idf_path=self.inputfile_entry.get(),  
-                                epw_path=epwfile,
-                                output_path=output_path, 
-                                energy_path=epfolder, 
-                                rooms=self.rooms_entry.get().upper().split(";"), 
-                                pmv_upperbound=float(self.pmv_upperbound_entry.get()), 
-                                pmv_lowerbound=float(self.pmv_lowerbound_entry.get()),
-                                limite_co2=float(self.co2_limit_entry.get()),
-                                margem_adaptativo=margem_adaptativo, 
-                                vel_max=float(self.vel_max_entry.get()), 
-                                temp_ac_min=float(self.temp_ac_min_entry.get()), 
-                                temp_ac_max=float(self.temp_ac_max_entry.get()), 
-                                met=float(self.met_entry.get()), 
-                                wme=float(self.wme_entry.get()),
-        )
+        simulation = Simulation(self.configs)
 
         self.run_button["state"] = tk.DISABLED
         self.run_button["cursor"] = "watch"
@@ -254,7 +235,5 @@ class SimulationGUI(tk.Tk):
             self.run_button["cursor"] = "arrow"
 
 if __name__ == "__main__":
-    # Create window
     window = SimulationGUI()
-
     window.mainloop()

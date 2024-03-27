@@ -1,21 +1,20 @@
 import sys
 import os
-import subprocess
 import platform
+from importlib import import_module
 
+from eppy.modeleditor import IDF
+
+from simulation_config import SimulationConfig
 from conditioner_all import ConditionerAll
 from conditioner_ac import ConditionerAc
 from conditioner_without_window import ConditionerWithoutWindow
 import utils
 
-ENERGY_INFO = "./energy_path.txt"
-ENERGY_PATH = ""
+EnergyPlusAPI = None
 
-with open(ENERGY_INFO, "r") as reader:
-    ENERGY_PATH = reader.read()
-    sys.path.append(ENERGY_PATH)
-
-from pyenergyplus.api import EnergyPlusAPI
+MET_SCHEDULE_NAME = "METABOLISMO"
+WME_SCHEDULE_NAME = "WORK_EF"
 
 EXPAND_OBJECTS_APP = "ExpandObjects"
 TO_CSV_APP = "runreadvars"
@@ -25,85 +24,55 @@ if platform.system() == "Windows":
     TO_CSV_APP = "RunReadESO.bat"
 
 class Simulation:
-    def __init__(self, idf_path, epw_path, output_path, energy_path, rooms, pmv_upperbound=0.5, pmv_lowerbound=0.0, limite_co2=900, vel_max=1.35, margem_adaptativo=2.5, temp_ac_min=14.0, temp_ac_max=32.0, met=1.2, wme=0.0):
-        self.idf_path = idf_path
-        self.idf_filename = self.idf_path.split('/')[-1]
-        self.input_path = "/".join(idf_path.split('/')[:-1])
-        self.expanded_idf_path = f"{self.input_path}/expanded.idf"
-        self.epw_path = epw_path
-        self.output_path = output_path
-        self.energy_path = energy_path
-        self.rooms = rooms
-        self.pmv_upperbound = pmv_upperbound
-        self.pmv_lowerbound = pmv_lowerbound
-        self.limite_co2 = limite_co2
-        self.vel_max = vel_max
-        self.margem_adaptativo = margem_adaptativo
-        self.temp_ac_min = temp_ac_min
-        self.temp_ac_max = temp_ac_max
-        self.met = met
-        self.wme = wme
+    def __init__(self, configs: SimulationConfig):
+        self.configs = configs
 
-        if not os.path.exists(self.output_path):
-            os.makedirs(self.output_path)
+        sys.path.append(self.configs.energy_path)
+        EnergyPlusAPI = import_module("pyenergyplus.api").EnergyPlusAPI
 
         self.ep_api = EnergyPlusAPI()
         self.state = self.ep_api.state_manager.new_state()
 
-        self.save_parameters()
-
-        self.conditioner = ConditionerAll(ep_api=self.ep_api,
-                                    rooms=self.rooms,
-                                    pmv_upperbound=self.pmv_upperbound, 
-                                    pmv_lowerbound=self.pmv_lowerbound,
-                                    limite_co2=self.limite_co2,
-                                    vel_max=self.vel_max, 
-                                    margem_adaptativo=self.margem_adaptativo, 
-                                    temp_ac_min=self.temp_ac_min, 
-                                    temp_ac_max=self.temp_ac_max, 
-                                    met=self.met, 
-                                    wme=self.wme
-        )
-
-    def save_parameters(self):
-        with open(os.path.join(self.output_path, "parameters.txt"), "w") as writer:
-            writer.write(f"pmv_upperbound={self.pmv_upperbound}\n")
-            writer.write(f"pmv_lowerbound={self.pmv_lowerbound}\n")
-            writer.write(f"vel_max={self.vel_max}\n")
-            writer.write(f"margem_adaptativo={self.margem_adaptativo}\n")
-            writer.write(f"temp_ac_min={self.temp_ac_min}\n")
-            writer.write(f"temp_ac_max={self.temp_ac_max}\n")
-            writer.write(f"met={self.met}\n")
-            writer.write(f"wme={self.wme}\n")
-            writer.write(f"limite_co2={self.limite_co2}\n")
+        self.conditioner = ConditionerAc(ep_api=self.ep_api, configs=SimulationConfig(**self.configs.__dict__))
 
     def run(self):
+        # Modifying IDF file
+        IDF.setiddname(os.path.join(self.configs.energy_path, "Energy+.idd"))
+        idf = IDF(self.configs.idf_path)
+        for schedule in idf.idfobjects["Schedule:Constant"]:
+            if schedule.Name == MET_SCHEDULE_NAME:
+                schedule.Schedule_Type_Limits_Name = "Any Number"
+                schedule.Hourly_Value = self.configs.met_as_watts
+            elif schedule.Name == WME_SCHEDULE_NAME:
+                schedule.Schedule_Type_Limits_Name = "Any Number"
+                schedule.Hourly_Value = self.configs.wme
+        idf.save(self.configs.idf_path)
+
         # Expanding objects and creating expanded.idf
         if platform.system() == "Windows":
-            os.system(f'cd \"{self.input_path}\" && cp \"{self.idf_filename}\" in.idf && \"{os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}\"')
+            os.system(f'cd \"{self.configs.input_path}\" && cp \"{self.configs.idf_filename}\" in.idf && \"{os.path.join(self.configs.energy_path, EXPAND_OBJECTS_APP)}\"')
         else:
-            os.system(f'cd \"{self.input_path}\" ; cp \"{self.idf_filename}\" in.idf ; \"{os.path.join(self.energy_path, EXPAND_OBJECTS_APP)}\"')
+            os.system(f'cd \"{self.configs.input_path}\" ; cp \"{self.configs.idf_filename}\" in.idf ; \"{os.path.join(self.configs.energy_path, EXPAND_OBJECTS_APP)}\"')
 
         # Moving expanded.idf to output folder
-        os.rename(f"{self.expanded_idf_path}", f"{os.path.join(self.output_path, 'expanded.idf')}")
-
-        # Saving expanded.idf path
-        self.expanded_idf_path = os.path.join(self.output_path, 'expanded.idf')
+        os.rename(os.path.join(self.configs.input_path, "expanded.idf"), self.configs.expanded_idf_path)
+        os.makedirs(self.configs.output_path, exist_ok=True)
+        self.configs.to_json(os.path.join(self.configs.output_path, "configs.json"))
 
         # Running simulation
         self.ep_api.runtime.callback_begin_zone_timestep_after_init_heat_balance(self.state, self.conditioner)
         self.ep_api.runtime.run_energyplus(self.state,
-            ['--weather', self.epw_path, '--output-directory', self.output_path, self.expanded_idf_path]
+            ['--weather', self.configs.epw_path, '--output-directory', self.configs.output_path, self.configs.expanded_idf_path]
         )
         self.ep_api.state_manager.reset_state(self.state)
 
         # Parsing results to CSV
         if platform.system() == "Windows":
-            os.system(f"cd \"{self.output_path}\" && {os.path.join(self.energy_path, TO_CSV_APP)} eplusout.eso")
+            os.system(f"cd \"{self.configs.output_path}\" && {os.path.join(self.configs.energy_path, TO_CSV_APP)} eplusout.eso")
         else:
-            os.system(f"cd \"{self.output_path}\" ; {os.path.join(self.energy_path, TO_CSV_APP)} eplusout.eso")
+            os.system(f"cd \"{self.configs.output_path}\" ; {os.path.join(self.configs.energy_path, TO_CSV_APP)} eplusout.eso")
 
-        for room in self.rooms:
-            utils.summary_results_from_room(os.path.join(self.output_path, 'eplusout.csv'), room)
+        for room in self.configs.rooms:
+            utils.summary_results_from_room(os.path.join(self.configs.output_path, 'eplusout.csv'), room)
 
-        utils.get_stats_from_simulation(self.output_path, self.rooms)
+        utils.get_stats_from_simulation(self.configs.output_path, self.configs.rooms)

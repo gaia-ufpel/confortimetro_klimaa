@@ -2,25 +2,14 @@ import pythermalcomfort
 from ladybug_comfort.pmv import predicted_mean_vote
 import logging
 import datetime
+from simulation_config import SimulationConfig
 
 class ConditionerAll:
-    def __init__(self, ep_api, rooms, pmv_upperbound=0.5, pmv_lowerbound=-0.5, confort_bound=2, vel_max=1.2, margem_adaptativo=2.5, temp_ac_min=14, temp_ac_max=32, reduce_consume=False, met=1.2, wme=0.0, limite_co2=900):
+    def __init__(self, ep_api, configs: SimulationConfig):
         logging.basicConfig(filename=f'logs/simulation_{datetime.datetime.now().isoformat()}.log', format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
         self.ep_api = ep_api
-        self.rooms = rooms
-        self.pmv_upperbound = pmv_upperbound
-        self.pmv_upperbound_comfort = self.pmv_upperbound + confort_bound
-        self.pmv_lowerbound = pmv_lowerbound
-        self.pmv_lowerbound_comfort = self.pmv_lowerbound - confort_bound
-        self.vel_max = vel_max
-        self.margem_adaptativo = margem_adaptativo
-        self.temp_ac_min = temp_ac_min
-        self.temp_ac_max = temp_ac_max
-        self.reduce_consume = reduce_consume
-        self.met = met
-        self.wme = wme
-        self.limite_co2 = limite_co2
+        self.configs = configs
 
         self.handlers_acquired = False
 
@@ -44,11 +33,7 @@ class ConditionerAll:
         self.adaptativo_min_handler = {}
         self.adaptativo_max_handler = {}
         self.em_conforto_handler = {}
-        #self.limite_co2_handler = None
         self.status_doas_handler = {}
-
-        self.air_speed_delta = 0.15
-        self.margem_temperatura_abertura_janela = 5.0
 
         self.ac_on_counter = 0
         self.ac_on_max_timesteps = 12 # Test at each 12 timesteps (2 hours)
@@ -68,14 +53,13 @@ class ConditionerAll:
             self.acquire_handlers(state)
             self.handlers_acquired = True
             
-        for room in self.rooms:
+        for room in self.configs.rooms:
             # Pegando todos os valores que são realmente necessários antes
             people_count = self.ep_api.exchange.get_variable_value(state, self.people_count_handler[room]) # Contagem de pessoas na sala
             temp_neutra_adaptativo = self.ep_api.exchange.get_variable_value(state, self.adaptativo_handler[room])
-            temp_max_adaptativo = temp_neutra_adaptativo + self.margem_adaptativo
-            temp_min_adaptativo = temp_neutra_adaptativo - self.margem_adaptativo
+            temp_max_adaptativo = temp_neutra_adaptativo + self.configs.adaptative_bound
+            temp_min_adaptativo = temp_neutra_adaptativo - self.configs.adaptative_bound
             co2 = self.ep_api.exchange.get_variable_value(state, self.co2_handler[room])
-            #limite_co2 = self.ep_api.exchange.get_actuator_value(state, self.limite_co2_handler)
             temp_op = self.ep_api.exchange.get_variable_value(state, self.temp_op_handler[room])
             temp_ar = self.ep_api.exchange.get_variable_value(state, self.temp_ar_handler[room])
             tdb = self.ep_api.exchange.get_variable_value(state, self.tdb_handler)
@@ -114,7 +98,7 @@ class ConditionerAll:
                         # Executar com o modelo adaptativo
                         if temp_op < temp_min_adaptativo or tdb > temp_ar:
                             status_janela = 0
-                        elif tdb < temp_ar - self.margem_temperatura_abertura_janela:
+                        elif tdb < temp_ar - self.configs.temp_open_window_bound:
                             status_janela = 0
                     if temp_op > temp_max_adaptativo:
                         if temp_op >= 25.0 and temp_op <= 27.2:
@@ -137,7 +121,7 @@ class ConditionerAll:
                     self.ac_on_counter += 1
                     
                 status_doas = 0
-                if co2 >= self.limite_co2 and status_janela == 0:
+                if co2 >= self.configs.co2_limit and status_janela == 0:
                     status_doas = 1
 
                 pmv = self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)
@@ -161,7 +145,7 @@ class ConditionerAll:
                 if temp_op <= temp_min_adaptativo:
                     self.janela_sem_pessoas_bloqueada = True
 
-                if (tdb < temp_max_adaptativo and self.ep_api.exchange.month(state) not in self.periodo_inverno and tdb >= temp_ar - self.margem_temperatura_abertura_janela and temp_op > temp_min_adaptativo):
+                if (tdb < temp_max_adaptativo and self.ep_api.exchange.month(state) not in self.periodo_inverno and tdb >= temp_ar - self.configs.temp_open_window_bound and temp_op > temp_min_adaptativo):
                     if not self.janela_sem_pessoas_bloqueada:
                         status_janela = 1
                     elif temp_op >= (temp_min_adaptativo + temp_max_adaptativo) / 2:
@@ -176,8 +160,8 @@ class ConditionerAll:
                 self.ep_api.exchange.set_actuator_value(state, self.status_ac_handler[room], 0)
                 if self.status_doas_handler != -1:
                     self.ep_api.exchange.set_actuator_value(state, self.status_doas_handler[room], 0)
-                self.ep_api.exchange.set_actuator_value(state, self.temp_cool_ac_handler[room], self.temp_ac_max)
-                self.ep_api.exchange.set_actuator_value(state, self.temp_heat_ac_handler[room], self.temp_ac_min)
+                self.ep_api.exchange.set_actuator_value(state, self.temp_cool_ac_handler[room], self.configs.temp_ac_max)
+                self.ep_api.exchange.set_actuator_value(state, self.temp_heat_ac_handler[room], self.configs.temp_ac_min)
                 self.ep_api.exchange.set_actuator_value(state, self.pmv_handler[room], 0)
                 self.ep_api.exchange.set_actuator_value(state, self.status_janela_handler[room], status_janela)
                 self.ep_api.exchange.set_actuator_value(state, self.temp_op_max_handler[room], 0)
@@ -189,11 +173,11 @@ class ConditionerAll:
     def get_best_velocity_with_adaptative(self, temp_op):
         status_janela = 1
         nova_vel = self.get_vel_adap(temp_op)
-        factor = nova_vel // self.air_speed_delta + 1
-        nova_vel = factor * self.air_speed_delta
+        factor = nova_vel // self.configs.air_speed_delta + 1
+        nova_vel = factor * self.configs.air_speed_delta
 
-        if nova_vel > self.vel_max:
-            nova_vel = self.vel_max
+        if nova_vel > self.configs.max_vel:
+            nova_vel = self.configs.max_vel
             status_janela = 0
 
         return nova_vel, status_janela
@@ -201,16 +185,16 @@ class ConditionerAll:
     def get_best_velocity_with_pmv(self, temp_ar, mrt, vel, hum_rel, clo):
         status_ac = 0
         pmv = self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)
-        while pmv > self.pmv_upperbound:
-            vel = round(vel + self.air_speed_delta, 2)
-            if vel >= self.vel_max:
-                vel = self.vel_max
+        while pmv > self.configs.pmv_upperbound:
+            vel = round(vel + self.configs.air_speed_delta, 2)
+            if vel >= self.configs.max_vel:
+                vel = self.configs.max_vel
                 status_ac = 1
                 break
             pmv = self.get_pmv(temp_ar, mrt, vel, hum_rel, clo)
 
-        while pmv < self.pmv_lowerbound:
-            vel = round(vel - self.air_speed_delta, 2)
+        while pmv < self.configs.pmv_lowerbound:
+            vel = round(vel - self.configs.air_speed_delta, 2)
             if vel <= 0.0:
                 vel = 0.0
                 status_ac = 1
@@ -220,22 +204,22 @@ class ConditionerAll:
         return vel, status_ac
 
     def get_best_temperatures_with_pmv(self, mrt, vel, hum_rel, clo):
-        best_cool_temp = self.temp_ac_max
-        best_heat_temp = self.temp_ac_min
+        best_cool_temp = self.configs.temp_ac_max
+        best_heat_temp = self.configs.temp_ac_min
         
         pmv = self.get_pmv(best_cool_temp, mrt, vel, hum_rel, clo)
-        while pmv > self.pmv_upperbound:
+        while pmv > self.configs.pmv_upperbound:
             best_cool_temp -= 1.0
-            if best_cool_temp <= self.temp_ac_min:
-                best_cool_temp = self.temp_ac_min
+            if best_cool_temp <= self.configs.temp_ac_min:
+                best_cool_temp = self.configs.temp_ac_min
                 break
             pmv = self.get_pmv(best_cool_temp, mrt, vel, hum_rel, clo)
 
         pmv = self.get_pmv(best_heat_temp, mrt, vel, hum_rel, clo)
-        while pmv < self.pmv_lowerbound:
+        while pmv < self.configs.pmv_lowerbound:
             best_heat_temp += 1.0
-            if best_heat_temp >= self.temp_ac_max:
-                best_heat_temp = self.temp_ac_max
+            if best_heat_temp >= self.configs.temp_ac_max:
+                best_heat_temp = self.configs.temp_ac_max
                 break
             pmv = self.get_pmv(best_heat_temp, mrt, vel, hum_rel, clo)
 
@@ -245,11 +229,11 @@ class ConditionerAll:
         return predicted_mean_vote(
             ta=temp_ar,
             tr=mrt,
-            vel=pythermalcomfort.utilities.v_relative(vel, met=self.met),
+            vel=pythermalcomfort.utilities.v_relative(vel, met=self.configs.met),
             rh=rh,
-            met=self.met,
-            clo=pythermalcomfort.utilities.clo_dynamic(clo, met=self.met),
-            wme=self.wme
+            met=self.configs.met,
+            clo=pythermalcomfort.utilities.clo_dynamic(clo, met=self.configs.met),
+            wme=self.configs.wme
         )['pmv']
 
     def get_temp_max_op(self, vel):
@@ -259,11 +243,11 @@ class ConditionerAll:
         return 0.055 * temp_op ** 2 - 2.331 * temp_op + 23.935 + 0.1
     
     def is_comfortable(self, temp_op:float, adaptativo:float, temp_op_max:float, pmv:float, status_janela:int, vel:float):
-        if adaptativo >= temp_op - self.margem_adaptativo and adaptativo <= temp_op + self.margem_adaptativo and status_janela == 1 and vel == 0.0:
+        if adaptativo >= temp_op - self.configs.adaptative_bound and adaptativo <= temp_op + self.configs.adaptative_bound and status_janela == 1 and vel == 0.0:
             return 1
-        if temp_op <= temp_op_max and vel > 0.0 and status_janela == 1:
+        elif temp_op <= temp_op_max and vel > 0.0 and status_janela == 1:
             return 1
-        if pmv <= self.pmv_upperbound_comfort and pmv >= self.pmv_lowerbound_comfort and status_janela == 0:
+        elif pmv <= self.configs.pmv_upperbound + self.configs.pmv_comfort_bound and pmv >= self.configs.pmv_lowerbound - self.configs.pmv_comfort_bound and status_janela == 0:
             return 1
 
         return 0
@@ -271,13 +255,9 @@ class ConditionerAll:
     def acquire_handlers(self, state):
         self.tdb_handler = self.ep_api.exchange.get_variable_handle(state, "Site Outdoor Air Drybulb Temperature", "Environment")
         if self.tdb_handler <= 0:
-                logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
+                logging.error(f"Não foi possível pegar o tratador Site Outdoor Air Drybulb Temperature da sala {room}")
 
-        #self.limite_co2_handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"CO2_LIMITE")
-        #if self.limite_co2_handler <= 0:
-        #        logging.error(f"Não foi possível pegar o tratador CO2_LIMITE da sala {room}")
-
-        for room in self.rooms:
+        for room in self.configs.rooms:
             handler = self.ep_api.exchange.get_variable_handle(state, "People Occupant Count", f"PEOPLE_{room.upper()}")
             if handler <= 0:
                 logging.error(f"Não foi possível pegar o tratador People Occupant Count da sala {room}")
@@ -370,7 +350,7 @@ class ConditionerAll:
             
             handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"EM_CONFORTO_{room.upper()}")
             if handler <= 0:
-                logging.error(f"Não foi possível pegar o tratador ADAP_MAX da sala {room}")
+                logging.error(f"Não foi possível pegar o tratador EM_CONFORTO da sala {room}")
             self.em_conforto_handler.update({ room : handler })
             
             handler = self.ep_api.exchange.get_actuator_handle(state, "Schedule:Constant", "Schedule Value", f"DOAS_STATUS_{room.upper()}")
