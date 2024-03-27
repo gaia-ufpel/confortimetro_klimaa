@@ -18,13 +18,13 @@ Ele poderá filtrar essa pesquisa por dia, mês e ano, assim como por datalogger
 
 ## Método de autenticação
 
-O método de autenticação implementado é baseado em Bearer Tokens.
+O método de autenticação implementado é baseado em Bearer Tokens por meio do cabeçalho _Authentication_.
 
-## Endpoints
+## Pontos de acesso
 
-### /api/v1/metrics
+### GET /api/v1/metrics /api/v1/metrics/<serial_number> /api/v1/metrics/<campus>/<building>/<room>
 
-Endpoints para a consulta de métricas registradas pelos dataloggers e dispositivos e armazenadas no banco de dados.
+Endpoints para a consulta de métricas registradas pelos dispositivos e armazenadas no banco de dados. A consulta pode ser filtrada tanto pelo número de série do dispositivo quanto pelo local colocando o campus, o prédio e a sala.
 
 Parâmetros:
 
@@ -32,34 +32,47 @@ Parâmetros:
 
 - end_datetime=xxxx
 
-- device_serial_number=xxxx
+Autenticação (via cabeçalho `Authentication`) necessária!
 
-- campus=xxxx
+### POST /api/v1/metrics
 
-- building=xxxx
+Endpoint para inserção de dados no bancod de dados. O conteúdo do corpo deve ser o seguinte:
 
-- room=xxxx
+```json
+{
+  "date":<date>,
+  "device":<serial_number>,
+  "metrics": {
+    "temperature":<temperature>,
+    ...
+  }
+}
+```
 
-Exemplo:
+Autenticação (via cabeçalho `Authentication`) necessária!
 
-- /api/v1/metrics?start_datetime=xxxx&end_datetime=xxxx&device_serial_number=xxxx
+### GET /api/v1/devices /api/v1/devices/<serial_number> /api/v1/devices/<campus>/<building>/<room>
 
-- /api/v1/metrics?start_datetime=xxxx&end_datetime=xxxx&device_serial_number[]=xxxx&device_serial_number[]=xxxx  => Multiplos dispositivos
+Endpoints para a consulta de dispositivos disponíveis armazenados no banco de dados.
 
-### /api/v1/devices
+Autenticação (via cabeçalho `Authentication`) necessária!
 
-Endpoint para a consulta de dispositivos disponíveis armazenados no banco de dados.
+### POST /api/v1/devices
 
-Parâmetros:
+Endpoint para o cadastro de dispositivos no banco de dados. O conteúdo do corpo deve ser o seguinte:
 
-- device_serial_number=xxxx
+```json
+{
+  "device":<serial_number>,
+  "campus":<campus>,
+  "building":<building>,
+  "room":<room>,
+  "description":<description>
+}
+```
 
-- campus=xxxx
+Autenticação (via cabeçalho `Authentication`) necessária!
 
-- building=xxxx
+### POST /api/v1/auth/register
 
-- room=xxxx
-
-### /api/v1/auth/register
-
-### /api/v1/auth/login
+### POST /api/v1/auth/login
