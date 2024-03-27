@@ -1,0 +1,21 @@
+<h2 class='trl show_config_abs_mux'>Connections configuration</h2>
+<h2 class='trl show_config_tcp_serial'>TCP x Serial configuration</h2>
+<h3 class='trl show_config_abs_mux'>Local</h3>
+<div id='div_tcp_inside_list' class="show_config_abs_mux" style="border:1px solid black;"></div>
+<input id="tcp_add_new_inside" type="button" value='Add local'  class="btn btn-outline-secondary btn-sm show_config_abs_mux"/>
+<div class="show_config_abs_mux">
+    </br>
+    </br>
+</div>
+<h3 class='trl show_config_abs_mux'>External</h3>
+<div id='div_tcp_outside_list' style="border:1px solid black;"></div>
+<input id="tcp_add_new_outside" type="button" value='Add external'  class="btn btn-outline-secondary btn-sm show_config_abs_mux"/>
+<input id="tcp_add_new" type="button" value='Add new'  class="btn btn-outline-secondary btn-sm show_config_tcp_serial"/>
+</br>
+
+
+<script type="text/javascript">
+    $("#tcp_add_new_outside").unbind().click(new_tcp_to_outside);
+    $("#tcp_add_new").unbind().click(new_tcp_to_outside);
+    $("#tcp_add_new_inside").unbind().click(new_tcp_to_inside);
+</script>

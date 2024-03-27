@@ -1,0 +1,24 @@
+<div id='div_config_fwupdate' class="form-group">
+    <h2 class='trl'>Firmware update</h2>
+    </br>
+    <label class='trl' >URL to download packege: </label> <input id="fwupdate_url" type="text" value="" class="form-group">
+    </br>
+    <label class='trl' >Timeout to download: </label> <input id="fwupdate_tmo" type="number" value="60" class="form-group">
+
+    <div id='div_fwupdate_result'></div>
+    <input id="fwupdate_download" value='Start Download' type="button"  class="btn btn-outline-secondary btn-sm"/>
+    <input id="fwupdate_getlog" value='See log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+    <input id="fwupdate_update" value='Start Update' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="fwupdate_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#fwupdate_cancel").unbind().click( fwupdate_cancel);
+
+    $("#fwupdate_download").unbind().click( fwupdate_download);
+    $("#fwupdate_update").unbind().click( fwupdate_update);
+    $("#fwupdate_getlog").unbind().click( fwupdate_getlog);
+
+</script>

@@ -1,0 +1,43 @@
+<div id='div_config_active_wd' class="form-group">
+    <h2 class='trl'>Network keepalive connections configuration</h2>
+    </br>
+    <label class='trl' >Network Keepalive: </label> 
+    <select id="active_wd_enabled" class="form-control-sm">
+        <option class='trl' value="0">disabled</option>
+        <option class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <div id='active_wd_config_parameters'>
+        <label class='trl' >Interface to be resseted when ping fails: </label> 
+        <select id="active_wd_interface" class="form-control-sm">
+            <option class='trl' value="3g-wanCel">Cel Modem</option>
+            <option class='trl' value="tun0">OpenVPN</option>
+            <option class='trl' value="wan">None</option>
+        </select>
+        <br>
+        <div id='active_wd_config_dhcp_parameters'>
+            <label class='trl' >IP to ping: </label> <input id="active_wd_ip_to" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >Burst size: </label> <input id="active_wd_burst_size" type="number" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >Interval in seconds: </label> <input id="active_wd_interval" type="number" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >Max wait in seconds: </label> <input id="active_wd_max_wait" type="number" value="" class="form-control-sm">
+        </div>
+    </div>
+
+    <input id="active_wd_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="active_wd_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#active_wd_cancel").unbind().click( active_wd_edit_cancel);
+
+    $("#active_wd_confirma").unbind().click( active_wd_edit_confirm);
+
+    $('#active_wd_acct_as_one').unbind().change( active_wd_set_view);
+    $('#active_wd_dhcp_conf').unbind().change( active_wd_set_view);
+
+</script>

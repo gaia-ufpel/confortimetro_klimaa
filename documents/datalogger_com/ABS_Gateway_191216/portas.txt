@@ -1,0 +1,3 @@
+6000=00001234 //Este modem está na estacao Bananas
+6001=00009876 //Este modem está na estação Maçãs
+#

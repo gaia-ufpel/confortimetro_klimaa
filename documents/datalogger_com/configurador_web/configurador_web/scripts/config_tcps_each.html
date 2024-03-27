@@ -1,0 +1,179 @@
+<div id='div_config_tcp'  hidden="hidden" class="card-body  form-group" style="border:1px solid gray;">
+    </br>
+    <div id='tcp_config_message' hidden="hidden"></div>
+    <input id="tcp_config_in_or_out" type="text" value=""  hidden="hidden" class="form-control-sm">
+    <div id='tcp_config_id_label'  hidden="hidden">
+        <label class='trl'>Local connection ID: </label> 
+        <input id="tcp_config_name" type="text" value=""  disabled class="form-control-sm">
+        </br>
+    </div>
+    <div id='tcp_config_outside_label'  hidden="hidden">
+        <label style="vertical-align: top" class='trl'>Jumpers: </label> 
+        <select id="tcp_client_connected_to" multiple class="">
+        </select>
+    </div>
+    </br>
+    <label  class='trl'>Type: </label> 
+    <select id="config_tcp_client_server" class="form-control-sm">
+            <option class='trl' value="client">TCP client</option>
+            <option class='trl' value="server">TCP server</option>
+    </select>
+    <div id='div_config_tcp_client' >
+        <div id='div_config_tcp_local_tira'>
+            <label class='trl' >Hosttype</label> 
+            <select id="tcp_client_hosttype" class="form-control-sm">
+                <option class='trl' value="0">0</option>
+                <option class='trl' value="1">1</option>
+                <option class='trl' value="2">2</option>
+            </select>
+            <label class='trl' >login: </label> <input id="tcp_client_login" type="text" value="" class="form-control-sm">
+            <label class="tcp_client_nshexa">Id: </label> <input id="tcp_client_nshexa" class="tcp_client_nshexa" type="text" maxlength=8 value="" class="form-control-sm">
+            </br>
+            </br>
+            <input id="tcp_client_add_host_and_port" value='Add Host/Port' type="button"  class="btn btn-outline-secondary btn-sm"/>
+            </br>
+        </div>
+        <div id='div_tcp_client_host_and_port'>
+            <label class='trl' >IP or hostname: </label> <input id="tcp_client_hostname" type="text" value="gprs.absltda.com.br" class="form-control-sm">
+            <label class='trl' >Port: </label> <input id="tcp_client_port" type="number" value="5901" class="form-control-sm">
+            <input id='tcp_client_del_host_and_port_id' class="tcp_client_del_host_and_port btn btn-outline-primary btn-sm" value='remove' type="button" />
+        </div>
+        <label class='trl' >Idle Timeout: </label> <input id="tcp_client_idletimeout" type="number" value="90" class="form-control-sm">
+        <div id="div_tcp_client_modbus_tcp">
+            <label class='trl' >Modbus TCP <-> RTU: </label> 
+            <select id="tcp_client_modbus_tcp" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+        </div>
+
+    </div>
+    <div id='div_config_tcp_server' hidden="hidden">
+        <label class='trl' >Port: </label> <input id="tcp_server_port" type="number" value="5901" class="form-control-sm">
+        <label class='trl' >Idle Timeout: </label> <input id="tcp_server_idletimeout" type="number" value="90" class="form-control-sm">
+        <div id="div_tcp_server_modbus_tcp">
+            <label class='trl' >Modbus TCP <-> RTU: </label> 
+            <select id="tcp_server_modbus_tcp" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+        </div>
+        </br>
+        <label class='trl' >Open access from LAN: </label> 
+        <select id="tcp_server_allowed_on_lan" class="form-control-sm tcp_server_allow_ip">
+            <option class='trl' value="0">No</option>
+            <option class='trl' value="1" selected>Yes</option>
+        </select>
+        <div id='div_tcp_server_allowed_on_lan'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_tcp_server_allowed_on_lan_ips">0.0.0.0/0</textarea>
+        </div>
+        </br>
+        <div class="config_celular">
+            <label class='trl' >Open access from Cellular Internet: </label> 
+            <select id="tcp_server_allowed_on_cel_modem" class="form-control-sm tcp_server_allow_ip">
+                <option class='trl' value="0">No</option>
+                <option class='trl' value="1">Yes</option>
+            </select>
+            <div id='div_tcp_server_allowed_on_cel_modem'  hidden="hidden">
+                <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+                </br>
+                <textarea rows="4" cols="50" id="id_tcp_server_allowed_on_cel_modem_ips"></textarea>
+            </div>
+            </br>
+        </div>
+        <div class="div_fw_multisrc_config_feature_available">
+            <label class='trl' >Open access from OpenVPN: </label> 
+            <select id="tcp_server_allowed_on_ovpn" class="form-control-sm tcp_server_allow_ip">
+                <option class='trl' value="0">No</option>
+                <option class='trl' value="1">Yes</option>
+            </select>
+            <div id='div_tcp_server_allowed_on_ovpn'  hidden="hidden">
+                <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+                </br>
+                <textarea rows="4" cols="50" id="id_tcp_server_allowed_on_ovpn_ips"></textarea>
+            </div>
+            </br>
+            <label class='trl' >Open access from IPSec: </label> 
+            <select id="tcp_server_allowed_on_ipsec" class="form-control-sm tcp_server_allow_ip">
+                <option class='trl' value="0">No</option>
+                <option class='trl' value="1">Yes</option>
+            </select>
+            <div id='div_tcp_server_allowed_on_ipsec'  hidden="hidden">
+                <label class='trl' >IP and/or Cidr from: (xxx.xxx.xxx.xxx/24 or more)</label>
+                </br>
+                <textarea rows="4" cols="50" id="id_tcp_server_allowed_on_ipsec_ips"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <input id="tcp_config_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="tcp_config_cancel" value='Cancel' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="tcp_config_edita" class='tcp_config_edita_btn btn btn-outline-secondary btn-sm' value='Edit' type="button"  hidden="hidden"/>
+    <input id="tcp_config_remove" class='tcp_config_remove_btn btn btn-outline-primary btn-sm'  value='Remove' type="button"  hidden="hidden" />
+
+</div>
+
+
+<script type="text/javascript">
+    $('#config_tcp_client_server').change( function (e) {
+        console.log("Trocou a selecao do ", $(this).children("option:selected").val());
+        if ($(this).children("option:selected").val() == 'client') {
+            $( '#div_config_tcp_client').show();
+            $( '#div_config_tcp_server').hide();
+        } else {
+            $( '#div_config_tcp_client').hide();
+            $( '#div_config_tcp_server').show();
+        }
+    });
+
+    $('#tcp_client_add_host_and_port').unbind().click( function( e) { tcp_client_add_host_and_port( e, 'div_tcp_client_host_and_port', this); });
+    $('.tcp_client_del_host_and_port').unbind().click( function( e) { tcp_client_del_host_and_port( e, 'div_tcp_client_host_and_port', this); });
+
+    $('.tcp_server_allow_ip').change( function (e) {
+        console.log("Trocou a selecao do " + this.id, $(this).children("option:selected").val());
+        if ($(this).children("option:selected").val() == '0') {
+            $( '#div_' + this.id).hide();
+        } else {
+            $( '#div_' + this.id).show();
+        }
+    });
+
+    $("#tcp_config_cancel").unbind().click( tcp_edit_cancel);
+
+    $("#tcp_config_confirma").unbind().click( function(){
+        // pegar os dados que foram preenchidos pelo usuario
+        var res = tcp_edit_get_data();
+        // consistir os dados para ver se sao bons
+        // problema com os dados entrados
+        console.log("res result " + res["result"]);
+        if ( res["result"] != 0) {
+            console.log("Vai apresentar a mensagem " + res["msg"]);
+            alert(res["msg"]);
+            $("#tcp_config_message").empty().append( "<h3>" + res["msg"] + "</h3>");
+            $("#tcp_config_message").show();
+        } else {
+            // dados corretos entrados pelo usuario colocar em formato texto com os botoes de remover e editar
+            // substituir este formulario pela nova div
+            tcp_config_present_one(res["toside"], res["name"], res["tcp_conection"]);
+            tcp_edit_cancel();
+            config_has_been_changed("tcp_all")
+            set_conversor_config_show_changes_on_page();
+        }
+    });
+
+    $('.tcp_config_edita_btn').unbind().click( function() {
+        console.log("tcp_config_edita_btn   id " + this.id);
+        tcp_config_edit_one(this.id);
+    });
+    $('.tcp_config_remove_btn').unbind().click( function() {
+        console.log("tcp_config_remove_btn   id " + this.id);
+        tcp_config_remove_one( this.id);
+        config_has_been_changed("tcp_all")
+        tcp_config_to_finnal_format();
+        set_on_finnal_config_editor(null);
+        show_config_save_pending();
+    });
+
+</script>

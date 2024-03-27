@@ -1,0 +1,173 @@
+**********
+Cenário 1:
+**********
+Ler dispositivos ligados a porta serial
+Comunicação através do ABS Gateway
+
+Você irá configurar as seguintes opções:
+
+Link Manager:
+============
+
+Ethernet Port config: 
+    DHCP:disable
+    Defina um IP de trabalho e demais configurações da rede local
+
+Cellular dial config:
+    Ajuste conforme os dados da operadora celular.
+
+
+Industrial Configurations:
+==========================
+    
+Connections:
+
+    External: 
+    	Adicione ou edite a conexão External
+
+	Jumpers: Serial
+	Tipo: TCP client
+	Host type: 0
+	Login: UserLogin
+	Id: deixar em branco	
+	IP e Porta: use os dados do seu IP e Porta do ABS Gateway
+    	Jumpers: Serial
+
+
+
+
+
+**********
+Cenário 2:
+**********
+Ler um dispositivo ligado em rede Ethernet
+Comunicação através do ABS Gateway
+
+Você irá configurar as seguintes opções:
+
+Link Manager:
+============
+
+Ethernet Port config: 
+    DHCP:disable
+    Defina um IP de trabalho e demais configurações da rede local
+
+Cellular dial config:
+    Ajuste conforme os dados da operadora celular.
+
+
+Industrial Configurations:
+==========================
+
+Connections:
+
+    Local:
+	Adiciona ou edite a conexão Local
+	Tipo: TCP client
+	IP e Porta: use os dados do dispositivo remoto a ser monitorado
+
+    External: 
+	Adicione ou edite a conexão External
+
+	Jumpers: Local (internal 1)
+	Tipo: TCP client
+	Host type: 0
+	Login: UserLogin
+	Id: deixar em branco
+	IP e Porta: use os dados do seu ABS Gateway
+
+
+
+**********
+Cenário 3:
+**********
+Ler equipamentos seriais
+Ler "N" dispotivos ligados em rede ethernet
+Comunicação através do ABS Gateway
+
+
+Link Manager:
+=============
+
+Ethernet Port config: 
+    DHCP:disable
+    Defina um IP de trabalho e demais configurações da rede local
+
+Cellular dial config:
+    Ajuste conforme os dados da operadora celular.
+
+
+Industrial Configurations:
+==========================
+
+    Você irá criar:
+    - N conexões Local
+    - N+1 conexões External para o ABS Gateway
+
+    Serão várias conexões ao ABS Gateway, cada conexão com um ID, como se fosse modems independentes.
+
+
+    Local:
+	Tipo: TCP client
+	IP e Porta: use os dados do dispositivo remoto a ser monitorado
+
+
+    External:
+	Jumpers: (ver abaixo)
+	Tipo: TCP client
+	Host type: 0
+	Login: UserLogin
+	Id: (ver abaixo)
+	IP e Porta: use os dados do seu ABS Gateway
+
+	Cada conexão External terá um identificador ID diferente, trocando o primeiro dígito do ID do modem.
+
+	Os campos Jumpers e ID serão preenchidos assim:
+
+		1a. External: Serial, 0....... (igual ao ID do modem)
+    		2a. External: Internal 1, 1....... 
+		3a. External: Internal 2, 2.......
+		...
+		
+ 
+
+**********
+Cenário 4:
+**********
+Um equipamento ligado a ethernet ter acesso a internet pela rede celular
+
+Você irá configurar as seguintes opções:
+
+Link Manager:
+============
+
+Ethernet Port config: 
+    DHCP:disable
+    Defina um IP de trabalho e demais configurações da rede local
+
+Cellular dial config:
+    Ajuste conforme os dados da operadora celular.
+
+
+Industrial Configurations:
+==========================
+    
+Connections:
+    Internal: apagar as configs existentes (não são necessárias)
+
+    External: apagar as configs existentes (não são necessárias) 
+
+
+Network:
+========
+
+Router config:
+    Habilite o envio de pacote nas direções "Ethernet to Cellular" e "Cellular to Ethernet" 
+
+
+
+
+
+
+
+   	

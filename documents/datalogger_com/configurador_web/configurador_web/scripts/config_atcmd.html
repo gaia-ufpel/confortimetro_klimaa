@@ -1,0 +1,18 @@
+<div id='div_config_atcmd' class="form-group">
+    <h2 class='trl'>AT command</h2>
+    </br>
+    <label for="atcmd_command" class='trl'>AT command: </label> <input id="atcmd_command" type="text" value=""  class="form-control-sm">
+
+    <div id='div_atcmd_result'></div>
+    <input id="atcmd_send" value='Send' type="button" class="btn btn-outline-primary btn-sm"/>
+    <input id="atcmd_cancel" value='Close' type="button" class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#atcmd_cancel").unbind().click( atcmd_cancel);
+
+    $("#atcmd_send").unbind().click( atcmd_send);
+
+</script>

@@ -1,0 +1,58 @@
+<div id='div_config_dhcp' class="form-group">
+    <h2 class='trl'>DHCP configuration</h2>
+    </br>
+    <label class='trl' >DHCP Mode: </label> 
+    <select id="dhcp_mode" class="form-control-sm">
+        <option class='trl' value="disabled">disabled</option>
+        <option class='trl' value="server">server</option>
+        <option class='trl' value="relay">relay</option>
+    </select>
+    <br>
+    <label class='trl' >Network address offset starts: </label> <input id="dhcp_start" type="number" value="100" class="form-control-sm">
+    <br>
+    <label class='trl' >Size of address pool: </label> <input id="dhcp_limit" type="number" value="150" class="form-control-sm">
+    <br>
+    <label class='trl' >Lease time: </label> <input id="dhcp_leasetime" type="text" value="12h" class="form-control-sm">
+    <br>
+    <label class='trl' >Gateway: </label> <input id="dhcp_gateway" type="text" value="" class="form-control-sm">
+    <br>
+    <label class='trl' >Network masck: </label> <input id="dhcp_netmask" type="text" value="" class="form-control-sm">
+    <br>
+    <label class='trl' >Prymary DNS: </label> <input id="dhcp_dns_pri" type="text" value="" class="form-control-sm">
+    <br>
+    <label class='trl' >Secondary DNS: </label> <input id="dhcp_dns_sec" type="text" value="" class="form-control-sm">
+    <br>
+
+    <label class='trl' >Only static leases can get IP: </label> 
+    <select id="dhcp_secure_lease" class="form-control-sm">
+        <option class='trl' value="0">disabled</option>
+        <option class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    
+    <div id="div_dhcp_statis_leases">
+        <h3 class='trl'>Static leases</h3>
+    </div>
+    <input id="dhcp_add_new_static_lease" type="button" value='New static lease'  class="btn btn-outline-secondary btn-sm"/>
+    <br>
+    
+    <div id="div_dhcp_current_leases">
+        <h3 class='trl'>Current leases</h3>
+        <div id="div_dhcp_current_leases_list"></div>
+    </div>
+    <input id="dhcp_get_current_leases" type="button" value='Get Current leases'  class="btn btn-outline-secondary btn-sm"/>
+    <br>
+    <input id="dhcp_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="dhcp_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#dhcp_cancel").unbind().click( dhcp_edit_cancel);
+    $("#dhcp_confirma").unbind().click( dhcp_edit_confirm);
+    
+    $('#dhcp_add_new_static_lease').unbind().click( dhcp_add_new_static_lease);
+    $('#dhcp_get_current_leases').unbind().click( dhcp_get_current_leases);
+    
+</script>

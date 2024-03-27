@@ -1,0 +1,20 @@
+<div id='div_config_status' class="form-group">
+    <h2  class='trl'>Status
+        <input id="status_refresh" value='Refresh' type="button"  class="btn btn-outline-primary btn-sm" />
+    </h2>
+    <div id='div_status_result'></div>
+    </br>
+    <!--
+        <input id="status_refresh" value='Refresh' type="button"  class="btn btn-outline-primary btn-sm" />
+        </br>
+    -->
+    <textarea id="status_raw" style="width:627px; height:400px;" disabled ></textarea>
+    </br>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#status_cancel").unbind().click( status_cancel);
+    $("#status_refresh").unbind().click( status_refresh);
+</script>

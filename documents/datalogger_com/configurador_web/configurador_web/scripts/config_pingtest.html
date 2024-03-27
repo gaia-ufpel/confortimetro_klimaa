@@ -1,0 +1,18 @@
+<div id='div_config_pingtest' class="form-group">
+    <h2 class='trl'>Conectivity tests</h2>
+    </br>
+    <label class='trl' >IP or hostname: </label> <input id="pingtest_command" type="text" value="" class="form-control-sm">
+
+    <div id='div_pingtest_result'></div>
+    <input id="pingtest_send" value='Send' type="button"  class="btn btn-outline-secondary btn-sm"/>
+    <input id="pingtest_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#pingtest_cancel").unbind().click( pingtest_cancel);
+
+    $("#pingtest_send").unbind().click( pingtest_send);
+
+</script>

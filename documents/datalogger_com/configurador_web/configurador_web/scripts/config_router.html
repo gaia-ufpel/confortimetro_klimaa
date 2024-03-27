@@ -1,0 +1,86 @@
+<div id='div_config_router' class="form-group">
+    <h2 class='trl'>Router configuration</h2>
+    </br>
+    <div id='div_config_router_general'>
+        <label class='trl' >Enable routing packets from Ethernet to cellular Internet: </label> 
+        <select id="router_acct_as_one" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <div id='router_config_parameters'>
+            <label class='trl' >Enable DHCP server on Ethernet network: </label> 
+            <select id="router_dhcp_conf" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+            <div id='router_config_dhcp_parameters'>
+                <label class='trl' >Network address offset starts: </label> <input id="router_dhcp_start" type="number" value="100" class="form-control-sm">
+                <br>
+                <label class='trl' >Size of address pool: </label> <input id="router_dhcp_limit" type="number" value="150" class="form-control-sm">
+                <br>
+                <label class='trl' >Lease time: </label> <input id="router_dhcp_leasetime" type="text" value="12h" class="form-control-sm">
+            </div>
+        </div>
+    </div>
+    <div id='div_config_router_por_link'>
+        <br>
+        <label class='trl' >Enable routing packets from Ethernet to Cellular Internet: </label> 
+        <select id="router_route_eth_cel" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <label class='trl' >Enable routing packets from Cellular Internet to Ethernet: </label> 
+        <select id="router_route_cel_eth" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <br>
+        <div id='div_config_routing_ovpn_wan_available'>
+            <label class='trl' >Enable routing packets from Ethernet to OpenVPN: </label> 
+            <select id="router_route_eth_ovpn" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+            <label class='trl' >Enable routing packets from OpenVPN to Ethernet: </label> 
+            <select id="router_route_ovpn_eth" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='div_config_routing_ipsec_wan_available'>
+            <br>
+            <label class='trl' >Enable routing packets from Ethernet to IPsec: </label> 
+            <select id="router_route_eth_ipsec" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+            <label class='trl' >Enable routing packets from IPsec to Ethernet: </label> 
+            <select id="router_route_ipsec_eth" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+        </div>
+    </div>
+    <input id="router_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="router_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#router_cancel").unbind().click( router_edit_cancel);
+
+    $("#router_confirma").unbind().click( router_edit_confirm);
+
+    $('#router_acct_as_one').unbind().change( router_set_view);
+    $('#router_dhcp_conf').unbind().change( router_set_view);
+
+</script>

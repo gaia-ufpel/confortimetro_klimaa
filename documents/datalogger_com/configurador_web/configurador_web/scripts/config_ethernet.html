@@ -1,0 +1,52 @@
+<div id='div_config_ethernet' class="form-group">
+    <h2 class='trl'>Ethernet Port Configuration</h2>
+    <h3 class="trl">Bulidin Ethernet</h3>
+    <label  class='trl' for="ethernet_dhcp_conf">DHCP: </label> 
+    <select id="ethernet_dhcp_conf" class="form-control-sm ethernet_dhcp_conf">
+        <option  class='trl' value="dhcp">enabled</option>
+        <option  class='trl' value="static">disabled</option>
+    </select>
+    <br>
+    <label class='trl' for='ethernet_dns_server'>DNS server: </label> <input id="ethernet_dns_server" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+    <br>
+    <div id='ethernet_ip_fixo_config'>
+        <label class='trl' for='ethernet_ip_fixo'>IP address: </label> <input id="ethernet_ip_fixo" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+        <br>
+        <label class='trl' for='ethernet_ip_gateway'>Default gateway: </label> <input id="ethernet_ip_gateway" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+        <br>
+        <label class='trl' for='ethernet_net_mask'>Net mask: </label> <input id="ethernet_net_mask" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+    </div>
+    </br>
+
+    <div id='div_show_eth_usb_config'>
+        <h3 class="trl">USB Ethernet</h3>
+        <label  class='trl' for="ethernet2_dhcp_conf">DHCP: </label> 
+        <select id="ethernet2_dhcp_conf" class="form-control-sm ethernet_dhcp_conf">
+            <option  class='trl' value="dhcp">enabled</option>
+            <option  class='trl' value="static">disabled</option>
+        </select>
+        <br>
+        <label class='trl' for='ethernet2_dns_server'>DNS server: </label> <input id="ethernet2_dns_server" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+        <br>
+        <div id='ethernet2_ip_fixo_config'>
+            <label class='trl' for='ethernet2_ip_fixo'>IP address: </label> <input id="ethernet2_ip_fixo" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+            <br>
+            <label class='trl' for='ethernet2_ip_gateway'>Default gateway: </label> <input id="ethernet2_ip_gateway" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+            <br>
+            <label class='trl' for='ethernet2_net_mask'>Net mask: </label> <input id="ethernet2_net_mask" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+        </div>
+        </br>
+    </div>
+
+    <input id="ethernet_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="ethernet_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#ethernet_cancel").unbind().click( ethernet_edit_cancel);
+    $("#ethernet_confirma").unbind().click( ethernet_edit_confirm);
+    $('.ethernet_dhcp_conf').change( ethernet_set_view);
+
+</script>

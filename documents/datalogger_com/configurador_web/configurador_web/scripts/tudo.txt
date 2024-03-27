@@ -1,0 +1,1827 @@
+<div id='config_active_wd_html'>
+<div id='div_config_active_wd' class="form-group">
+    <h2 class='trl'>Network keepalive connections configuration</h2>
+    </br>
+    <label class='trl' >Network Keepalive: </label> 
+    <select id="active_wd_enabled" class="form-control-sm">
+        <option class='trl' value="0">disabled</option>
+        <option class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <div id='active_wd_config_parameters'>
+        <label class='trl' >Interface to be resseted when ping fails: </label> 
+        <select id="active_wd_interface" class="form-control-sm">
+            <option class='trl' value="3g-wanCel">Cel Modem</option>
+            <option class='trl' value="tun0">OpenVPN</option>
+            <option class='trl' value="wan">None</option>
+        </select>
+        <br>
+        <div id='active_wd_config_dhcp_parameters'>
+            <label class='trl' >IP to ping: </label> <input id="active_wd_ip_to" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >Burst size: </label> <input id="active_wd_burst_size" type="number" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >Interval in seconds: </label> <input id="active_wd_interval" type="number" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >Max wait in seconds: </label> <input id="active_wd_max_wait" type="number" value="" class="form-control-sm">
+        </div>
+    </div>
+
+    <input id="active_wd_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="active_wd_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#active_wd_cancel").unbind().click( active_wd_edit_cancel);
+
+    $("#active_wd_confirma").unbind().click( active_wd_edit_confirm);
+
+    $('#active_wd_acct_as_one').unbind().change( active_wd_set_view);
+    $('#active_wd_dhcp_conf').unbind().change( active_wd_set_view);
+
+</script>
+</div> <!-- fim div config_active_wd_html -->
+<div id='config_atcmd_html'>
+<div id='div_config_atcmd' class="form-group">
+    <h2 class='trl'>AT command</h2>
+    </br>
+    <label for="atcmd_command" class='trl'>AT command: </label> <input id="atcmd_command" type="text" value=""  class="form-control-sm">
+
+    <div id='div_atcmd_result'></div>
+    <input id="atcmd_send" value='Send' type="button" class="btn btn-outline-primary btn-sm"/>
+    <input id="atcmd_cancel" value='Close' type="button" class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#atcmd_cancel").unbind().click( atcmd_cancel);
+
+    $("#atcmd_send").unbind().click( atcmd_send);
+
+</script>
+</div> <!-- fim div config_atcmd_html -->
+<div id='config_celmodem_html'>
+<div id='div_config_celmodem' class="form-group">
+    <h2 class='trl'>Cellular dial configuration</h2>
+    </br>
+    <label for="celmodem_enable" class='trl'>Cellular modem: </label> 
+    <select id="celmodem_enable" class="form-control-sm">
+        <option class='trl' value="1">enable</option>
+        <option class='trl' value="0">disable</option>
+    </select>
+    </br>
+    <div id='div_celmodem_enabled_config'>
+        <label class='trl'  >DNS server: </label> <input id="celmodem_dns_server" type="text" value="XXX.XXX.XXX.XXX" class="form-control-sm">
+        <br>
+        <label class='trl' >APN: </label> <input id="celmodem_anp" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >User name: </label> <input id="celmodem_loginname" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >Password: </label> <input id="celmodem_password" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >Radio band (default 511): </label> <input id="celmodem_radionband" type="text" value="511" class="form-control-sm">
+        <!--
+        <div id="div_celmodem_router_feature_on_link" hidden="hidden">
+            <br>
+            <label class='trl' >Enable routing packets from Ethernet to Cellular Internet: </label> 
+            <select id="celmodem_route_eth_cel" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+            <label class='trl' >Enable routing packets from Cellular Internet to Ethernet: </label> 
+            <select id="celmodem_route_cel_eth" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+        </div>
+        -->
+    </div>
+
+
+    <input id="celmodem_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="celmodem_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#celmodem_cancel").unbind().click( celmodem_edit_cancel);
+
+    $("#celmodem_confirma").unbind().click( celmodem_edit_confirm);
+
+    $('#celmodem_enable').change( celmodem_set_view);
+
+</script>
+</div> <!-- fim div config_celmodem_html -->
+<div id='config_celoperparms_html'>
+<div id='div_config_celoperparms' class="form-group">
+    <h2 class='trl'>Operator list manager</h2>
+    </br>
+    <label class='trl' for="celoperparms_parameters">List: </label> 
+    </br>
+    <textarea rows="10" cols="50" id="celoperparms_parameters" ></textarea>
+
+    <div id='div_celoperparms_result'></div>
+    <input id="celoperparms_read" value='Get current' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="celoperparms_send" value='Save' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="celoperparms_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#celoperparms_cancel").unbind().click( celoperparms_cancel);
+    
+    $("#celoperparms_read").unbind().click( celoperparms_read);
+    $("#celoperparms_send").unbind().click( celoperparms_send);
+
+</script>
+</div> <!-- fim div config_celoperparms_html -->
+<div id='config_ddns_html'>
+<div id='div_config_ddns' class="form-group">
+    <h2 class='trl'>DDNS service</h2>
+    </br>
+    <div class="form-check">
+        <input type="checkbox" id="ddns_use_noip" value="noip"  class="form-check-input">
+        <label class="trl form-check-label" for="ddns_use_noip">Use No-IP</label>
+        <div id='div_ddns_enabled_config_noip'>
+            <label class='trl' >IP or hostname: </label> <input id="ddns_hostname_noip" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl'>User name: </label> <input id="ddns_loginname_noip" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl'>Password: </label> <input id="ddns_password_noip" type="text" value="" class="form-control-sm">
+        </div>
+    </div>
+    </br>
+    <div class="form-check">
+        <input type="checkbox" id="ddns_use_dyndns" value="dyndns" class="form-check-input">
+        <label class="trl form-check-label" for="ddns_use_dyndns">Use DynDNS</label>
+        <div id='div_ddns_enabled_config_dyndns'>
+            <label class='trl' >IP or hostname: </label> <input id="ddns_hostname_dyndns" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >User name: </label> <input id="ddns_loginname_dyndns" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >Password: </label> <input id="ddns_password_dyndns" type="text" value="" class="form-control-sm">
+        </div>
+    </div>
+    </br>
+
+    <input id="ddns_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="ddns_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#ddns_cancel").unbind().click( ddns_edit_cancel);
+
+    $("#ddns_confirma").unbind().click( ddns_edit_confirm);
+
+    $('#ddns_use_noip').change( ddns_set_view);
+    $('#ddns_use_dyndns').change( ddns_set_view);
+
+</script>
+</div> <!-- fim div config_ddns_html -->
+<div id='config_dhcp_html'>
+<div id='div_config_dhcp' class="form-group">
+    <h2 class='trl'>DHCP configuration</h2>
+    </br>
+    <label class='trl' >DHCP Mode: </label> 
+    <select id="dhcp_mode" class="form-control-sm">
+        <option class='trl' value="disabled">disabled</option>
+        <option class='trl' value="server">server</option>
+        <option class='trl' value="relay">relay</option>
+    </select>
+    <br>
+    <label class='trl' >Network address offset starts: </label> <input id="dhcp_start" type="number" value="100" class="form-control-sm">
+    <br>
+    <label class='trl' >Size of address pool: </label> <input id="dhcp_limit" type="number" value="150" class="form-control-sm">
+    <br>
+    <label class='trl' >Lease time: </label> <input id="dhcp_leasetime" type="text" value="12h" class="form-control-sm">
+    <br>
+    <label class='trl' >Gateway: </label> <input id="dhcp_gateway" type="text" value="" class="form-control-sm">
+    <br>
+    <label class='trl' >Network masck: </label> <input id="dhcp_netmask" type="text" value="" class="form-control-sm">
+    <br>
+    <label class='trl' >Prymary DNS: </label> <input id="dhcp_dns_pri" type="text" value="" class="form-control-sm">
+    <br>
+    <label class='trl' >Secondary DNS: </label> <input id="dhcp_dns_sec" type="text" value="" class="form-control-sm">
+    <br>
+
+    <label class='trl' >Only static leases can get IP: </label> 
+    <select id="dhcp_secure_lease" class="form-control-sm">
+        <option class='trl' value="0">disabled</option>
+        <option class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    
+    <div id="div_dhcp_statis_leases">
+        <h3 class='trl'>Static leases</h3>
+    </div>
+    <input id="dhcp_add_new_static_lease" type="button" value='New static lease'  class="btn btn-outline-secondary btn-sm"/>
+    <br>
+    
+    <div id="div_dhcp_current_leases">
+        <h3 class='trl'>Current leases</h3>
+        <div id="div_dhcp_current_leases_list"></div>
+    </div>
+    <input id="dhcp_get_current_leases" type="button" value='Get Current leases'  class="btn btn-outline-secondary btn-sm"/>
+    <br>
+    <input id="dhcp_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="dhcp_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#dhcp_cancel").unbind().click( dhcp_edit_cancel);
+    $("#dhcp_confirma").unbind().click( dhcp_edit_confirm);
+    
+    $('#dhcp_add_new_static_lease').unbind().click( dhcp_add_new_static_lease);
+    $('#dhcp_get_current_leases').unbind().click( dhcp_get_current_leases);
+    
+</script>
+</div> <!-- fim div config_dhcp_html -->
+<div id='config_dhcplease_each_html'>
+<div id='div_config_dhcpleases' class="form-group">
+    <div id='div_dhcpleases_each_rule' style="border:1px solid gray;">
+        <label class='trl' >ÌP: </label> <input id="dhcpleases_ip" type="text" value="" class="form-group">
+        <label class='trl' >MAC Address: </label> <input id="dhcpleases_mac" type="text" value="" class="form-group">
+        <label class='trl' >Name: </label> <input id="dhcpleases_name" type="text" value="" class="form-group">
+        <input id='id_dhcpleases_del' value='Remove' type="button"  class="dhcpleases_del btn btn-outline-primary btn-sm"/>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(".dhcpleases_del").unbind().click( function(){
+        console.log('dhcpleases_del para id ' + this.id + 'div_config_dhcpleases');
+        $('#' + this.id + 'div_config_dhcpleases').empty();
+    });
+</script>
+</div> <!-- fim div config_dhcplease_each_html -->
+<div id='config_diagnostics_html'>
+<div id='div_config_diagnostics' class="form-group">
+    <h2 class='trl'>Diagnostics & Tests</h2>
+    </br>
+    <label class='trl' >Select: </label> 
+    <select id="diagnostics_selection" class="form-control-sm">
+        <option class='trl' value="ping">ping</option>
+        <option class='trl' value="DNS">DNS service</option>
+        <option class='trl' value="logread">System log</option>
+        <option class='trl' value="debugpackread">Download debug pack</option>
+        <option class='trl' value="openvpn">OpenVPN log</option>
+        <option class='trl' value="ipsec">IPSec</option>
+        <option class='trl' value="tcpdump">Network trafic</option>
+    </select>
+    </br>
+    </br>
+    <div id='div_diagnostic_ping_dns' hidden="hidden">
+        <h4 id='diagnostic_ping_dns_title'></h2>
+        <label class='trl' >IP or hostname: </label> <input id="diagnostics_command" type="text" value="" class="form-control-sm">
+
+        <input id="diagnostics_send" value='Send' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+    </div>
+    <div id='div_diagnostic_logread' hidden="hidden">
+        <h4 class='trl'>System log</h2>
+        <input id="diagnostics_get_logread" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+    <div id='div_diagnostic_debugpackread' hidden="hidden">
+        <h4 class='trl'>Download debug pack</h2>
+        <input id="diagnostics_get_debugpackread" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+    <div id='div_diagnostic_openvpn' hidden="hidden">
+        <h4 class='trl'>OpenVPN log</h2>
+        <input id="diagnostics_get_openvpn" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+    <div id='div_diagnostic_tcpdump' hidden="hidden">
+        <h4 class='trl'>Network Trafic. Tcpdump</h2>
+        <label class='trl' >Interface(s) to read: </label> 
+        <select id="diagnostics_tcpdump_interface" class="form-control-sm">
+            <option class='trl' value="cel">Cellular</option>
+            <option class='trl' value="eth">Ethernet</option>
+            <option class='trl' value="celeth">Both</option>
+        </select>
+        </br>
+        <label class='trl' >File format: </label> 
+        <select id="diagnostics_tcpdump_fileformat" class="form-control-sm">
+            <option class='trl' value="txt">Text</option>
+            <option class='trl' value="bin">Binary</option>
+        </select>
+        </br>
+        <label class='trl' >How long in minutes: </label> 
+        <select id="diagnostics_tcpdump_time" class="form-control-sm">
+            <option class='trl' value="1">1</option>
+            <option class='trl' value="2">2</option>
+            <option class='trl' value="3">3</option>
+            <option class='trl' value="4">4</option>
+            <option class='trl' value="5">5</option>
+            <option class='trl' value="6">6</option>
+            <option class='trl' value="7">7</option>
+            <option class='trl' value="8">8</option>
+            <option class='trl' value="9">9</option>
+            <option class='trl' value="10">10</option>
+        </select>
+        </br>
+        <input id="diagnostics_start_tcpdump" value='Start logging' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_get_tcpdump" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+        <a id="diagnostic_tcpdump_binary_download_cel" href="#" target="_blank" class='trl' >Download binary file from cellular</a>
+        </br>
+        <a id="diagnostic_tcpdump_binary_download_eth" href="#" target="_blank" class='trl' >Download binary file from Ethernet</a>
+        </br>
+        <a id="diagnostic_tcpdump_text_download_cel" href="#" target="_blank" class='trl' >Download text file from cellular</a>
+        </br>
+        <a id="diagnostic_tcpdump_text_download_eth" href="#" target="_blank" class='trl' >Download text file from Ethernet</a>
+    </div>
+
+    <div id='div_diagnostic_ipsec' hidden="hidden">
+        <h4 class='trl'>IPSec</h2>
+        <label class='trl' >Set log level to: </label> 
+        <select id="diagnostics_loglevel_ipsec" class="form-control-sm">
+            <option class='trl' value="1">1</option>
+            <option class='trl' value="2">2</option>
+            <option class='trl' value="3">3</option>
+            <option class='trl' value="4">4</option>
+        </select>
+        </br>
+        <input id="diagnostics_change_loglevel_ipsec" value='Change log level' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_getlog_ipsec" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_statusall_ipsec" value='ipsec statusall' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_start_ipsec" value='Start IPSec service' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_stop_ipsec" value='Stop IPSec service' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+
+    <div id='div_diagnostics_result'></div>
+        
+</div>
+
+
+<script type="text/javascript">
+    $('#diagnostics_selection').change( diagnostics_set_view);
+
+    $(".diagnostics_cancel").unbind().click( diagnostics_cancel);
+
+    $("#diagnostics_send").unbind().click( diagnostics_send);
+
+    $("#diagnostics_get_logread").unbind().click( diagnostics_get_logread);
+    $("#diagnostics_get_debugpackread").unbind().click( diagnostics_get_debugpackread);
+    $("#diagnostics_get_openvpn").unbind().click( diagnostics_get_openvpn);
+
+    $("#diagnostics_start_tcpdump").unbind().click( diagnostics_start_tcpdump);
+    $("#diagnostics_get_tcpdump").unbind().click( diagnostics_get_tcpdump);
+
+    $("#diagnostics_change_loglevel_ipsec").unbind().click( diagnostics_change_loglevel_ipsec);
+    $("#diagnostics_getlog_ipsec").unbind().click( diagnostics_getlog_ipsec);
+    $("#diagnostics_statusall_ipsec").unbind().click( diagnostics_statusall_ipsec);
+    $("#diagnostics_start_ipsec").unbind().click( diagnostics_start_ipsec);
+    $("#diagnostics_stop_ipsec").unbind().click( diagnostics_stop_ipsec);
+
+</script>
+</div> <!-- fim div config_diagnostics_html -->
+<div id='config_dmz_html'>
+<div id='div_config_dmz' class="form-group">
+    <h2 class='trl'>DMZ configuration</h2>
+    </br>
+    <label class='trl' >Enable DMZ: </label> 
+    <select id="dmz_enabled" class="form-control-sm">
+        <option class='trl' value="0">disabled</option>
+        <option class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <div id='dmz_config_parameters'>
+        <label class='trl' >Select interface: </label> 
+        <select id="dmz_interface" class="form-control-sm">
+            <option class='trl' value="wanCel">Cel Modem</option>
+        </select>
+        <br>
+        <div id='dmz_config_dhcp_parameters'>
+            IP address of a server that shuld receive all traffic
+            </br>
+            <label class='trl' >IP to: </label> <input id="dmz_ip_to" type="text" value="" class="form-control-sm">
+            <br>
+        </div>
+    </div>
+
+    <input id="dmz_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="dmz_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#dmz_cancel").unbind().click( dmz_edit_cancel);
+
+    $("#dmz_confirma").unbind().click( dmz_edit_confirm);
+
+    $('#dmz_acct_as_one').unbind().change( dmz_set_view);
+    $('#dmz_dhcp_conf').unbind().change( dmz_set_view);
+
+</script>
+</div> <!-- fim div config_dmz_html -->
+<div id='config_ethernet_html'>
+<div id='div_config_ethernet' class="form-group">
+    <h2 class='trl'>Ethernet Port Configuration</h2>
+    <h3 class="trl">Bulidin Ethernet</h3>
+    <label  class='trl' for="ethernet_dhcp_conf">DHCP: </label> 
+    <select id="ethernet_dhcp_conf" class="form-control-sm ethernet_dhcp_conf">
+        <option  class='trl' value="dhcp">enabled</option>
+        <option  class='trl' value="static">disabled</option>
+    </select>
+    <br>
+    <label class='trl' for='ethernet_dns_server'>DNS server: </label> <input id="ethernet_dns_server" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+    <br>
+    <div id='ethernet_ip_fixo_config'>
+        <label class='trl' for='ethernet_ip_fixo'>IP address: </label> <input id="ethernet_ip_fixo" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+        <br>
+        <label class='trl' for='ethernet_ip_gateway'>Default gateway: </label> <input id="ethernet_ip_gateway" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+        <br>
+        <label class='trl' for='ethernet_net_mask'>Net mask: </label> <input id="ethernet_net_mask" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+    </div>
+    </br>
+
+    <div id='div_show_eth_usb_config'>
+        <h3 class="trl">USB Ethernet</h3>
+        <label  class='trl' for="ethernet2_dhcp_conf">DHCP: </label> 
+        <select id="ethernet2_dhcp_conf" class="form-control-sm ethernet_dhcp_conf">
+            <option  class='trl' value="dhcp">enabled</option>
+            <option  class='trl' value="static">disabled</option>
+        </select>
+        <br>
+        <label class='trl' for='ethernet2_dns_server'>DNS server: </label> <input id="ethernet2_dns_server" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+        <br>
+        <div id='ethernet2_ip_fixo_config'>
+            <label class='trl' for='ethernet2_ip_fixo'>IP address: </label> <input id="ethernet2_ip_fixo" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+            <br>
+            <label class='trl' for='ethernet2_ip_gateway'>Default gateway: </label> <input id="ethernet2_ip_gateway" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+            <br>
+            <label class='trl' for='ethernet2_net_mask'>Net mask: </label> <input id="ethernet2_net_mask" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+        </div>
+        </br>
+    </div>
+
+    <input id="ethernet_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="ethernet_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#ethernet_cancel").unbind().click( ethernet_edit_cancel);
+    $("#ethernet_confirma").unbind().click( ethernet_edit_confirm);
+    $('.ethernet_dhcp_conf').change( ethernet_set_view);
+
+</script>
+</div> <!-- fim div config_ethernet_html -->
+<div id='config_ftp_html'>
+<div id='div_config_ftp' class="form-group">
+    <h2 class='trl'>FTP configuration</h2>
+    </br>
+    <label class='trl' >When to use: </label> 
+    <select id="ftp_usemode_conf" class="form-control-sm">
+        <option class='trl' value="off">Never</option>
+        <option class='trl' value="trigger">Trigger</option>
+        <option class='trl' value="always">Always</option>
+    </select>
+    <br>
+    <div id='div_ftp_enabled' hidden="hidden">
+        <label class='trl' >URL (ftp://meuservidor.com.br:23/diretorio/arquivo):</label> <input id="ftp_url_config" type="text" value=""  class="form-control-sm">
+        <br>
+        <label class='trl' >Timeout: </label> <input id="ftp_transfer_timeout" type="number" value="90"  class="form-control-sm">
+        <br>
+        <label class='trl' >User name: </label> <input id="ftp_username" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >Password: </label> <input id="ftp_password" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >Tranfer kind: </label> 
+        <select id="ftp_transfer_command" class="form-control-sm">
+            <option class='trl' value="APPE">Append</option>
+            <option class='trl' value="STOR">Store</option>
+        </select>
+        <br>
+        <label class='trl' >Trigger pattern: </label> <input id="ftp_trigger_user" type="text" value="" class="form-control-sm">
+    </div>
+
+    <input id="ftp_confirma" value='OK' type="button" class="btn btn-outline-primary btn-sm"/>
+    <input id="ftp_cancel" value='Cancel' type="button" class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#ftp_cancel").unbind().click( ftp_edit_cancel);
+
+    $("#ftp_confirma").unbind().click( ftp_edit_confirm);
+
+    $('#ftp_usemode_conf').change( ftp_set_view);
+
+</script>
+</div> <!-- fim div config_ftp_html -->
+<div id='config_fwupdate_html'>
+<div id='div_config_fwupdate' class="form-group">
+    <h2 class='trl'>Firmware update</h2>
+    </br>
+    <label class='trl' >URL to download packege: </label> <input id="fwupdate_url" type="text" value="" class="form-group">
+    </br>
+    <label class='trl' >Timeout to download: </label> <input id="fwupdate_tmo" type="number" value="60" class="form-group">
+
+    <div id='div_fwupdate_result'></div>
+    <input id="fwupdate_download" value='Start Download' type="button"  class="btn btn-outline-secondary btn-sm"/>
+    <input id="fwupdate_getlog" value='See log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+    <input id="fwupdate_update" value='Start Update' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="fwupdate_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#fwupdate_cancel").unbind().click( fwupdate_cancel);
+
+    $("#fwupdate_download").unbind().click( fwupdate_download);
+    $("#fwupdate_update").unbind().click( fwupdate_update);
+    $("#fwupdate_getlog").unbind().click( fwupdate_getlog);
+
+</script>
+</div> <!-- fim div config_fwupdate_html -->
+<div id='config_http_html'>
+<div id='div_config_http' class="form-group">
+    <h2 class='trl'>Http configuration</h2>
+    </br>
+    <label class='trl' >When to use: </label> 
+    <select id="http_usemode_conf" class="form-control-sm">
+        <option class='trl' value="off">Never</option>
+        <option class='trl' value="trigger">Trigger</option>
+        <option class='trl' value="always">Always</option>
+    </select>
+    <br>
+    <div id='div_http_enabled' hidden="hidden">
+        <label class='trl' >Trigger pattern:</label> <input id="http_trigger_user" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >URL (http://meuservidor.com.br:23/diretorio/arquivo):</label> <input id="http_url_config" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >Timeout: </label> <input id="http_transfer_timeout" type="number" value="90" class="form-control-sm">
+        <br>
+        <div id='div_http_trigger_post_enable' hidden="hidden">
+            <br>
+            <label class='trl' >Http method to use: </label> 
+            <select id="http_metodo_2_use" class="form-control-sm">
+                <option class='trl' value="GET">GET</option>
+                <option class='trl' value="POST">POST</option>
+            </select>
+            <label class='trl' >Encode url? </label> 
+            <select id="http_url_encode" class="form-control-sm">
+                <option class='trl' value="0">No</option>
+                <option class='trl' value="1">Yes</option>
+            </select>
+            <br>
+            <br>
+            <label class='trl' >HTTP Headers</label>
+            <input id="http_heasers_add_space" value='Add' type="button"  class="btn btn-outline-primary btn-sm"/>
+            <br>
+            <div id="http_mais_headers">
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <input id="http_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="http_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#http_cancel").unbind().click( http_edit_cancel);
+    $("#http_confirma").unbind().click( http_edit_confirm);
+    $('#http_usemode_conf').change( http_set_view);
+    $('#http_heasers_add_space').unbind().click(http_config_add_headers_space);
+    $('.http_header_remove').unbind().click(http_config_del_headers_space);
+</script>
+</div> <!-- fim div config_http_html -->
+<div id='config_ipconfig_html'>
+<div id='div_config_ipconfig' class="form-group">
+    <h2 class='trl'>Change Configuration IP</h2>
+    </br>
+    <label class='trl' for='ipconfig_ip_fixo'>New IP for configuration: </label> <input id="ipconfig_ip_fixo" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+    <br>
+
+    <div id="div_ipconfig_resultado"></div>
+    <br>
+    <input id="ipconfig_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="ipconfig_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+</div>
+
+<script type="text/javascript">
+    $("#ipconfig_cancel").unbind().click( ipconfig_edit_cancel);
+    $("#ipconfig_confirma").unbind().click( ipconfig_edit_confirm);
+</script>
+</div> <!-- fim div config_ipconfig_html -->
+<div id='config_ipfor_html'>
+<h2 class='trl'>IP Forwarding configuration</h2>
+</br>
+<div id="div_ipfor_rules" ></div>
+<input id="ipfor_add_new_rule" type="button" value='New rule'  class="btn btn-outline-secondary btn-sm"/>
+<input id="ipfor_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+<input id="ipfor_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+<script type="text/javascript">
+    $("#ipfor_cancel").unbind().click( ipfor_edit_cancel);
+
+    var div_config_ipfor_contador = 0;
+    $('#ipfor_add_new_rule').unbind().click( function() {
+        console.log("ipfor_add_new_rule entrou");
+        ipfor_add_new_rule();
+    });
+
+    $("#ipfor_confirma").unbind().click( ipfor_edit_confirm);
+</script>
+</div> <!-- fim div config_ipfor_html -->
+<div id='config_ipfor_each_html'>
+<div id='div_config_ipfor' class="form-group" style="border:1px solid gray;">
+    <div id='div_ipfor_each_rule'>
+        <label class='trl' >Direction: </label> 
+        <select id="ipfor_src_dest" class="form-group">
+            <option class='trl' value="wanCel2lan">Cellular -> Ethernet</option>
+            <option class='trl' value="lan2wanCel">Ethernet -> Cellular</option>
+            <option class='trl' value="ovpn2lan">OpenVPN -> Ethernet</option>
+            <option class='trl' value="lan2ovpn">Ethernet -> OpenVPN</option>
+            <option class='trl' value="ipsec2lan">IPSec -> Ethernet</option>
+        </select>
+        <br>
+        <label class='trl' >Protocol: </label>
+        <select id="ipfor_proto" class="form-group">
+            <option class='trl' value="tcp">tcp</option>
+            <option class='trl' value="udp">udp</option>
+            <option class='trl' value="tcpudp">tcpudp</option>
+            <option class='trl' value="udplite">udplite</option>
+            <option class='trl' value="icmp">icmp</option>
+            <option class='trl' value="esp">esp</option>
+            <option class='trl' value="ah">ah</option>
+            <option class='trl' value="sctp">sctp</option>
+            <option class='trl' value="all">all</option>
+        </select>
+        <br>
+        <label class='trl' >Source Network(s): </label>
+        Could use Cidr like IP/24 or a single IP
+        <br>
+        <textarea rows="4" cols="50" id="ipfor_src_ip"></textarea>
+        <br>
+        <label class='trl' >Local Port(s): </label> <input id="ipfor_src_dport" type="text" value="" class="form-group">
+        <br>
+        <label class='trl' >Destination IP: </label> <input id="ipfor_dest_ip" type="text" value="" class="form-group">
+        <br>
+        <label class='trl' >Destination Port: </label> <input id="ipfor_dest_port" type="number" value="" class="form-group">
+        <br>
+        <input id='id_ipfor_del' value='Remove' type="button"  class="ipfor_del btn btn-outline-primary btn-sm"/>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(".ipfor_del").unbind().click( function(){
+        console.log('ipfor_del para id ' + this.id + 'div_config_ipfor');
+        $('#' + this.id + 'div_config_ipfor').empty();
+    });
+</script>
+</div> <!-- fim div config_ipfor_each_html -->
+<div id='config_ipsec_html'>
+<h2 class='trl'>IPSec configuration</h2>
+</br>
+<label class='trl' >Enable IPSec: </label> 
+<select id="ipsec_use" class="form-control-sm">
+    <option class='trl' value="0">disabled</option>
+    <option class='trl' value="1">enabled</option>
+</select>
+<br>
+<label class='trl' for="ipsec_conf_content">IPSec.conf: </label> 
+</br>
+<textarea rows="10" cols="50" id="ipsec_conf_content" ></textarea>
+</br>
+<label class='trl' for="ipsec_secrets_content">IPSec.secrets: </label> 
+</br>
+<textarea rows="10" cols="50" id="ipsec_secrets_content" ></textarea>
+</br>
+
+<div id="div_ipsec_certificates" ></div>
+<input id="ipsec_add_new_certificate" type="button" value='New certificate'  class="btn btn-outline-secondary btn-sm"/>
+<input id="ipsec_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+<input id="ipsec_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+<script type="text/javascript">
+    $("#ipsec_cancel").unbind().click( ipsec_edit_cancel);
+
+    var div_config_ipsec_contador = 0;
+    $('#ipsec_add_new_certificate').unbind().click( function() {
+        console.log("ipsec_add_new_certificate entrou");
+        ipsec_add_new_certificate();
+    });
+
+    $("#ipsec_confirma").unbind().click( ipsec_edit_confirm);
+</script>
+</div> <!-- fim div config_ipsec_html -->
+<div id='config_ipsec_each_html'>
+<div id='div_config_ipsec' class="form-group">
+    <div id='div_ipsec_each_certificate'>
+        <input id="id_ipsec_certificate_file_preexistent_alteraid" type="text" value="0" hidden="hidden">
+        <input id="id_ipsec_index_to_use" type="text" value="id_ipsec_value_to_use" hidden="hidden">
+        <label class='trl' >Certificates folder: </label> 
+        <select id="id_ipsec_folder_alteraid" class="form-group">
+            <option class='trl' value="aacerts">ipsec.d/aacerts/</option>
+            <option class='trl' value="acerts">ipsec.d/acerts/</option>
+            <option class='trl' value="cacerts">ipsec.d/cacerts/</option>
+            <option class='trl' value="certs">ipsec.d/certs/</option>
+            <option class='trl' value="crls">ipsec.d/crls/</option>
+            <option class='trl' value="ocspcerts">ipsec.d/ocspcerts/</option>
+            <option class='trl' value="private">ipsec.d/private/</option>
+            <option class='trl' value="reqs">ipsec.d/reqs/</option>
+        </select>
+        <label class='trl' for='id_ipsec_certificate_name_alteraid'>Certificate file name: </label>
+        <input id="id_ipsec_certificate_name_alteraid" type="text" value=""  class="form-control-sm" >
+        <label class="trl form-check-label cls_ipsec_delete_certificate_file_alteraid" for="id_ipsec_delete_certificate_file_alteraid" hidden="hidden">Delete certificate file from folder</label>
+        <input type="checkbox" id="id_ipsec_delete_certificate_file_alteraid" value="delete" class="form-check-input cls_ipsec_delete_certificate_file_alteraid" hidden="hidden">
+        </br>
+
+        <label class='trl' >Content type:</label> 
+        <select id="id_ipsec_cert_content_type_alteraid" class="form-group">
+            <option class='trl' value="">Select</option>
+            <option class='trl' value="plain-text">Edit plain text</option>
+            <option class='trl' value="binary">Binary from file</option>
+        </select>
+        </br>
+        <div id="id_ipsec_certificate_file_type_plain_alteraid" hidden="hidden">
+            <label class='trl' for="id_ipsec_certificate_content_alteraid">Certificate file content: </label> 
+            </br>
+            <textarea rows="10" cols="50" id="id_ipsec_certificate_content_alteraid" ></textarea>
+            </br>
+        </div>
+        <div id="id_ipsec_certificate_file_type_bin_alteraid" hidden="hidden">
+            <input id="id_ipsec_certificate_file_alteraid" type="file"/>
+            </br>
+            <textarea rows="10" cols="50" id="id_ipsec_certificate_base64_alteraid" disabled ></textarea>
+            </br>
+        </div>
+
+        <input id='id_ipsec_del_alteraid' value='Remove entry' type="button"  class="ipsec_del btn btn-outline-primary btn-sm"/>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(".ipsec_del").unbind().click( function(){
+        var id = this.id.substring( 'id_ipsec_del_'.length);
+        console.log('ipsec_del para id ' + this.id + 'div_config_ipsec ' + id);
+        $('#_' + id + '_div_config_ipsec').empty();
+    });
+</script>
+</div> <!-- fim div config_ipsec_each_html -->
+<div id='config_openvpn_html'>
+<div id='div_config_openvpn' class="form-group">
+    <h2 class='trl'>OpenVPN configuration</h2>
+    </br>
+    <label class='trl' >Enable OpenVPN: </label> 
+    <select id="openvpn_use" class="form-control-sm">
+        <option class='trl' value="0">disabled</option>
+        <option class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <div id='openvpn_config_parameters'>
+        <label class='trl' >Enable DNS from VPN: </label> 
+        <select id="openvpn_dns_conf" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+    </div>
+    <label class='trl' >Auto login profile: </label> 
+    <select id="openvpn_auto_login" class="form-control-sm">
+        <option class='trl' value="0">No</option>
+        <option class='trl' value="1">Yes</option>
+    </select>
+    <br>
+    <div id='openvpn_user_passwd'>
+        <label class='trl' for='openvpn_username'>Username: </label> <input id="openvpn_username" type="text" value=""  class="form-control-sm">
+        <br>
+        <label class='trl' for='openvpn_password'>Password: </label> <input id="openvpn_password" type="text" value=""  class="form-control-sm">
+        <br>
+    </div>
+    </br>
+    <label class='trl' for="openvpn_config">OpenVPN configuration file: </label> 
+    </br>
+    <textarea rows="10" cols="50" id="openvpn_config_file" ></textarea>
+    </br>
+
+    <!-- ALEX 2022 05 17   vamos tirar essa possibilidade daqui e deixar somente no pagina de router config 
+    <div id="div_openvpn_router_feature_on_link" hidden="hidden">
+        <br>
+        <label class='trl' >Enable routing packets from Ethernet to OpenVPN: </label> 
+        <select id="openvpn_route_eth_ovpn" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <label class='trl' >Enable routing packets from OpenVPN to Ethernet: </label> 
+        <select id="openvpn_route_ovpn_eth" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+    </div>
+    -->
+
+    <input id="openvpn_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="openvpn_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#openvpn_cancel").unbind().click( openvpn_edit_cancel);
+
+    $("#openvpn_confirma").unbind().click( openvpn_edit_confirm);
+
+    $('#openvpn_use').unbind().change( openvpn_set_view);
+    $('#openvpn_dns_conf').unbind().change( openvpn_set_view);
+
+</script>
+</div> <!-- fim div config_openvpn_html -->
+<div id='config_pingtest_html'>
+<div id='div_config_pingtest' class="form-group">
+    <h2 class='trl'>Conectivity tests</h2>
+    </br>
+    <label class='trl' >IP or hostname: </label> <input id="pingtest_command" type="text" value="" class="form-control-sm">
+
+    <div id='div_pingtest_result'></div>
+    <input id="pingtest_send" value='Send' type="button"  class="btn btn-outline-secondary btn-sm"/>
+    <input id="pingtest_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#pingtest_cancel").unbind().click( pingtest_cancel);
+
+    $("#pingtest_send").unbind().click( pingtest_send);
+
+</script>
+</div> <!-- fim div config_pingtest_html -->
+<div id='config_pinunlock_html'>
+<div id='div_config_pinunlock' class="form-group">
+    <h2 class='trl'>Cellular PIN</h2>
+    </br>
+    <label class='trl' >Input PIN: </label> <input id="pinunlock_pin" type="text" value="" class="form-control-sm">
+
+    <div id='div_pinunlock_result'></div>
+    <input id="pinunlock_send" value='Send' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="pinunlock_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#pinunlock_cancel").unbind().click( pinunlock_cancel);
+
+    $("#pinunlock_send").unbind().click( pinunlock_send);
+
+</script>
+</div> <!-- fim div config_pinunlock_html -->
+<div id='config_router_html'>
+<div id='div_config_router' class="form-group">
+    <h2 class='trl'>Router configuration</h2>
+    </br>
+    <div id='div_config_router_general'>
+        <label class='trl' >Enable routing packets from Ethernet to cellular Internet: </label> 
+        <select id="router_acct_as_one" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <div id='router_config_parameters'>
+            <label class='trl' >Enable DHCP server on Ethernet network: </label> 
+            <select id="router_dhcp_conf" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+            <div id='router_config_dhcp_parameters'>
+                <label class='trl' >Network address offset starts: </label> <input id="router_dhcp_start" type="number" value="100" class="form-control-sm">
+                <br>
+                <label class='trl' >Size of address pool: </label> <input id="router_dhcp_limit" type="number" value="150" class="form-control-sm">
+                <br>
+                <label class='trl' >Lease time: </label> <input id="router_dhcp_leasetime" type="text" value="12h" class="form-control-sm">
+            </div>
+        </div>
+    </div>
+    <div id='div_config_router_por_link'>
+        <br>
+        <label class='trl' >Enable routing packets from Ethernet to Cellular Internet: </label> 
+        <select id="router_route_eth_cel" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <label class='trl' >Enable routing packets from Cellular Internet to Ethernet: </label> 
+        <select id="router_route_cel_eth" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <br>
+        <label class='trl' >Enable routing packets from Ethernet to OpenVPN: </label> 
+        <select id="router_route_eth_ovpn" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <label class='trl' >Enable routing packets from OpenVPN to Ethernet: </label> 
+        <select id="router_route_ovpn_eth" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <div id='div_config_routing_ipsec_wan_available'>
+            <!--        ALEX 2022 05 17 - vamos tirar essa possibilidade, ou so colocar na versao 2.24 para cima -->
+            <br>
+            <label class='trl' >Enable routing packets from Ethernet to IPsec: </label> 
+            <select id="router_route_eth_ipsec" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+            <label class='trl' >Enable routing packets from IPsec to Ethernet: </label> 
+            <select id="router_route_ipsec_eth" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+        </div>
+    </div>
+    <input id="router_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="router_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#router_cancel").unbind().click( router_edit_cancel);
+
+    $("#router_confirma").unbind().click( router_edit_confirm);
+
+    $('#router_acct_as_one').unbind().change( router_set_view);
+    $('#router_dhcp_conf').unbind().change( router_set_view);
+
+</script>
+</div> <!-- fim div config_router_html -->
+<div id='config_schedreboot_html'>
+<div id='div_config_schedreboot' class="form-group">
+    <h2 class='trl'>Scheduled Root Configuration</h2>
+    </br>
+    <label  class='trl' for="schedreboot_enabled">Enabled: </label> 
+    <select id="schedreboot_enabled" class="form-control-sm">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <label  class='trl' for="schedreboot_day">Day of week: </label> 
+    <select id="schedreboot_day" class="form-control-sm">
+        <option  class='trl' value="*">every day</option>
+        <option  class='trl' value="0">sunday</option>
+        <option  class='trl' value="1">monday</option>
+        <option  class='trl' value="2">tuesday</option>
+        <option  class='trl' value="3">wednesday</option>
+        <option  class='trl' value="4">thursday</option>
+        <option  class='trl' value="5">friday</option>
+        <option  class='trl' value="6">saturday</option>
+        <option  class='trl' value="1,2,3,4,5">monday to friday</option>
+    </select>
+    <br>
+    <label  class='trl' for="schedreboot_hour">Hour: </label> 
+    <select id="schedreboot_hour" class="form-control-sm">
+        <option  class='trl' value="*">every hour</option>
+        <option  class='trl' value="0">0</option>
+        <option  class='trl' value="1">1</option>
+        <option  class='trl' value="2">2</option>
+        <option  class='trl' value="3">3</option>
+        <option  class='trl' value="4">4</option>
+        <option  class='trl' value="5">5</option>
+        <option  class='trl' value="6">6</option>
+        <option  class='trl' value="7">7</option>
+        <option  class='trl' value="8">8</option>
+        <option  class='trl' value="9">9</option>
+        <option  class='trl' value="10">10</option>
+        <option  class='trl' value="11">11</option>
+        <option  class='trl' value="12">12</option>
+        <option  class='trl' value="13">13</option>
+        <option  class='trl' value="14">14</option>
+        <option  class='trl' value="15">15</option>
+        <option  class='trl' value="16">16</option>
+        <option  class='trl' value="17">17</option>
+        <option  class='trl' value="18">18</option>
+        <option  class='trl' value="19">19</option>
+        <option  class='trl' value="20">20</option>
+        <option  class='trl' value="21">21</option>
+        <option  class='trl' value="22">22</option>
+        <option  class='trl' value="23">23</option>
+    </select>
+    <br>
+    <label  class='trl' for="schedreboot_min">Minute: </label> 
+    <select id="schedreboot_min" class="form-control-sm">
+        <option  class='trl' value="0">0</option>
+        <option  class='trl' value="1">1</option>
+        <option  class='trl' value="2">2</option>
+        <option  class='trl' value="3">3</option>
+        <option  class='trl' value="4">t4</option>
+        <option  class='trl' value="5">5</option>
+        <option  class='trl' value="6">6</option>
+        <option  class='trl' value="7">7</option>
+        <option  class='trl' value="8">8</option>
+        <option  class='trl' value="9">9</option>
+        <option  class='trl' value="10">10</option>
+        <option  class='trl' value="11">11</option>
+        <option  class='trl' value="12">12</option>
+        <option  class='trl' value="13">13</option>
+        <option  class='trl' value="14">14</option>
+        <option  class='trl' value="15">15</option>
+        <option  class='trl' value="16">16</option>
+        <option  class='trl' value="17">17</option>
+        <option  class='trl' value="18">18</option>
+        <option  class='trl' value="19">19</option>
+        <option  class='trl' value="20">20</option>
+        <option  class='trl' value="21">21</option>
+        <option  class='trl' value="22">22</option>
+        <option  class='trl' value="23">23</option>
+        <option  class='trl' value="24">24</option>
+        <option  class='trl' value="25">25</option>
+        <option  class='trl' value="26">26</option>
+        <option  class='trl' value="27">27</option>
+        <option  class='trl' value="28">28</option>
+        <option  class='trl' value="29">29</option>
+        <option  class='trl' value="30">30</option>
+        <option  class='trl' value="31">31</option>
+        <option  class='trl' value="32">32</option>
+        <option  class='trl' value="33">33</option>
+        <option  class='trl' value="34">34</option>
+        <option  class='trl' value="35">35</option>
+        <option  class='trl' value="36">36</option>
+        <option  class='trl' value="37">37</option>
+        <option  class='trl' value="38">38</option>
+        <option  class='trl' value="39">39</option>
+        <option  class='trl' value="40">40</option>
+        <option  class='trl' value="41">41</option>
+        <option  class='trl' value="42">42</option>
+        <option  class='trl' value="43">43</option>
+        <option  class='trl' value="44">44</option>
+        <option  class='trl' value="45">45</option>
+        <option  class='trl' value="46">46</option>
+        <option  class='trl' value="47">47</option>
+        <option  class='trl' value="48">48</option>
+        <option  class='trl' value="49">49</option>
+        <option  class='trl' value="50">50</option>
+        <option  class='trl' value="51">51</option>
+        <option  class='trl' value="52">52</option>
+        <option  class='trl' value="53">53</option>
+        <option  class='trl' value="54">54</option>
+        <option  class='trl' value="55">55</option>
+        <option  class='trl' value="56">56</option>
+        <option  class='trl' value="57">57</option>
+        <option  class='trl' value="58">58</option>
+        <option  class='trl' value="59">59</option>
+    </select>
+    <br>
+
+    <input id="schedreboot_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="schedreboot_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#schedreboot_cancel").unbind().click( schedreboot_edit_cancel);
+    $("#schedreboot_confirma").unbind().click( schedreboot_edit_confirm);
+</script>
+</div> <!-- fim div config_schedreboot_html -->
+<div id='config_serial_html'>
+<div id='div_config_serial' class="form-group">
+    <h2 class='trl'>Serial Port configuration</h2>
+    </br>
+    <label class='trl' >Serial port 1</label> 
+    <label class='trl' >Bauderate</label> 
+    <select id="serial_baudrate" class="form-control-sm">
+        <option value="1200">1200</option>
+        <option value="2400">2400</option>
+        <option value="4800">4800</option>
+        <option value="9600">9600</option>
+        <option value="19200">19200</option>
+        <option value="28800">28800</option>
+        <option value="38400">38400</option>
+        <option value="57600">57600</option>
+        <option value="115200">115200</option>
+    </select>
+    <label class='trl' >Data format</label> 
+    <select id="serial_cs" class="form-control-sm">
+        <option value="7">7</option>
+        <option value="8">8</option>
+    </select>
+    <select id="serial_parity" class="form-control-sm">
+        <option value="none">none</option>
+        <option value="even">even</option>
+        <option value="odd">odd</option>
+    </select>
+    <select id="serial_stopbit" class="form-control-sm">
+        <option value="1">1</option>
+        <option value="2">2</option>
+    </select>
+    <div id='serial_second_port' hidden='hidden'>
+        <br>
+        <br>
+        <label class='trl' >Serial port 2</label> 
+        <label class='trl' >Bauderate</label> 
+        <select id="serial2_baudrate" class="form-control-sm">
+            <option value="1200">1200</option>
+            <option value="2400">2400</option>
+            <option value="4800">4800</option>
+            <option value="9600">9600</option>
+            <option value="19200">19200</option>
+            <option value="28800">28800</option>
+            <option value="38400">38400</option>
+            <option value="57600">57600</option>
+            <option value="115200">115200</option>
+        </select>
+        <label class='trl' >Data format</label> 
+        <select id="serial2_cs" class="form-control-sm">
+            <option value="7">7</option>
+            <option value="8">8</option>
+        </select>
+        <select id="serial2_parity" class="form-control-sm">
+            <option value="none">none</option>
+            <option value="even">even</option>
+            <option value="odd">odd</option>
+        </select>
+        <select id="serial2_stopbit" class="form-control-sm">
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
+        <br>
+    </div>
+    <br>
+    <input id="serial_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="serial_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#serial_cancel").unbind().click( serial_edit_cancel);
+
+    $("#serial_confirma").unbind().click( serial_edit_confirm);
+</script>
+</div> <!-- fim div config_serial_html -->
+<div id='config_sroute_html'>
+<h2 class='trl'>Static Routes</h2>
+</br>
+<div id='div_sroute_current_routes' class="form-group" style="border:1px solid gray;"></div>
+<input id="sroute_refresh" value='Get current routes' type="button"  class="btn btn-outline-primary btn-sm"/>
+</br>
+</br>
+<div id="div_sroute_routes" ></div>
+<input id="sroute_add_new_route" type="button" value='New route'  class="btn btn-outline-secondary btn-sm"/>
+<input id="sroute_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+<input id="sroute_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+<script type="text/javascript">
+    $("#sroute_cancel").unbind().click( sroute_edit_cancel);
+
+    var div_config_sroute_contador = 0;
+    $('#sroute_add_new_route').unbind().click( function() {
+        console.log("sroute_add_new_route entrou");
+        sroute_add_new_route();
+    });
+
+    $("#sroute_confirma").unbind().click( sroute_edit_confirm);
+    $("#sroute_refresh").unbind().click( sroute_refresh);
+</script>
+</div> <!-- fim div config_sroute_html -->
+<div id='config_sroute_each_html'>
+<div id='div_config_sroute' class="form-group" style="border:1px solid gray;">
+    <div id='div_sroute_each_route'>
+        <label class='trl' >Name: </label> <input id="sroute_description" type="text" value="" class="form-group">
+        <br>
+        <label class='trl' >Enabled: </label> 
+        <select id="sroute_enabled" class="form-group">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <label class='trl' >IP version: </label> 
+        <select id="sroute_ip_version" class="form-group">
+            <option class='trl' value="4">IPv4</option>
+            <option class='trl' value="6">IPv6</option>
+        </select>
+        <br>
+        <label class='trl' >Interface: </label> 
+        <select id="sroute_dest_interface" class="form-group">
+            <option class='trl' value="wanCel">Celluar</option>
+            <option class='trl' value="wan">Ethernet</option>
+            <option class='trl' value="ovpn">OpenVPN</option>
+            <option class='trl' value="ipsec">IPsec</option>
+        </select>
+        <br>
+        <label class='trl' >Target Network (Cidr IP/Mask): </label> <input id="sroute_target_network" type="text" value="" class="form-group">
+        <br>
+        <label class='trl' >Gateway IP (optional): </label> <input id="sroute_gateway_ip" type="text" value="" class="form-group">
+        <br>
+        <input id='id_sroute_del' value='Remove' type="button"  class="sroute_del btn btn-outline-primary btn-sm"/>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(".sroute_del").unbind().click( function(){
+        console.log('sroute_del para id ' + this.id + 'div_config_sroute');
+        $('#' + this.id + 'div_config_sroute').empty();
+    });
+</script>
+</div> <!-- fim div config_sroute_each_html -->
+<div id='config_status_html'>
+<div id='div_config_status' class="form-group">
+    <h2  class='trl'>Status
+        <input id="status_refresh" value='Refresh' type="button"  class="btn btn-outline-primary btn-sm" />
+    </h2>
+    <div id='div_status_result'></div>
+    </br>
+    <input id="status_refresh" value='Refresh' type="button"  class="btn btn-outline-primary btn-sm" />
+    </br>
+    <textarea id="status_raw" style="width:627px; height:400px;" disabled ></textarea>
+    </br>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#status_cancel").unbind().click( status_cancel);
+    $("#status_refresh").unbind().click( status_refresh);
+</script>
+</div> <!-- fim div config_status_html -->
+<div id='config_tcps_html'>
+<h2 class='trl show_config_abs_mux'>Connections configuration</h2>
+<h2 class='trl show_config_tcp_serial'>TCP x Serial configuration</h2>
+<h3 class='trl show_config_abs_mux'>Local</h3>
+<div id='div_tcp_inside_list' class="show_config_abs_mux" style="border:1px solid black;"></div>
+<input id="tcp_add_new_inside" type="button" value='Add local'  class="btn btn-outline-secondary btn-sm show_config_abs_mux"/>
+<div class="show_config_abs_mux">
+    </br>
+    </br>
+</div>
+<h3 class='trl show_config_abs_mux'>External</h3>
+<div id='div_tcp_outside_list' style="border:1px solid black;"></div>
+<input id="tcp_add_new_outside" type="button" value='Add external'  class="btn btn-outline-secondary btn-sm show_config_abs_mux"/>
+<input id="tcp_add_new" type="button" value='Add new'  class="btn btn-outline-secondary btn-sm show_config_tcp_serial"/>
+</br>
+
+
+<script type="text/javascript">
+    $("#tcp_add_new_outside").unbind().click(new_tcp_to_outside);
+    $("#tcp_add_new").unbind().click(new_tcp_to_outside);
+    $("#tcp_add_new_inside").unbind().click(new_tcp_to_inside);
+</script>
+</div> <!-- fim div config_tcps_html -->
+<div id='config_tcps_each_html'>
+<div id='div_config_tcp'  hidden="hidden" class="card-body  form-group" style="border:1px solid gray;">
+    </br>
+    <div id='tcp_config_message' hidden="hidden"></div>
+    <input id="tcp_config_in_or_out" type="text" value=""  hidden="hidden" class="form-control-sm">
+    <div id='tcp_config_id_label'  hidden="hidden">
+        <label class='trl'>Local connection ID: </label> 
+        <input id="tcp_config_name" type="text" value=""  disabled class="form-control-sm">
+        </br>
+    </div>
+    <div id='tcp_config_outside_label'  hidden="hidden">
+        <label style="vertical-align: top" class='trl'>Jumpers: </label> 
+        <select id="tcp_client_connected_to" multiple class="">
+        </select>
+    </div>
+    </br>
+    <label  class='trl'>Type: </label> 
+    <select id="config_tcp_client_server" class="form-control-sm">
+            <option class='trl' value="client">TCP client</option>
+            <option class='trl' value="server">TCP server</option>
+    </select>
+    <div id='div_config_tcp_client' >
+        <div id='div_config_tcp_local_tira'>
+            <label class='trl' >Hosttype</label> 
+            <select id="tcp_client_hosttype" class="form-control-sm">
+                <option class='trl' value="0">0</option>
+                <option class='trl' value="1">1</option>
+                <option class='trl' value="2">2</option>
+            </select>
+            <label class='trl' >login: </label> <input id="tcp_client_login" type="text" value="" class="form-control-sm">
+            <label class="tcp_client_nshexa">Id: </label> <input id="tcp_client_nshexa" class="tcp_client_nshexa" type="text" maxlength=8 value="" class="form-control-sm">
+            </br>
+            </br>
+            <input id="tcp_client_add_host_and_port" value='Add Host/Port' type="button"  class="btn btn-outline-secondary btn-sm"/>
+            </br>
+        </div>
+        <div id='div_tcp_client_host_and_port'>
+            <label class='trl' >IP or hostname: </label> <input id="tcp_client_hostname" type="text" value="gprs.absltda.com.br" class="form-control-sm">
+            <label class='trl' >Port: </label> <input id="tcp_client_port" type="number" value="5901" class="form-control-sm">
+            <input id='tcp_client_del_host_and_port_id' class="tcp_client_del_host_and_port btn btn-outline-primary btn-sm" value='remove' type="button" />
+        </div>
+        <label class='trl' >Idle Timeout: </label> <input id="tcp_client_idletimeout" type="number" value="90" class="form-control-sm">
+        <div id="div_tcp_client_modbus_tcp">
+            <label class='trl' >Modbus TCP <-> RTU: </label> 
+            <select id="tcp_client_modbus_tcp" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+        </div>
+
+    </div>
+    <div id='div_config_tcp_server' hidden="hidden">
+        <label class='trl' >Port: </label> <input id="tcp_server_port" type="number" value="5901" class="form-control-sm">
+        <label class='trl' >Idle Timeout: </label> <input id="tcp_server_idletimeout" type="number" value="90" class="form-control-sm">
+        <div id="div_tcp_server_modbus_tcp">
+            <label class='trl' >Modbus TCP <-> RTU: </label> 
+            <select id="tcp_server_modbus_tcp" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+        </div>
+        </br>
+        <label class='trl' >Open access from LAN: </label> 
+        <select id="tcp_server_allowed_on_lan" class="form-control-sm tcp_server_allow_ip">
+            <option class='trl' value="0">No</option>
+            <option class='trl' value="1" selected>Yes</option>
+        </select>
+        <div id='div_tcp_server_allowed_on_lan'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_tcp_server_allowed_on_lan_ips">0.0.0.0/0</textarea>
+        </div>
+        </br>
+        <div class="config_celular">
+            <label class='trl' >Open access from Cellular Internet: </label> 
+            <select id="tcp_server_allowed_on_cel_modem" class="form-control-sm tcp_server_allow_ip">
+                <option class='trl' value="0">No</option>
+                <option class='trl' value="1">Yes</option>
+            </select>
+            <div id='div_tcp_server_allowed_on_cel_modem'  hidden="hidden">
+                <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+                </br>
+                <textarea rows="4" cols="50" id="id_tcp_server_allowed_on_cel_modem_ips"></textarea>
+            </div>
+            </br>
+        </div>
+        <div class="div_fw_multisrc_config_feature_available">
+            <label class='trl' >Open access from OpenVPN: </label> 
+            <select id="tcp_server_allowed_on_ovpn" class="form-control-sm tcp_server_allow_ip">
+                <option class='trl' value="0">No</option>
+                <option class='trl' value="1">Yes</option>
+            </select>
+            <div id='div_tcp_server_allowed_on_ovpn'  hidden="hidden">
+                <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+                </br>
+                <textarea rows="4" cols="50" id="id_tcp_server_allowed_on_ovpn_ips"></textarea>
+            </div>
+            </br>
+            <label class='trl' >Open access from IPSec: </label> 
+            <select id="tcp_server_allowed_on_ipsec" class="form-control-sm tcp_server_allow_ip">
+                <option class='trl' value="0">No</option>
+                <option class='trl' value="1">Yes</option>
+            </select>
+            <div id='div_tcp_server_allowed_on_ipsec'  hidden="hidden">
+                <label class='trl' >IP and/or Cidr from: (xxx.xxx.xxx.xxx/24 or more)</label>
+                </br>
+                <textarea rows="4" cols="50" id="id_tcp_server_allowed_on_ipsec_ips"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <input id="tcp_config_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="tcp_config_cancel" value='Cancel' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="tcp_config_edita" class='tcp_config_edita_btn btn btn-outline-secondary btn-sm' value='Edit' type="button"  hidden="hidden"/>
+    <input id="tcp_config_remove" class='tcp_config_remove_btn btn btn-outline-primary btn-sm'  value='Remove' type="button"  hidden="hidden" />
+
+</div>
+
+
+<script type="text/javascript">
+    $('#config_tcp_client_server').change( function (e) {
+        console.log("Trocou a selecao do ", $(this).children("option:selected").val());
+        if ($(this).children("option:selected").val() == 'client') {
+            $( '#div_config_tcp_client').show();
+            $( '#div_config_tcp_server').hide();
+        } else {
+            $( '#div_config_tcp_client').hide();
+            $( '#div_config_tcp_server').show();
+        }
+    });
+
+    $('#tcp_client_add_host_and_port').unbind().click( function( e) { tcp_client_add_host_and_port( e, 'div_tcp_client_host_and_port', this); });
+    $('.tcp_client_del_host_and_port').unbind().click( function( e) { tcp_client_del_host_and_port( e, 'div_tcp_client_host_and_port', this); });
+
+    $('.tcp_server_allow_ip').change( function (e) {
+        console.log("Trocou a selecao do " + this.id, $(this).children("option:selected").val());
+        if ($(this).children("option:selected").val() == '0') {
+            $( '#div_' + this.id).hide();
+        } else {
+            $( '#div_' + this.id).show();
+        }
+    });
+
+    $("#tcp_config_cancel").unbind().click( tcp_edit_cancel);
+
+    $("#tcp_config_confirma").unbind().click( function(){
+        // pegar os dados que foram preenchidos pelo usuario
+        var res = tcp_edit_get_data();
+        // consistir os dados para ver se sao bons
+        // problema com os dados entrados
+        console.log("res result " + res["result"]);
+        if ( res["result"] != 0) {
+            console.log("Vai apresentar a mensagem " + res["msg"]);
+            alert(res["msg"]);
+            $("#tcp_config_message").empty().append( "<h3>" + res["msg"] + "</h3>");
+            $("#tcp_config_message").show();
+        } else {
+            // dados corretos entrados pelo usuario colocar em formato texto com os botoes de remover e editar
+            // substituir este formulario pela nova div
+            tcp_config_present_one(res["toside"], res["name"], res["tcp_conection"]);
+            tcp_edit_cancel();
+            config_has_been_changed("tcp_all")
+            set_conversor_config_show_changes_on_page();
+        }
+    });
+
+    $('.tcp_config_edita_btn').unbind().click( function() {
+        console.log("tcp_config_edita_btn   id " + this.id);
+        tcp_config_edit_one(this.id);
+    });
+    $('.tcp_config_remove_btn').unbind().click( function() {
+        console.log("tcp_config_remove_btn   id " + this.id);
+        tcp_config_remove_one( this.id);
+        config_has_been_changed("tcp_all")
+        tcp_config_to_finnal_format();
+        set_on_finnal_config_editor(null);
+        show_config_save_pending();
+    });
+
+</script>
+</div> <!-- fim div config_tcps_each_html -->
+<div id='config_userapp_html'>
+<div id='div_config_userapp' class="form-group">
+    <h2 class='trl'>User Application configuration</h2>
+    </br>
+    <label  class='trl' for="userapp_start_application">Start user application on boot: </label> 
+    <select id="userapp_start_application" class="form-control-sm userapp_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+
+    <input id="userapp_select_package_file" type="file"/>
+    </br>
+    <textarea rows="10" cols="50" id="userapp_package_file" disabled ></textarea>
+    </br>
+
+    <label  class='trl' for="userapp_lock_package">Lock package: </label> 
+    <select id="userapp_lock_package" class="form-control-sm userapp_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+
+    <label  class='trl' for="userapp_enable_httpd">Enable http server for user application: </label> 
+    <select id="userapp_enable_httpd" class="form-control-sm userapp_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+
+    <label class='trl' >Http port to listen. Shuld be higer than 1024: </label> <input id="userapp_httpd_port" type="number" value="1024" class="form-control-sm">
+
+    <div id='div_userapp_allow_on_lan'>
+        <label  class='trl' for="userapp_allow_on_lan">Open access from LAN: </label> 
+        <select id="userapp_allow_on_lan" class="form-control-sm userapp_selector">
+            <option  class='trl' value="1">enabled</option>
+            <option  class='trl' value="0">disabled</option>
+        </select>
+        <br>
+    </div>
+    <div id='userapp_div_allowed_lan_ips'>
+        <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+        </br>
+        <textarea rows="4" cols="50" id="id_userapp_lan_allowed_ips"></textarea>
+    </div>
+    <br>
+
+    <div class="config_celular">
+        <div id='div_userapp_allow_on_wancel'>
+            <label  class='trl' for="userapp_allow_on_wancel">Open access from Cellular Internet: </label> 
+            <select id="userapp_allow_on_wancel" class="form-control-sm userapp_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='userapp_div_allowed_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_userapp_wancel_allowed_ips"></textarea>
+        </div>
+        <br>
+    </div>
+
+    <div class="div_fw_multisrc_config_feature_available">
+        <div id='div_userapp_allow_on_ovpn'>
+            <label  class='trl' for="userapp_allow_on_ovpn">Open access from OpenVPN: </label> 
+            <select id="userapp_allow_on_ovpn" class="form-control-sm userapp_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='userapp_div_allowed_ovpn_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_userapp_ovpn_allowed_ips"></textarea>
+        </div>
+        <br>
+
+        <div id='div_userapp_allow_on_ipsec'>
+            <label  class='trl' for="userapp_allow_on_ipsec">Open access from IPSec: </label> 
+            <select id="userapp_allow_on_ipsec" class="form-control-sm userapp_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='userapp_div_allowed_ipsec_ips'>
+            <label class='trl' >IP and/or Cidr from: (xxx.xxx.xxx.xxx/24 or more)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_userapp_ipsec_allowed_ips"></textarea>
+        </div>
+        <br>
+    </div>
+
+    <input id="userapp_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="userapp_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#userapp_cancel").unbind().click( userapp_edit_cancel);
+
+    $("#userapp_confirma").unbind().click( userapp_edit_confirm);
+
+    $('.userapp_selector').change( userapp_set_view);
+
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        document.getElementById('userapp_select_package_file').addEventListener('change', userapp_handleFileSelect, false);
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+    }
+
+</script>
+</div> <!-- fim div config_userapp_html -->
+<div id='config_userapp_diagnostics_html'>
+<div id='div_config_diagnostics' class="form-group">
+    <h2 class='trl'>Diagnostics & Tests</h2>
+    </br>
+    <label class='trl' >Select: </label> 
+    <select id="diagnostics_selection" class="form-control-sm">
+        <option class='trl' value="ping">ping</option>
+        <option class='trl' value="DNS">DNS service</option>
+        <option class='trl' value="logread">System log</option>
+        <option class='trl' value="openvpn">OpenVPN log</option>
+        <option class='trl' value="ipsec">IPSec</option>
+        <option class='trl' value="tcpdump">Network trafic</option>
+    </select>
+    </br>
+    </br>
+    <div id='div_diagnostic_ping_dns' hidden="hidden">
+        <h4 id='diagnostic_ping_dns_title'></h2>
+        <label class='trl' >IP or hostname: </label> <input id="diagnostics_command" type="text" value="" class="form-control-sm">
+
+        <input id="diagnostics_send" value='Send' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+    </div>
+    <div id='div_diagnostic_logread' hidden="hidden">
+        <h4 class='trl'>System log</h2>
+        <input id="diagnostics_get_logread" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+    <div id='div_diagnostic_openvpn' hidden="hidden">
+        <h4 class='trl'>OpenVPN log</h2>
+        <input id="diagnostics_get_openvpn" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+    <div id='div_diagnostic_tcpdump' hidden="hidden">
+        <h4 class='trl'>Network Trafic. Tcpdump</h2>
+        <label class='trl' >Interface(s) to read: </label> 
+        <select id="diagnostics_tcpdump_interface" class="form-control-sm">
+            <option class='trl' value="cel">Cellular</option>
+            <option class='trl' value="eth">Ethernet</option>
+            <option class='trl' value="celeth">Both</option>
+        </select>
+        </br>
+        <label class='trl' >File format: </label> 
+        <select id="diagnostics_tcpdump_fileformat" class="form-control-sm">
+            <option class='trl' value="txt">Text</option>
+            <option class='trl' value="bin">Binary</option>
+        </select>
+        </br>
+        <label class='trl' >How long in minutes: </label> 
+        <select id="diagnostics_tcpdump_time" class="form-control-sm">
+            <option class='trl' value="1">1</option>
+            <option class='trl' value="2">2</option>
+            <option class='trl' value="3">3</option>
+            <option class='trl' value="4">4</option>
+            <option class='trl' value="5">5</option>
+            <option class='trl' value="6">6</option>
+            <option class='trl' value="7">7</option>
+            <option class='trl' value="8">8</option>
+            <option class='trl' value="9">9</option>
+            <option class='trl' value="10">10</option>
+        </select>
+        </br>
+        <input id="diagnostics_start_tcpdump" value='Start logging' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_get_tcpdump" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+        <a id="diagnostic_tcpdump_binary_download_cel" href="#" target="_blank" class='trl' >Download binary file from cellular</a>
+        </br>
+        <a id="diagnostic_tcpdump_binary_download_eth" href="#" target="_blank" class='trl' >Download binary file from Ethernet</a>
+        </br>
+        <a id="diagnostic_tcpdump_text_download_cel" href="#" target="_blank" class='trl' >Download text file from cellular</a>
+        </br>
+        <a id="diagnostic_tcpdump_text_download_eth" href="#" target="_blank" class='trl' >Download text file from Ethernet</a>
+    </div>
+
+    <div id='div_diagnostic_ipsec' hidden="hidden">
+        <h4 class='trl'>IPSec</h2>
+        <label class='trl' >Set log level to: </label> 
+        <select id="diagnostics_loglevel_ipsec" class="form-control-sm">
+            <option class='trl' value="1">1</option>
+            <option class='trl' value="2">2</option>
+            <option class='trl' value="3">3</option>
+            <option class='trl' value="4">4</option>
+        </select>
+        </br>
+        <input id="diagnostics_change_loglevel_ipsec" value='Change log level' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_getlog_ipsec" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_statusall_ipsec" value='ipsec statusall' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_start_ipsec" value='Start IPSec service' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_stop_ipsec" value='Stop IPSec service' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+
+    <div id='div_diagnostics_result'></div>
+        
+</div>
+
+
+<script type="text/javascript">
+    $('#diagnostics_selection').change( diagnostics_set_view);
+
+    $(".diagnostics_cancel").unbind().click( diagnostics_cancel);
+
+    $("#diagnostics_send").unbind().click( diagnostics_send);
+
+    $("#diagnostics_get_logread").unbind().click( diagnostics_get_logread);
+    $("#diagnostics_get_openvpn").unbind().click( diagnostics_get_openvpn);
+
+    $("#diagnostics_start_tcpdump").unbind().click( diagnostics_start_tcpdump);
+    $("#diagnostics_get_tcpdump").unbind().click( diagnostics_get_tcpdump);
+
+    $("#diagnostics_change_loglevel_ipsec").unbind().click( diagnostics_change_loglevel_ipsec);
+    $("#diagnostics_getlog_ipsec").unbind().click( diagnostics_getlog_ipsec);
+    $("#diagnostics_statusall_ipsec").unbind().click( diagnostics_statusall_ipsec);
+    $("#diagnostics_start_ipsec").unbind().click( diagnostics_start_ipsec);
+    $("#diagnostics_stop_ipsec").unbind().click( diagnostics_stop_ipsec);
+
+</script>
+</div> <!-- fim div config_userapp_diagnostics_html -->
+<div id='config_websec_html'>
+<div id='div_config_websec' class="form-group">
+    <h2 class='trl'>Change password to web configurator</h2>
+    </br>
+    <label  class='trl' for="websec_enforce_authorization">Enforce use of password on http access: </label> 
+    <select id="websec_enforce_authorization" class="form-control-sm websec_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <label  class='trl' for="websec_change_password">Change password: </label> 
+    <select id="websec_change_password" class="form-control-sm websec_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <div id='websec_div_change_pwd'>
+        <label class='trl'>Login name: admin </label> 
+        <br>
+        <label class='trl' for='websec_current_pwd'>Current password: </label> <input id="websec_current_pwd" type="password" value=""  class="form-control-sm">
+        <br>
+        <label class='trl' for='websec_new_pwd'>New password: </label> <input id="websec_new_pwd" type="password" value=""  class="form-control-sm">
+        <br>
+    </div>
+
+    <div id='div_websec_allow_on_lan'>
+        <label  class='trl' for="websec_allow_on_lan">Open access from LAN: </label> 
+        <select id="websec_allow_on_lan" class="form-control-sm websec_selector">
+            <option  class='trl' value="1">enabled</option>
+            <option  class='trl' value="0">disabled</option>
+        </select>
+        <br>
+    </div>
+    <div id='websec_div_allowed_lan_ips'>
+        <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+        </br>
+        <textarea rows="4" cols="50" id="id_websec_lan_allowed_ips"></textarea>
+    </div>
+    <br>
+
+    <div class="config_celular">
+        <div id='div_websec_allow_on_wancel'>
+            <label  class='trl' for="websec_allow_on_wancel">Open access from Cellular Internet: </label> 
+            <select id="websec_allow_on_wancel" class="form-control-sm websec_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='websec_div_allowed_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_websec_wancel_allowed_ips"></textarea>
+        </div>
+        <br>
+    </div>
+
+    <div class="div_fw_multisrc_config_feature_available">
+        <div id='div_websec_allow_on_ovpn'>
+            <label  class='trl' for="websec_allow_on_ovpn">Open access from OpenVPN: </label> 
+            <select id="websec_allow_on_ovpn" class="form-control-sm websec_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='websec_div_allowed_ovpn_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_websec_ovpn_allowed_ips"></textarea>
+        </div>
+        <br>
+
+        <div id='div_websec_allow_on_ipsec'>
+            <label  class='trl' for="websec_allow_on_ipsec">Open access from IPSec: </label> 
+            <select id="websec_allow_on_ipsec" class="form-control-sm websec_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='websec_div_allowed_ipsec_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_websec_ipsec_allowed_ips"></textarea>
+        </div>
+        <br>
+    </div>
+
+    <input id="websec_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="websec_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#websec_cancel").unbind().click( websec_edit_cancel);
+
+    $("#websec_confirma").unbind().click( websec_edit_confirm);
+
+    $('.websec_selector').change( websec_set_view);
+
+</script>
+</div> <!-- fim div config_websec_html -->

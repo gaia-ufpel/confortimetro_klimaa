@@ -1,0 +1,38 @@
+<div id='div_config_dmz' class="form-group">
+    <h2 class='trl'>DMZ configuration</h2>
+    </br>
+    <label class='trl' >Enable DMZ: </label> 
+    <select id="dmz_enabled" class="form-control-sm">
+        <option class='trl' value="0">disabled</option>
+        <option class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <div id='dmz_config_parameters'>
+        <label class='trl' >Select interface: </label> 
+        <select id="dmz_interface" class="form-control-sm">
+            <option class='trl' value="wanCel">Cel Modem</option>
+        </select>
+        <br>
+        <div id='dmz_config_dhcp_parameters'>
+            IP address of a server that shuld receive all traffic
+            </br>
+            <label class='trl' >IP to: </label> <input id="dmz_ip_to" type="text" value="" class="form-control-sm">
+            <br>
+        </div>
+    </div>
+
+    <input id="dmz_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="dmz_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#dmz_cancel").unbind().click( dmz_edit_cancel);
+
+    $("#dmz_confirma").unbind().click( dmz_edit_confirm);
+
+    $('#dmz_acct_as_one').unbind().change( dmz_set_view);
+    $('#dmz_dhcp_conf').unbind().change( dmz_set_view);
+
+</script>

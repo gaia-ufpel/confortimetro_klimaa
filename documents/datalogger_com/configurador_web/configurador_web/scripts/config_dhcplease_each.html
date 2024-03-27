@@ -1,0 +1,16 @@
+<div id='div_config_dhcpleases' class="form-group">
+    <div id='div_dhcpleases_each_rule' style="border:1px solid gray;">
+        <label class='trl' >ÌP: </label> <input id="dhcpleases_ip" type="text" value="" class="form-group">
+        <label class='trl' >MAC Address: </label> <input id="dhcpleases_mac" type="text" value="" class="form-group">
+        <label class='trl' >Name: </label> <input id="dhcpleases_name" type="text" value="" class="form-group">
+        <input id='id_dhcpleases_del' value='Remove' type="button"  class="dhcpleases_del btn btn-outline-primary btn-sm"/>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(".dhcpleases_del").unbind().click( function(){
+        console.log('dhcpleases_del para id ' + this.id + 'div_config_dhcpleases');
+        $('#' + this.id + 'div_config_dhcpleases').empty();
+    });
+</script>

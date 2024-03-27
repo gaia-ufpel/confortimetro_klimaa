@@ -1,0 +1,53 @@
+<div id='div_config_celmodem' class="form-group">
+    <h2 class='trl'>Cellular dial configuration</h2>
+    </br>
+    <label for="celmodem_enable" class='trl'>Cellular modem: </label> 
+    <select id="celmodem_enable" class="form-control-sm">
+        <option class='trl' value="1">enable</option>
+        <option class='trl' value="0">disable</option>
+    </select>
+    </br>
+    <div id='div_celmodem_enabled_config'>
+        <label class='trl'  >DNS server: </label> <input id="celmodem_dns_server" type="text" value="XXX.XXX.XXX.XXX" class="form-control-sm">
+        <br>
+        <label class='trl' >APN: </label> <input id="celmodem_anp" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >User name: </label> <input id="celmodem_loginname" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >Password: </label> <input id="celmodem_password" type="text" value="" class="form-control-sm">
+        <!--
+        <br>
+        <label class='trl' >Radio band (default 511): </label> <input id="celmodem_radionband" type="text" value="511" class="form-control-sm">
+        <div id="div_celmodem_router_feature_on_link" hidden="hidden">
+            <br>
+            <label class='trl' >Enable routing packets from Ethernet to Cellular Internet: </label> 
+            <select id="celmodem_route_eth_cel" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+            <label class='trl' >Enable routing packets from Cellular Internet to Ethernet: </label> 
+            <select id="celmodem_route_cel_eth" class="form-control-sm">
+                <option class='trl' value="0">disabled</option>
+                <option class='trl' value="1">enabled</option>
+            </select>
+            <br>
+        </div>
+        -->
+    </div>
+
+
+    <input id="celmodem_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="celmodem_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#celmodem_cancel").unbind().click( celmodem_edit_cancel);
+
+    $("#celmodem_confirma").unbind().click( celmodem_edit_confirm);
+
+    $('#celmodem_enable').change( celmodem_set_view);
+
+</script>

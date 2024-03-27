@@ -1,0 +1,115 @@
+<div id='div_config_userapp' class="form-group">
+    <h2 class='trl'>User Application configuration</h2>
+    </br>
+    <label  class='trl' for="userapp_start_application">Start user application on boot: </label> 
+    <select id="userapp_start_application" class="form-control-sm userapp_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+
+    <input id="userapp_select_package_file" type="file"/>
+    </br>
+    <textarea rows="10" cols="50" id="userapp_package_file" disabled ></textarea>
+    </br>
+
+    <label  class='trl' for="userapp_lock_package">Lock package: </label> 
+    <select id="userapp_lock_package" class="form-control-sm userapp_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+
+    <label  class='trl' for="userapp_enable_httpd">Enable http server for user application: </label> 
+    <select id="userapp_enable_httpd" class="form-control-sm userapp_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+
+    <label class='trl' >Http port to listen. Shuld be higer than 1024: </label> <input id="userapp_httpd_port" type="number" value="1024" class="form-control-sm">
+
+    <div id='div_userapp_allow_on_lan'>
+        <label  class='trl' for="userapp_allow_on_lan">Open access from LAN: </label> 
+        <select id="userapp_allow_on_lan" class="form-control-sm userapp_selector">
+            <option  class='trl' value="1">enabled</option>
+            <option  class='trl' value="0">disabled</option>
+        </select>
+        <br>
+    </div>
+    <div id='userapp_div_allowed_lan_ips'>
+        <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+        </br>
+        <textarea rows="4" cols="50" id="id_userapp_lan_allowed_ips"></textarea>
+    </div>
+    <br>
+
+    <div class="config_celular">
+        <div id='div_userapp_allow_on_wancel'>
+            <label  class='trl' for="userapp_allow_on_wancel">Open access from Cellular Internet: </label> 
+            <select id="userapp_allow_on_wancel" class="form-control-sm userapp_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='userapp_div_allowed_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_userapp_wancel_allowed_ips"></textarea>
+        </div>
+        <br>
+    </div>
+
+    <div class="div_fw_multisrc_config_feature_available">
+        <div id='div_userapp_allow_on_ovpn'>
+            <label  class='trl' for="userapp_allow_on_ovpn">Open access from OpenVPN: </label> 
+            <select id="userapp_allow_on_ovpn" class="form-control-sm userapp_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='userapp_div_allowed_ovpn_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_userapp_ovpn_allowed_ips"></textarea>
+        </div>
+        <br>
+
+        <div id='div_userapp_allow_on_ipsec'>
+            <label  class='trl' for="userapp_allow_on_ipsec">Open access from IPSec: </label> 
+            <select id="userapp_allow_on_ipsec" class="form-control-sm userapp_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='userapp_div_allowed_ipsec_ips'>
+            <label class='trl' >IP and/or Cidr from: (xxx.xxx.xxx.xxx/24 or more)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_userapp_ipsec_allowed_ips"></textarea>
+        </div>
+        <br>
+    </div>
+
+    <input id="userapp_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="userapp_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#userapp_cancel").unbind().click( userapp_edit_cancel);
+
+    $("#userapp_confirma").unbind().click( userapp_edit_confirm);
+
+    $('.userapp_selector').change( userapp_set_view);
+
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        document.getElementById('userapp_select_package_file').addEventListener('change', userapp_handleFileSelect, false);
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+    }
+
+</script>

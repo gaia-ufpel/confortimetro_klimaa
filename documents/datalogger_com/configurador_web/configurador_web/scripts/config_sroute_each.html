@@ -1,0 +1,40 @@
+<div id='div_config_sroute' class="form-group" style="border:1px solid gray;">
+    <div id='div_sroute_each_route'>
+        <label class='trl' >Name: </label> <input id="sroute_description" type="text" value="" class="form-group">
+        <br>
+        <label class='trl' >Enabled: </label> 
+        <select id="sroute_enabled" class="form-group">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <label class='trl' >IP version: </label> 
+        <select id="sroute_ip_version" class="form-group">
+            <option class='trl' value="4">IPv4</option>
+            <option class='trl' value="6">IPv6</option>
+        </select>
+        <br>
+        <label class='trl' >Interface: </label> 
+        <select id="sroute_dest_interface" class="form-group">
+            <option class='trl' value="wanCel">Celluar</option>
+            <option class='trl' value="wan">Ethernet</option>
+            <option class='trl' value="ovpn">OpenVPN</option>
+            <option class='trl' value="ipsec">IPsec</option>
+        </select>
+        <br>
+        <label class='trl' >Target Network (Cidr IP/Mask): </label> <input id="sroute_target_network" type="text" value="" class="form-group">
+        <br>
+        <label class='trl' >Gateway IP (optional): </label> <input id="sroute_gateway_ip" type="text" value="" class="form-group">
+        <br>
+        <input id='id_sroute_del' value='Remove' type="button"  class="sroute_del btn btn-outline-primary btn-sm"/>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(".sroute_del").unbind().click( function(){
+        console.log('sroute_del para id ' + this.id + 'div_config_sroute');
+        $('#' + this.id + 'div_config_sroute').empty();
+    });
+</script>

@@ -1,0 +1,54 @@
+<div id='div_config_ipsec' class="form-group">
+    <div id='div_ipsec_each_certificate'>
+        <input id="id_ipsec_certificate_file_preexistent_alteraid" type="text" value="0" hidden="hidden">
+        <input id="id_ipsec_index_to_use" type="text" value="id_ipsec_value_to_use" hidden="hidden">
+        <label class='trl' >Certificates folder: </label> 
+        <select id="id_ipsec_folder_alteraid" class="form-group">
+            <option class='trl' value="aacerts">ipsec.d/aacerts/</option>
+            <option class='trl' value="acerts">ipsec.d/acerts/</option>
+            <option class='trl' value="cacerts">ipsec.d/cacerts/</option>
+            <option class='trl' value="certs">ipsec.d/certs/</option>
+            <option class='trl' value="crls">ipsec.d/crls/</option>
+            <option class='trl' value="ocspcerts">ipsec.d/ocspcerts/</option>
+            <option class='trl' value="private">ipsec.d/private/</option>
+            <option class='trl' value="reqs">ipsec.d/reqs/</option>
+        </select>
+        <label class='trl' for='id_ipsec_certificate_name_alteraid'>Certificate file name: </label>
+        <input id="id_ipsec_certificate_name_alteraid" type="text" value=""  class="form-control-sm" >
+        <label class="trl form-check-label cls_ipsec_delete_certificate_file_alteraid" for="id_ipsec_delete_certificate_file_alteraid" hidden="hidden">Delete certificate file from folder</label>
+        <input type="checkbox" id="id_ipsec_delete_certificate_file_alteraid" value="delete" class="form-check-input cls_ipsec_delete_certificate_file_alteraid" hidden="hidden">
+        </br>
+
+        <label class='trl' >Content type:</label> 
+        <select id="id_ipsec_cert_content_type_alteraid" class="form-group">
+            <option class='trl' value="">Select</option>
+            <option class='trl' value="plain-text">Edit plain text</option>
+            <option class='trl' value="binary">Binary from file</option>
+        </select>
+        </br>
+        <div id="id_ipsec_certificate_file_type_plain_alteraid" hidden="hidden">
+            <label class='trl' for="id_ipsec_certificate_content_alteraid">Certificate file content: </label> 
+            </br>
+            <textarea rows="10" cols="50" id="id_ipsec_certificate_content_alteraid" ></textarea>
+            </br>
+        </div>
+        <div id="id_ipsec_certificate_file_type_bin_alteraid" hidden="hidden">
+            <input id="id_ipsec_certificate_file_alteraid" type="file"/>
+            </br>
+            <textarea rows="10" cols="50" id="id_ipsec_certificate_base64_alteraid" disabled ></textarea>
+            </br>
+        </div>
+
+        <input id='id_ipsec_del_alteraid' value='Remove entry' type="button"  class="ipsec_del btn btn-outline-primary btn-sm"/>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(".ipsec_del").unbind().click( function(){
+        var id = this.id.substring( 'id_ipsec_del_'.length);
+        console.log('ipsec_del para id ' + this.id + 'div_config_ipsec ' + id);
+        $('#_' + id + '_div_config_ipsec').empty();
+    });
+</script>

@@ -1,0 +1,22 @@
+<div id='div_config_celoperparms' class="form-group">
+    <h2 class='trl'>Operator list manager</h2>
+    </br>
+    <label class='trl' for="celoperparms_parameters">List: </label> 
+    </br>
+    <textarea rows="10" cols="50" id="celoperparms_parameters" ></textarea>
+
+    <div id='div_celoperparms_result'></div>
+    <input id="celoperparms_read" value='Get current' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="celoperparms_send" value='Save' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="celoperparms_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#celoperparms_cancel").unbind().click( celoperparms_cancel);
+    
+    $("#celoperparms_read").unbind().click( celoperparms_read);
+    $("#celoperparms_send").unbind().click( celoperparms_send);
+
+</script>
