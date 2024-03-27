@@ -1,9 +1,0 @@
-ExpandObjects: Cannot find Energy+.idd as specified in Energy+.ini.
-ExpandObjects: Since the Energy+.IDD file cannot be read no range or choice checking was performed.
-ExpandObjects: Warning:  In HVACTemplate:System:DedicatedOutdoorAir "DOAS_RECEPCAO" there is heat recovery with no heating coil. The heat recovery heating mode will be controlled to not exceed the cooling setpoint.
-ExpandObjects: Warning:  In HVACTemplate:System:DedicatedOutdoorAir "DOAS_SALA_AULA" there is heat recovery with no heating coil. The heat recovery heating mode will be controlled to not exceed the cooling setpoint.
-ExpandObjects: Warning:  In HVACTemplate:System:DedicatedOutdoorAir "DOAS_SEC_LINSE" there is heat recovery with no heating coil. The heat recovery heating mode will be controlled to not exceed the cooling setpoint.
-ExpandObjects: Warning:  In HVACTemplate:System:DedicatedOutdoorAir "DOAS_LINSE" there is heat recovery with no heating coil. The heat recovery heating mode will be controlled to not exceed the cooling setpoint.
-ExpandObjects: Warning:  In HVACTemplate:System:DedicatedOutdoorAir "DOAS_ATELIE1" there is heat recovery with no heating coil. The heat recovery heating mode will be controlled to not exceed the cooling setpoint.
-ExpandObjects: Warning:  In HVACTemplate:System:DedicatedOutdoorAir "DOAS_ATELIE2" there is heat recovery with no heating coil. The heat recovery heating mode will be controlled to not exceed the cooling setpoint.
-ExpandObjects: Warning:  In HVACTemplate:System:DedicatedOutdoorAir "DOAS_ATELIE3" there is heat recovery with no heating coil. The heat recovery heating mode will be controlled to not exceed the cooling setpoint.
