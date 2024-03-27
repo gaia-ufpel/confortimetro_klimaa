@@ -1,2 +1,0 @@
-pythermalcomfort
-ladybug-comfort
