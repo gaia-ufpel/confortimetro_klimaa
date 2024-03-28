@@ -9,7 +9,6 @@ const CONFORT_VIEW = (props: any) => {
     var startid = `START_DATE`;
     var endid = `END_DATE`;
     const [date, setDate] = useState({ [startid]: null, [endid]: null })
-    const mainContext = createContext(null)
     const params = ['Temperatura', 'Temperatura de globo', 'Pressão atmosférica', 'Umidade', 'Velocidade do vento']
     const [clickedButtons, setClickedButtons] = useState(params);
 
@@ -35,8 +34,7 @@ const CONFORT_VIEW = (props: any) => {
 
 
     useEffect(() => {
-        console.log(date)
-    }, [date])
+    }, [])
 
     return (
         <div className='relative flex flex-col'>

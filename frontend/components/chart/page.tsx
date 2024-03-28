@@ -4,18 +4,11 @@ import { Chart, Line } from 'react-chartjs-2';
 const GRAPHIC_VIEWER = (props: any, children: any) => {
     const [tableData, setTableData] = useState(null)
     var ctx = document.getElementById('mainChart')
-
+    let api = '/api/v1/metrics';
     const getMetrics = async () => {
-        try {
-            let response = await fetch('')
-            if (!response.ok) {
-                throw new Error("Failed to fetch metrics")
-            }
-        }
-        let data = await response
+        
     }
     useEffect(() => {
-        console.log(props.metrics)
     }, [props.metrics])
 
     var config = {
@@ -34,7 +27,7 @@ const GRAPHIC_VIEWER = (props: any, children: any) => {
             }
         }
     }
-    var myChart = new Chart(ctx, config)
+    //var myChart = new Chart(ctx, config)
 
     return (
         <div className='relative'>
