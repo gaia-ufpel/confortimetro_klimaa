@@ -5,10 +5,11 @@ import DATE_CONTROL from '../date_selector/page';
 import GRAPHIC_VIEWER from '../chart/page';
 import DATE_PATCHER from '../date_selector/date_patcher';
 
+
 const CONFORT_VIEW = (props: any) => {
     var startid = `START_DATE`;
     var endid = `END_DATE`;
-    const [date, setDate] = useState({ [startid]: null, [endid]: null })
+    const [date, setDate] = useState({ [startid]: null, [endid]: null , 'valid':false})
     const params = ['Temperatura', 'Temperatura de globo', 'Pressão atmosférica', 'Umidade', 'Velocidade do vento']
     const [clickedButtons, setClickedButtons] = useState(params);
 
@@ -39,7 +40,7 @@ const CONFORT_VIEW = (props: any) => {
     return (
         <div className='relative flex flex-col'>
             <DATE_CONTROL getState={fromContextSetDates} startid={startid} endid={endid} >
-                <DATE_PATCHER start_datetime={date[startid]} end_datetime={date[endid]}></DATE_PATCHER>
+                <DATE_PATCHER start_datetime={date[startid]} end_datetime={date[endid]} valid={date.valid}></DATE_PATCHER>
             </DATE_CONTROL>
             <div className='text-center'>
                 <GRAPHIC_VIEWER metrics={clickedButtons} start_datetime={date[startid]} end_datetime={date[endid]}></GRAPHIC_VIEWER>
@@ -49,7 +50,6 @@ const CONFORT_VIEW = (props: any) => {
                     params.map((value, index) => <button className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded' key={index} onClick={() => { handleClick(value) }}>{value}</button>)
                 }
             </div>
-
         </div>
     )
 }
