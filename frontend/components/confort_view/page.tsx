@@ -3,24 +3,13 @@ import React from 'react'
 import { useState, useEffect, useContext, createContext } from 'react';
 import DATE_CONTROL from '../date_selector/page';
 import GRAPHIC_VIEWER from '../chart/page';
-import DATE_PATCHER from '../date_selector/date_patcher';
 
 
 const CONFORT_VIEW = (props: any) => {
-    var startid = `START_DATE`;
-    var endid = `END_DATE`;
-    const [date, setDate] = useState({ [startid]: null, [endid]: null , 'valid':false})
+    const [date, setDate] = useState({ 'start_datetime': null, 'end_datetime': null, 'valid': false })
+    const [signalToMetrics, setSignalToMetrics] = useState(false)
     const params = ['Temperatura', 'Temperatura de globo', 'Pressão atmosférica', 'Umidade', 'Velocidade do vento']
     const [clickedButtons, setClickedButtons] = useState(params);
-
-    function fromContextSetDates(id: string, selector_date: any) {
-        if (id == startid) {
-            setDate({ ...date, [startid]: selector_date })
-        }
-        else {
-            setDate({ ...date, [endid]: selector_date })
-        }
-    }
 
     const handleClick = (option: any) => {
         const index = clickedButtons.indexOf(option);
@@ -34,16 +23,11 @@ const CONFORT_VIEW = (props: any) => {
     };
 
 
-    useEffect(() => {
-    }, [])
-
     return (
         <div className='relative flex flex-col'>
-            <DATE_CONTROL getState={fromContextSetDates} startid={startid} endid={endid} >
-                <DATE_PATCHER start_datetime={date[startid]} end_datetime={date[endid]} valid={date.valid}></DATE_PATCHER>
-            </DATE_CONTROL>
+            <DATE_CONTROL date={date} setDate={setDate} signalToMetrics={signalToMetrics} setSignalToMetrics={setSignalToMetrics} />
             <div className='text-center'>
-                <GRAPHIC_VIEWER metrics={clickedButtons} start_datetime={date[startid]} end_datetime={date[endid]}></GRAPHIC_VIEWER>
+                <GRAPHIC_VIEWER metrics={clickedButtons} date={date} signalToMetrics={signalToMetrics} setSignalToMetrics={setSignalToMetrics}></GRAPHIC_VIEWER>
             </div>
             <div className='flex flex-col md:flex-row text-center justify-center space-x-10'>
                 {
