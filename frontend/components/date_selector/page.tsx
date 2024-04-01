@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Date_selector from './date_selector'
 
 const DATE_CONTROL = (props: any) => {
@@ -41,7 +41,7 @@ const DATE_CONTROL = (props: any) => {
     }
 
     return (
-        <div className='absolute flex flex-col justify-center min-h-screen min-w-[1/4] p-10 space-y-10 font-sans '>
+        <div className='absolute flex flex-col justify-center min-h-screen min-w-[1/4] p-10 space-y-10 font-sans z-10'>
             <span>
                 <b>Selecione período:</b>
             </span>
@@ -50,7 +50,7 @@ const DATE_CONTROL = (props: any) => {
                 <Date_selector id={'end_datetime'} setDate={props.setDate} text="Data de fim:" date={props.date} />
             </div>
             <div className='relative flex flex-col items-center text-center'>
-                <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded" onClick={() => { }}>Monitorar</button>
+                <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded" onClick={() => { if (props.date.valid == true) { props.setSignalToMetrics(true)} }}>Monitorar</button>
                 {props.date.valid ? '' : <p className='absolute translate-y-10 float-end text-red-500 font-bold px-4 py-2 rounded-md animate-pulse'>Invalid period</p>}
             </div>
         </div>
