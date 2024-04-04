@@ -1,12 +1,13 @@
+import Loading_animation from '@/components/loading_animation';
 import React, { useEffect, useState, useRef } from 'react'
 import { LineChart, Line, CartesianGrid, YAxis, XAxis, Tooltip, Legend } from 'recharts';
 
-const params = ['Temperatura', 'Temperatura de globo', 'Umidade', 'Velocidade do vento']
 interface Metrics {
-
+    
 }
 
 const GRAPHIC_VIEWER = (props: any) => {
+    const params = ['Temperatura', 'Temperatura de globo', 'Umidade', 'Velocidade do vento']
     const [tableData, setTableData] = useState<any>();
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -47,12 +48,11 @@ const GRAPHIC_VIEWER = (props: any) => {
         }
     }
     useEffect(() => {
-        console.log(clickedButtons)
         if (props.signalToMetrics == true) {
             getMetrics()
             props.setSignalToMetrics(false)
         }
-    }, [props.signalToMetrics, clickedButtons])
+    }, [props.signalToMetrics])
 
     function MetricsAdapter() {
         return false
@@ -65,15 +65,9 @@ const GRAPHIC_VIEWER = (props: any) => {
 
     return (
         <div className='relative flex flex-col'>
-            {isLoading &&
-                <div className="absolute flex justify-center items-center m-10">
-                    <div className="absolute text-2xl font-bold text-purple-500">Loading...</div>
-                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
-                </div>
-            }
+            {isLoading && <Loading_animation />}
             {tableData &&
                 <div className='flex justify-center items-center m-10'>
-
                     <LineChart
                         width={screen.width * 0.7}
                         height={screen.height * 0.7}

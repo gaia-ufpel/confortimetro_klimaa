@@ -1,4 +1,4 @@
-import CONFORT_VIEW from '@/components/confort_view/page'
+import CONFORT_VIEW from '@/components/metrics/confort_view/page'
 import React from 'react'
 
 
