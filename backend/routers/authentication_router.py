@@ -24,7 +24,6 @@ async def login(login_request: LoginRequest, db_session: Annotated[Session, Depe
     """
     Login existing user and send back a JWK authentication token.
     """
-
     user = await authenticate_active_user(login_request.email, login_request.password, db_session)
     jwt_token = create_access_token(data={"sub": user.email})
 
@@ -35,8 +34,6 @@ async def register(register_request: RegisterRequest, db_session: Annotated[Sess
     """
     Register a new user.
     """
-    
-    # Check if the email is already in use
     user = db_session.query(User).filter(User.email == register_request.email).first()
     if user:
         raise HTTPException(status_code=400, detail="Email already in use")

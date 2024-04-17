@@ -1,10 +1,9 @@
 from typing import Annotated
-from datetime import datetime
 from pydantic import BaseModel
 from fastapi import APIRouter, Depends, Header, HTTPException, Response
 from sqlalchemy.orm import Session
 
-from models import Device, Location, Metric, MetricType
+from models import Location
 from utils.auth import get_current_active_user
 from utils.database import get_database
 

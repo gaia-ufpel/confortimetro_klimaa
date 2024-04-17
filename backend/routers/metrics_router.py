@@ -22,6 +22,9 @@ class MetricsRequest(BaseModel):
 
 @metrics_router.get("/")
 async def get_metrics(db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+    """
+    List all metrics.
+    """
     if not authorization:
         raise HTTPException(status_code=401, detail="Unauthorized")
     token = authorization.split(" ")[-1]
@@ -33,6 +36,9 @@ async def get_metrics(db_session: Annotated[Session, Depends(get_database)], aut
 
 @metrics_router.post("/")
 async def post_metrics(metrics_request: MetricsRequest, db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+    """
+    Create a new metric.
+    """
     if not authorization:
         raise HTTPException(status_code=401, detail="Unauthorized")
     token = authorization.split(" ")[-1]
@@ -61,6 +67,9 @@ async def post_metrics(metrics_request: MetricsRequest, db_session: Annotated[Se
 
 @metrics_router.get("/{campus}/{building}/{room}")
 async def get_metrics_by_location(campus: str, building: str, room: str, db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+    """
+    Get all metrics by location.
+    """
     if not authorization:
         raise HTTPException(status_code=401, detail="Unauthorized")
     token = authorization.split(" ")[-1]
@@ -72,6 +81,9 @@ async def get_metrics_by_location(campus: str, building: str, room: str, db_sess
 
 @metrics_router.get("/{serial_number}")
 async def get_metrics_by_serial_numebr(serial_number: str, db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+    """
+    Get all metrics by serial number.
+    """
     if not authorization:
         raise HTTPException(status_code=401, detail="Unauthorized")
     token = authorization.split(" ")[-1]

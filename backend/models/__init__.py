@@ -11,8 +11,6 @@ class Device(Base):
     model: Mapped[str] = mapped_column(String(30))
     id_location: Mapped[int] = mapped_column(ForeignKey("locations.id"))
 
-    location: Mapped["Location"] = relationship(back_populates="devices")
-
 class Location(Base):
     __tablename__ = "locations"
 
@@ -20,8 +18,6 @@ class Location(Base):
     campus: Mapped[str] = mapped_column(String(30))
     building: Mapped[str] = mapped_column(String(30))
     room: Mapped[str] = mapped_column(String(30))
-
-    devices: Mapped[List["Device"]] = relationship(back_populates="location")
 
 class Metric(Base):
     __tablename__ = "metrics"
@@ -32,10 +28,6 @@ class Metric(Base):
     id_location: Mapped[int] = mapped_column(ForeignKey("locations.id")) # FK
     name_metric_type: Mapped[int] = mapped_column(ForeignKey("metrictypes.name")) # FK
     value: Mapped[float] = mapped_column(Float())
-
-    device: Mapped["Device"] = relationship(back_populates="metrics")
-    location: Mapped["Location"] = relationship(back_populates="metrics")
-    metric_type: Mapped["MetricType"] = relationship(back_populates="metrics")
 
 class MetricType(Base):
     __tablename__ = "metrictypes"

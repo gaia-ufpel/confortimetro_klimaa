@@ -19,7 +19,7 @@ class DeviceRequest(BaseModel):
 @devices_router.get("/")
 async def get_devices(db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
     """
-    
+    List all devices.
     """
     if not authorization:
         raise HTTPException(status_code=401, detail="Unauthorized")
@@ -32,6 +32,9 @@ async def get_devices(db_session: Annotated[Session, Depends(get_database)], aut
 
 @devices_router.post("/")
 async def post_devices(device_request: DeviceRequest, db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+    """
+    Create a new device.
+    """
     if not authorization:
         raise HTTPException(status_code=401, detail="Unauthorized")
     token = authorization.split(" ")[-1]
@@ -54,6 +57,9 @@ async def post_devices(device_request: DeviceRequest, db_session: Annotated[Sess
 
 @devices_router.get("/{serial_number}")
 async def get_device_by_serial_number(serial_number: str, db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+    """
+    Get a device by its serial number.
+    """
     if not authorization:
         raise HTTPException(status_code=401, detail="Unauthorized")
     token = authorization.split(" ")[-1]
@@ -65,6 +71,9 @@ async def get_device_by_serial_number(serial_number: str, db_session: Annotated[
 
 @devices_router.get("/{campus}/{building}/{room}")
 async def get_devices_by_location(campus: str, building: str, room: str, db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+    """
+    Get all devices in a location.
+    """
     if not authorization:
         raise HTTPException(status_code=401, detail="Unauthorized")
     token = authorization.split(" ")[-1]
