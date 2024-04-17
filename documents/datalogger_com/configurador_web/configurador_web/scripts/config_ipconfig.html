@@ -1,0 +1,16 @@
+<div id='div_config_ipconfig' class="form-group">
+    <h2 class='trl'>Change Configuration IP</h2>
+    </br>
+    <label class='trl' for='ipconfig_ip_fixo'>New IP for configuration: </label> <input id="ipconfig_ip_fixo" type="text" value="XXX.XXX.XXX.XXX"  class="form-control-sm">
+    <br>
+
+    <div id="div_ipconfig_resultado"></div>
+    <br>
+    <input id="ipconfig_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="ipconfig_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+</div>
+
+<script type="text/javascript">
+    $("#ipconfig_cancel").unbind().click( ipconfig_edit_cancel);
+    $("#ipconfig_confirma").unbind().click( ipconfig_edit_confirm);
+</script>

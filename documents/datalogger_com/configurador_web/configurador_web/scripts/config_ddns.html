@@ -1,0 +1,43 @@
+<div id='div_config_ddns' class="form-group">
+    <h2 class='trl'>DDNS service</h2>
+    </br>
+    <div class="form-check">
+        <input type="checkbox" id="ddns_use_noip" value="noip"  class="form-check-input">
+        <label class="trl form-check-label" for="ddns_use_noip">Use No-IP</label>
+        <div id='div_ddns_enabled_config_noip'>
+            <label class='trl' >IP or hostname: </label> <input id="ddns_hostname_noip" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl'>User name: </label> <input id="ddns_loginname_noip" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl'>Password: </label> <input id="ddns_password_noip" type="text" value="" class="form-control-sm">
+        </div>
+    </div>
+    </br>
+    <div class="form-check">
+        <input type="checkbox" id="ddns_use_dyndns" value="dyndns" class="form-check-input">
+        <label class="trl form-check-label" for="ddns_use_dyndns">Use DynDNS</label>
+        <div id='div_ddns_enabled_config_dyndns'>
+            <label class='trl' >IP or hostname: </label> <input id="ddns_hostname_dyndns" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >User name: </label> <input id="ddns_loginname_dyndns" type="text" value="" class="form-control-sm">
+            <br>
+            <label class='trl' >Password: </label> <input id="ddns_password_dyndns" type="text" value="" class="form-control-sm">
+        </div>
+    </div>
+    </br>
+
+    <input id="ddns_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="ddns_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#ddns_cancel").unbind().click( ddns_edit_cancel);
+
+    $("#ddns_confirma").unbind().click( ddns_edit_confirm);
+
+    $('#ddns_use_noip').change( ddns_set_view);
+    $('#ddns_use_dyndns').change( ddns_set_view);
+
+</script>

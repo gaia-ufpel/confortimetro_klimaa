@@ -1,0 +1,18 @@
+<h2 class='trl'>IP Forwarding configuration</h2>
+</br>
+<div id="div_ipfor_rules" ></div>
+<input id="ipfor_add_new_rule" type="button" value='New rule'  class="btn btn-outline-secondary btn-sm"/>
+<input id="ipfor_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+<input id="ipfor_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+<script type="text/javascript">
+    $("#ipfor_cancel").unbind().click( ipfor_edit_cancel);
+
+    var div_config_ipfor_contador = 0;
+    $('#ipfor_add_new_rule').unbind().click( function() {
+        console.log("ipfor_add_new_rule entrou");
+        ipfor_add_new_rule();
+    });
+
+    $("#ipfor_confirma").unbind().click( ipfor_edit_confirm);
+</script>

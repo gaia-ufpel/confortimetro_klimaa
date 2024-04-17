@@ -1,0 +1,33 @@
+<h2 class='trl'>IPSec configuration</h2>
+</br>
+<label class='trl' >Enable IPSec: </label> 
+<select id="ipsec_use" class="form-control-sm">
+    <option class='trl' value="0">disabled</option>
+    <option class='trl' value="1">enabled</option>
+</select>
+<br>
+<label class='trl' for="ipsec_conf_content">IPSec.conf: </label> 
+</br>
+<textarea rows="10" cols="50" id="ipsec_conf_content" ></textarea>
+</br>
+<label class='trl' for="ipsec_secrets_content">IPSec.secrets: </label> 
+</br>
+<textarea rows="10" cols="50" id="ipsec_secrets_content" ></textarea>
+</br>
+
+<div id="div_ipsec_certificates" ></div>
+<input id="ipsec_add_new_certificate" type="button" value='New certificate'  class="btn btn-outline-secondary btn-sm"/>
+<input id="ipsec_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+<input id="ipsec_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+<script type="text/javascript">
+    $("#ipsec_cancel").unbind().click( ipsec_edit_cancel);
+
+    var div_config_ipsec_contador = 0;
+    $('#ipsec_add_new_certificate').unbind().click( function() {
+        console.log("ipsec_add_new_certificate entrou");
+        ipsec_add_new_certificate();
+    });
+
+    $("#ipsec_confirma").unbind().click( ipsec_edit_confirm);
+</script>

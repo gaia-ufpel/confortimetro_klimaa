@@ -1,0 +1,5 @@
+O software requer a instalação do "openjdk 17".  
+
+Baixe em: 
+
+https://www.abstelemetria.com/files/openjdk17.zip

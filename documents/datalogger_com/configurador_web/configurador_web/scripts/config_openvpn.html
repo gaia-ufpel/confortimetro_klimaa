@@ -1,0 +1,68 @@
+<div id='div_config_openvpn' class="form-group">
+    <h2 class='trl'>OpenVPN configuration</h2>
+    </br>
+    <label class='trl' >Enable OpenVPN: </label> 
+    <select id="openvpn_use" class="form-control-sm">
+        <option class='trl' value="0">disabled</option>
+        <option class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <div id='openvpn_config_parameters'>
+        <label class='trl' >Enable DNS from VPN: </label> 
+        <select id="openvpn_dns_conf" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+    </div>
+    <label class='trl' >Auto login profile: </label> 
+    <select id="openvpn_auto_login" class="form-control-sm">
+        <option class='trl' value="0">No</option>
+        <option class='trl' value="1">Yes</option>
+    </select>
+    <br>
+    <div id='openvpn_user_passwd'>
+        <label class='trl' for='openvpn_username'>Username: </label> <input id="openvpn_username" type="text" value=""  class="form-control-sm">
+        <br>
+        <label class='trl' for='openvpn_password'>Password: </label> <input id="openvpn_password" type="text" value=""  class="form-control-sm">
+        <br>
+    </div>
+    </br>
+    <label class='trl' for="openvpn_config">OpenVPN configuration file: </label> 
+    </br>
+    <textarea rows="10" cols="50" id="openvpn_config_file" ></textarea>
+    </br>
+
+    <!-- ALEX 2022 05 17   vamos tirar essa possibilidade daqui e deixar somente no pagina de router config 
+    <div id="div_openvpn_router_feature_on_link" hidden="hidden">
+        <br>
+        <label class='trl' >Enable routing packets from Ethernet to OpenVPN: </label> 
+        <select id="openvpn_route_eth_ovpn" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+        <label class='trl' >Enable routing packets from OpenVPN to Ethernet: </label> 
+        <select id="openvpn_route_ovpn_eth" class="form-control-sm">
+            <option class='trl' value="0">disabled</option>
+            <option class='trl' value="1">enabled</option>
+        </select>
+        <br>
+    </div>
+    -->
+
+    <input id="openvpn_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="openvpn_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#openvpn_cancel").unbind().click( openvpn_edit_cancel);
+
+    $("#openvpn_confirma").unbind().click( openvpn_edit_confirm);
+
+    $('#openvpn_use').unbind().change( openvpn_set_view);
+    $('#openvpn_dns_conf').unbind().change( openvpn_set_view);
+
+</script>

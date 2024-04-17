@@ -1,0 +1,18 @@
+<div id='div_config_pinunlock' class="form-group">
+    <h2 class='trl'>Cellular PIN</h2>
+    </br>
+    <label class='trl' >Input PIN: </label> <input id="pinunlock_pin" type="text" value="" class="form-control-sm">
+
+    <div id='div_pinunlock_result'></div>
+    <input id="pinunlock_send" value='Send' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="pinunlock_cancel" value='Close' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#pinunlock_cancel").unbind().click( pinunlock_cancel);
+
+    $("#pinunlock_send").unbind().click( pinunlock_send);
+
+</script>

@@ -1,0 +1,57 @@
+**********
+Cenário 1:
+**********
+Ler dados do datalogger interno através da rede ethernet
+Ler equipamentos seriais através da rede ethetnet
+Comunicação através do ABS Gateway
+
+Você irá configurar as seguintes opções:
+
+Link Manager:
+=============
+
+Ethernet Port config: 
+    DHCP: disable
+    Defina um IP de trabalho e demais configurações da rede local
+
+
+Industrial Configurations:
+==========================
+
+Connections:
+
+    External: 
+    	Adicione ou edite a conexão External 0
+	Jumpers: Serial
+	Tipo: TCP client
+	Host type: 0
+	Login: UserLogin
+	Id: deixar em branco	
+	IP e Porta: use os dados do seu IP e Porta do ABS Gateway
+    	Modbus TCP<->RTU: disabled
+
+
+********** 
+Cenário 2:
+**********
+Ler dados do datalogger interno através da rede ethernet
+Ler equipamentos seriais através da rede ethetnet
+Modem recebe a conexão do software
+
+Você irá configurar as seguintes opções:
+
+Link Manager:
+=============
+    DHCP:disable
+    Defina um IP de trabalho e demais configurações da rede local
+
+
+Industrial Connections:
+=======================
+    External:
+	Jumpers: Serial
+	Tipo: TCP server
+	Port: 502
+	Modbus TCP<->RTU: disabled or enabled (depende do software)
+	Open access from LAN: Yes
+	IP and Cidr from: 0.0.0.0/0

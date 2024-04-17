@@ -1,0 +1,127 @@
+<div id='div_config_diagnostics' class="form-group">
+    <h2 class='trl'>Diagnostics & Tests</h2>
+    </br>
+    <label class='trl' >Select: </label> 
+    <select id="diagnostics_selection" class="form-control-sm">
+        <option class='trl' value="ping">ping</option>
+        <option class='trl' value="DNS">DNS service</option>
+        <option class='trl' value="logread">System log</option>
+        <option class='trl' value="debugpackread">Download debug pack</option>
+        <option class='trl' value="openvpn">OpenVPN log</option>
+        <option class='trl' value="ipsec">IPSec</option>
+        <option class='trl' value="tcpdump">Network trafic</option>
+    </select>
+    </br>
+    </br>
+    <div id='div_diagnostic_ping_dns' hidden="hidden">
+        <h4 id='diagnostic_ping_dns_title'></h2>
+        <label class='trl' >IP or hostname: </label> <input id="diagnostics_command" type="text" value="" class="form-control-sm">
+
+        <input id="diagnostics_send" value='Send' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+    </div>
+    <div id='div_diagnostic_logread' hidden="hidden">
+        <h4 class='trl'>System log</h2>
+        <input id="diagnostics_get_logread" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+    <div id='div_diagnostic_debugpackread' hidden="hidden">
+        <h4 class='trl'>Download debug pack</h2>
+        <input id="diagnostics_get_debugpackread" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+    <div id='div_diagnostic_openvpn' hidden="hidden">
+        <h4 class='trl'>OpenVPN log</h2>
+        <input id="diagnostics_get_openvpn" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+    <div id='div_diagnostic_tcpdump' hidden="hidden">
+        <h4 class='trl'>Network Trafic. Tcpdump</h2>
+        <label class='trl' >Interface(s) to read: </label> 
+        <select id="diagnostics_tcpdump_interface" class="form-control-sm">
+            <option class='trl' value="cel">Cellular</option>
+            <option class='trl' value="eth">Ethernet</option>
+            <option class='trl' value="celeth">Both</option>
+        </select>
+        </br>
+        <label class='trl' >File format: </label> 
+        <select id="diagnostics_tcpdump_fileformat" class="form-control-sm">
+            <option class='trl' value="txt">Text</option>
+            <option class='trl' value="bin">Binary</option>
+        </select>
+        </br>
+        <label class='trl' >How long in minutes: </label> 
+        <select id="diagnostics_tcpdump_time" class="form-control-sm">
+            <option class='trl' value="1">1</option>
+            <option class='trl' value="2">2</option>
+            <option class='trl' value="3">3</option>
+            <option class='trl' value="4">4</option>
+            <option class='trl' value="5">5</option>
+            <option class='trl' value="6">6</option>
+            <option class='trl' value="7">7</option>
+            <option class='trl' value="8">8</option>
+            <option class='trl' value="9">9</option>
+            <option class='trl' value="10">10</option>
+        </select>
+        </br>
+        <input id="diagnostics_start_tcpdump" value='Start logging' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_get_tcpdump" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+        <a id="diagnostic_tcpdump_binary_download_cel" href="#" target="_blank" class='trl' >Download binary file from cellular</a>
+        </br>
+        <a id="diagnostic_tcpdump_binary_download_eth" href="#" target="_blank" class='trl' >Download binary file from Ethernet</a>
+        </br>
+        <a id="diagnostic_tcpdump_text_download_cel" href="#" target="_blank" class='trl' >Download text file from cellular</a>
+        </br>
+        <a id="diagnostic_tcpdump_text_download_eth" href="#" target="_blank" class='trl' >Download text file from Ethernet</a>
+    </div>
+
+    <div id='div_diagnostic_ipsec' hidden="hidden">
+        <h4 class='trl'>IPSec</h2>
+        <label class='trl' >Set log level to: </label> 
+        <select id="diagnostics_loglevel_ipsec" class="form-control-sm">
+            <option class='trl' value="1">1</option>
+            <option class='trl' value="2">2</option>
+            <option class='trl' value="3">3</option>
+            <option class='trl' value="4">4</option>
+        </select>
+        </br>
+        <input id="diagnostics_change_loglevel_ipsec" value='Change log level' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_getlog_ipsec" value='Get log' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_statusall_ipsec" value='ipsec statusall' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_start_ipsec" value='Start IPSec service' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input id="diagnostics_stop_ipsec" value='Stop IPSec service' type="button"  class="btn btn-outline-secondary btn-sm"/>
+        <input value='Close' type="button"  class="btn btn-outline-secondary btn-sm diagnostics_cancel"/>
+        </br>
+    </div>
+
+    <div id='div_diagnostics_result'></div>
+        
+</div>
+
+
+<script type="text/javascript">
+    $('#diagnostics_selection').change( diagnostics_set_view);
+
+    $(".diagnostics_cancel").unbind().click( diagnostics_cancel);
+
+    $("#diagnostics_send").unbind().click( diagnostics_send);
+
+    $("#diagnostics_get_logread").unbind().click( diagnostics_get_logread);
+    $("#diagnostics_get_debugpackread").unbind().click( diagnostics_get_debugpackread);
+    $("#diagnostics_get_openvpn").unbind().click( diagnostics_get_openvpn);
+
+    $("#diagnostics_start_tcpdump").unbind().click( diagnostics_start_tcpdump);
+    $("#diagnostics_get_tcpdump").unbind().click( diagnostics_get_tcpdump);
+
+    $("#diagnostics_change_loglevel_ipsec").unbind().click( diagnostics_change_loglevel_ipsec);
+    $("#diagnostics_getlog_ipsec").unbind().click( diagnostics_getlog_ipsec);
+    $("#diagnostics_statusall_ipsec").unbind().click( diagnostics_statusall_ipsec);
+    $("#diagnostics_start_ipsec").unbind().click( diagnostics_start_ipsec);
+    $("#diagnostics_stop_ipsec").unbind().click( diagnostics_stop_ipsec);
+
+</script>

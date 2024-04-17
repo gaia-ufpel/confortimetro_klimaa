@@ -1,9 +1,5 @@
 .env
 
-simulations/assets/outputs
-logs
-documents
-
 __pycache__
 .ipynb_checkpoints
 

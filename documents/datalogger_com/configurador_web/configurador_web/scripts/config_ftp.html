@@ -1,0 +1,42 @@
+<div id='div_config_ftp' class="form-group">
+    <h2 class='trl'>FTP configuration</h2>
+    </br>
+    <label class='trl' >When to use: </label> 
+    <select id="ftp_usemode_conf" class="form-control-sm">
+        <option class='trl' value="off">Never</option>
+        <option class='trl' value="trigger">Trigger</option>
+        <option class='trl' value="always">Always</option>
+    </select>
+    <br>
+    <div id='div_ftp_enabled' hidden="hidden">
+        <label class='trl' >URL (ftp://meuservidor.com.br:23/diretorio/arquivo):</label> <input id="ftp_url_config" type="text" value=""  class="form-control-sm">
+        <br>
+        <label class='trl' >Timeout: </label> <input id="ftp_transfer_timeout" type="number" value="90"  class="form-control-sm">
+        <br>
+        <label class='trl' >User name: </label> <input id="ftp_username" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >Password: </label> <input id="ftp_password" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >Tranfer kind: </label> 
+        <select id="ftp_transfer_command" class="form-control-sm">
+            <option class='trl' value="APPE">Append</option>
+            <option class='trl' value="STOR">Store</option>
+        </select>
+        <br>
+        <label class='trl' >Trigger pattern: </label> <input id="ftp_trigger_user" type="text" value="" class="form-control-sm">
+    </div>
+
+    <input id="ftp_confirma" value='OK' type="button" class="btn btn-outline-primary btn-sm"/>
+    <input id="ftp_cancel" value='Cancel' type="button" class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#ftp_cancel").unbind().click( ftp_edit_cancel);
+
+    $("#ftp_confirma").unbind().click( ftp_edit_confirm);
+
+    $('#ftp_usemode_conf').change( ftp_set_view);
+
+</script>

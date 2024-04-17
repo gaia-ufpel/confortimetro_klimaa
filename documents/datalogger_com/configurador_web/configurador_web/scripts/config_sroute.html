@@ -1,0 +1,23 @@
+<h2 class='trl'>Static Routes</h2>
+</br>
+<div id='div_sroute_current_routes' class="form-group" style="border:1px solid gray;"></div>
+<input id="sroute_refresh" value='Get current routes' type="button"  class="btn btn-outline-primary btn-sm"/>
+</br>
+</br>
+<div id="div_sroute_routes" ></div>
+<input id="sroute_add_new_route" type="button" value='New route'  class="btn btn-outline-secondary btn-sm"/>
+<input id="sroute_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+<input id="sroute_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+<script type="text/javascript">
+    $("#sroute_cancel").unbind().click( sroute_edit_cancel);
+
+    var div_config_sroute_contador = 0;
+    $('#sroute_add_new_route').unbind().click( function() {
+        console.log("sroute_add_new_route entrou");
+        sroute_add_new_route();
+    });
+
+    $("#sroute_confirma").unbind().click( sroute_edit_confirm);
+    $("#sroute_refresh").unbind().click( sroute_refresh);
+</script>

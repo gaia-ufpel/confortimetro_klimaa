@@ -1,0 +1,47 @@
+<div id='div_config_ipfor' class="form-group" style="border:1px solid gray;">
+    <div id='div_ipfor_each_rule'>
+        <label class='trl' >Direction: </label> 
+        <select id="ipfor_src_dest" class="form-group">
+            <option class='trl' value="wanCel2lan">Cellular -> Ethernet</option>
+            <option class='trl' value="lan2wanCel">Ethernet -> Cellular</option>
+            <option class='trl' value="ovpn2lan">OpenVPN -> Ethernet</option>
+            <option class='trl' value="lan2ovpn">Ethernet -> OpenVPN</option>
+            <option class='trl' value="ipsec2lan">IPSec -> Ethernet</option>
+        </select>
+        <br>
+        <label class='trl' >Protocol: </label>
+        <select id="ipfor_proto" class="form-group">
+            <option class='trl' value="tcp">tcp</option>
+            <option class='trl' value="udp">udp</option>
+            <option class='trl' value="tcpudp">tcpudp</option>
+            <option class='trl' value="udplite">udplite</option>
+            <option class='trl' value="icmp">icmp</option>
+            <option class='trl' value="esp">esp</option>
+            <option class='trl' value="ah">ah</option>
+            <option class='trl' value="sctp">sctp</option>
+            <option class='trl' value="all">all</option>
+        </select>
+        <br>
+        <label class='trl' >Source Network(s): </label>
+        Could use Cidr like IP/24 or a single IP
+        <br>
+        <textarea rows="4" cols="50" id="ipfor_src_ip"></textarea>
+        <br>
+        <label class='trl' >Local Port(s): </label> <input id="ipfor_src_dport" type="text" value="" class="form-group">
+        <br>
+        <label class='trl' >Destination IP: </label> <input id="ipfor_dest_ip" type="text" value="" class="form-group">
+        <br>
+        <label class='trl' >Destination Port: </label> <input id="ipfor_dest_port" type="number" value="" class="form-group">
+        <br>
+        <input id='id_ipfor_del' value='Remove' type="button"  class="ipfor_del btn btn-outline-primary btn-sm"/>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(".ipfor_del").unbind().click( function(){
+        console.log('ipfor_del para id ' + this.id + 'div_config_ipfor');
+        $('#' + this.id + 'div_config_ipfor').empty();
+    });
+</script>

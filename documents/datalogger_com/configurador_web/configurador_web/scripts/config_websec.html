@@ -1,0 +1,102 @@
+<div id='div_config_websec' class="form-group">
+    <h2 class='trl'>Change password to web configurator</h2>
+    </br>
+    <label  class='trl' for="websec_enforce_authorization">Enforce use of password on http access: </label> 
+    <select id="websec_enforce_authorization" class="form-control-sm websec_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <label  class='trl' for="websec_change_password">Change password: </label> 
+    <select id="websec_change_password" class="form-control-sm websec_selector">
+        <option  class='trl' value="0">disabled</option>
+        <option  class='trl' value="1">enabled</option>
+    </select>
+    <br>
+    <div id='websec_div_change_pwd'>
+        <label class='trl'>Login name: admin </label> 
+        <br>
+        <label class='trl' for='websec_current_pwd'>Current password: </label> <input id="websec_current_pwd" type="password" value=""  class="form-control-sm">
+        <br>
+        <label class='trl' for='websec_new_pwd'>New password: </label> <input id="websec_new_pwd" type="password" value=""  class="form-control-sm">
+        <br>
+    </div>
+
+    <div id='div_websec_allow_on_lan'>
+        <label  class='trl' for="websec_allow_on_lan">Open access from LAN: </label> 
+        <select id="websec_allow_on_lan" class="form-control-sm websec_selector">
+            <option  class='trl' value="1">enabled</option>
+            <option  class='trl' value="0">disabled</option>
+        </select>
+        <br>
+    </div>
+    <div id='websec_div_allowed_lan_ips'>
+        <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+        </br>
+        <textarea rows="4" cols="50" id="id_websec_lan_allowed_ips"></textarea>
+    </div>
+    <br>
+
+    <div class="config_celular">
+        <div id='div_websec_allow_on_wancel'>
+            <label  class='trl' for="websec_allow_on_wancel">Open access from Cellular Internet: </label> 
+            <select id="websec_allow_on_wancel" class="form-control-sm websec_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='websec_div_allowed_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_websec_wancel_allowed_ips"></textarea>
+        </div>
+        <br>
+    </div>
+
+    <div class="div_fw_multisrc_config_feature_available">
+        <div id='div_websec_allow_on_ovpn'>
+            <label  class='trl' for="websec_allow_on_ovpn">Open access from OpenVPN: </label> 
+            <select id="websec_allow_on_ovpn" class="form-control-sm websec_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='websec_div_allowed_ovpn_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_websec_ovpn_allowed_ips"></textarea>
+        </div>
+        <br>
+
+        <div id='div_websec_allow_on_ipsec'>
+            <label  class='trl' for="websec_allow_on_ipsec">Open access from IPSec: </label> 
+            <select id="websec_allow_on_ipsec" class="form-control-sm websec_selector">
+                <option  class='trl' value="1">enabled</option>
+                <option  class='trl' value="0">disabled</option>
+            </select>
+            <br>
+        </div>
+        <div id='websec_div_allowed_ipsec_ips'>
+            <label class='trl' >IP and/or Cidr from: (0.0.0.0/0 any IP)</label>
+            </br>
+            <textarea rows="4" cols="50" id="id_websec_ipsec_allowed_ips"></textarea>
+        </div>
+        <br>
+    </div>
+
+    <input id="websec_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="websec_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#websec_cancel").unbind().click( websec_edit_cancel);
+
+    $("#websec_confirma").unbind().click( websec_edit_confirm);
+
+    $('.websec_selector').change( websec_set_view);
+
+</script>

@@ -1,0 +1,74 @@
+<div id='div_config_serial' class="form-group">
+    <h2 class='trl'>Serial Port configuration</h2>
+    </br>
+    <label class='trl' >Serial port 1</label> 
+    <label class='trl' >Bauderate</label> 
+    <select id="serial_baudrate" class="form-control-sm">
+        <option value="1200">1200</option>
+        <option value="2400">2400</option>
+        <option value="4800">4800</option>
+        <option value="9600">9600</option>
+        <option value="19200">19200</option>
+        <option value="28800">28800</option>
+        <option value="38400">38400</option>
+        <option value="57600">57600</option>
+        <option value="115200">115200</option>
+    </select>
+    <label class='trl' >Data format</label> 
+    <select id="serial_cs" class="form-control-sm">
+        <option value="7">7</option>
+        <option value="8">8</option>
+    </select>
+    <select id="serial_parity" class="form-control-sm">
+        <option value="none">none</option>
+        <option value="even">even</option>
+        <option value="odd">odd</option>
+    </select>
+    <select id="serial_stopbit" class="form-control-sm">
+        <option value="1">1</option>
+        <option value="2">2</option>
+    </select>
+    <div id='serial_second_port' hidden='hidden'>
+        <br>
+        <br>
+        <label class='trl' >Serial port 2</label> 
+        <label class='trl' >Bauderate</label> 
+        <select id="serial2_baudrate" class="form-control-sm">
+            <option value="1200">1200</option>
+            <option value="2400">2400</option>
+            <option value="4800">4800</option>
+            <option value="9600">9600</option>
+            <option value="19200">19200</option>
+            <option value="28800">28800</option>
+            <option value="38400">38400</option>
+            <option value="57600">57600</option>
+            <option value="115200">115200</option>
+        </select>
+        <label class='trl' >Data format</label> 
+        <select id="serial2_cs" class="form-control-sm">
+            <option value="7">7</option>
+            <option value="8">8</option>
+        </select>
+        <select id="serial2_parity" class="form-control-sm">
+            <option value="none">none</option>
+            <option value="even">even</option>
+            <option value="odd">odd</option>
+        </select>
+        <select id="serial2_stopbit" class="form-control-sm">
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
+        <br>
+    </div>
+    <br>
+    <input id="serial_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="serial_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#serial_cancel").unbind().click( serial_edit_cancel);
+
+    $("#serial_confirma").unbind().click( serial_edit_confirm);
+</script>

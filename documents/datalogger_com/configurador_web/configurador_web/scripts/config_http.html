@@ -1,0 +1,53 @@
+<div id='div_config_http' class="form-group">
+    <h2 class='trl'>Http configuration</h2>
+    </br>
+    <label class='trl' >When to use: </label> 
+    <select id="http_usemode_conf" class="form-control-sm">
+        <option class='trl' value="off">Never</option>
+        <option class='trl' value="trigger">Trigger</option>
+        <option class='trl' value="always">Always</option>
+    </select>
+    <br>
+    <div id='div_http_enabled' hidden="hidden">
+        <label class='trl' >Trigger pattern:</label> <input id="http_trigger_user" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >URL (http://meuservidor.com.br:23/diretorio/arquivo):</label> <input id="http_url_config" type="text" value="" class="form-control-sm">
+        <br>
+        <label class='trl' >Timeout: </label> <input id="http_transfer_timeout" type="number" value="90" class="form-control-sm">
+        <br>
+        <div id='div_http_trigger_post_enable' hidden="hidden">
+            <br>
+            <label class='trl' >Http method to use: </label> 
+            <select id="http_metodo_2_use" class="form-control-sm">
+                <option class='trl' value="GET">GET</option>
+                <option class='trl' value="POST">POST</option>
+            </select>
+            <label class='trl' >Encode url? </label> 
+            <select id="http_url_encode" class="form-control-sm">
+                <option class='trl' value="0">No</option>
+                <option class='trl' value="1">Yes</option>
+            </select>
+            <br>
+            <br>
+            <label class='trl' >HTTP Headers</label>
+            <input id="http_heasers_add_space" value='Add' type="button"  class="btn btn-outline-primary btn-sm"/>
+            <br>
+            <div id="http_mais_headers">
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <input id="http_confirma" value='OK' type="button"  class="btn btn-outline-primary btn-sm"/>
+    <input id="http_cancel" value='Cancel' type="button"  class="btn btn-outline-secondary btn-sm"/>
+
+</div>
+
+
+<script type="text/javascript">
+    $("#http_cancel").unbind().click( http_edit_cancel);
+    $("#http_confirma").unbind().click( http_edit_confirm);
+    $('#http_usemode_conf').change( http_set_view);
+    $('#http_heasers_add_space').unbind().click(http_config_add_headers_space);
+    $('.http_header_remove').unbind().click(http_config_del_headers_space);
+</script>

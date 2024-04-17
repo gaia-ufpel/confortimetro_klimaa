@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = "Backend of Klimaa confortimeter monitoring application"
+authors = ["Gabriel Leite Bessa <gabrielleitebessa@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.110.0"
+alembic = "^1.13.1"
+SQLAlchemy = "^2.0.28"
+python-jose = "^3.3.0"
+passlib = "^1.7.4"
+uvicorn = "^0.29.0"
+pydantic = "^2.6.4"
+psycopg2 = "^2.9.9"
+python-multipart = "^0.0.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,72 @@
+Introdução:
+===========
+
+O sistema de gerenciamento de conexões ABS Gateway é compreendido por dois programas, que rodam de forma colaborativa:
+- ABS_Gateway.exe
+- Master.exe
+
+O ABS_Gateway.exe é o programa principal e deverá estar sempre rodando.  Este programa não requer configuração.
+
+O Master.exe é o programa responsável pela interface com a aplicação de supervisão.  Os parâmetros de inicialização estão em dois arquivos (master.txt e portas.txt).
+
+
+
+Ambiente e condições para rodar o sistema:
+==========================================
+
+- Windows XP ou superior
+- Java Runtime Enviroment 32 bits, versão 1.6.15 ou superior 
+- Acesso a internet com IP fixo e visível na internet (usar DNS dinâmico é possível, mas não recomendável)
+- O computador do sistema deve ficar sempre ligado
+
+
+
+Antes de rodar o sistema:
+=========================
+
+A) Configurações de rede e firewall:
+------------------------------------
+
+- Desabilitar o firewall do computador na porta 5901
+- Se ABS_Gateway instalado em computadores internos a rede (sem acesso direto a internet), configurar a rede redirecionar as conexões na porta 5901 para o computador do ABS_Gateway
+
+
+B) Preparando os arquivos de configuração:
+------------------------------------------
+
+Os arquivos de configuração devem estar na mesma pasta do executável.
+
+B.1) Arquivo master.txt:
+
+Define os parâmetros da aplicação Master.  A única informação obrigatória é o parâmetro "master_id".
+
+
+B.2) Arquivo portas.txt:
+
+Define a relação de modems do sistema e as portas associadas (cada modem, uma porta diferente).  Essas portas são usadas pelo programa de supervisão para comunicação.
+
+A última linha da lista deve conter somente o caracter #.
+
+
+
+Rodando o sistema:
+==================
+
+Iniciar primeiro o programa ABS_Gateway e após o programa Master.
+
+
+
+Alterando as configurações:
+===========================
+ 
+1) Fechar a janela "Master" (manter a janela "ABS_Gateway" sempre aberta)
+2) Editar o arquivo portas.txt
+3) Executar novamente o "Master"
+
+
+
+Dicas:
+======
+
+Nas janelas dos programas, digite h e tecle enter para ver as opções de comando disponíveis.
+
