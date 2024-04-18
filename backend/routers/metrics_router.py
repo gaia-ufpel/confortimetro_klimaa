@@ -21,7 +21,7 @@ class MetricsRequest(BaseModel):
 
 
 @metrics_router.get("/")
-async def get_metrics(db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+async def get_metrics(db_session: Annotated[Session, Depends(get_database)], start_date: datetime | None = None, end_date: datetime | None = None, authorization: Annotated[str | None, Header()] = None):
     """
     List all metrics.
     """
@@ -30,7 +30,12 @@ async def get_metrics(db_session: Annotated[Session, Depends(get_database)], aut
     token = authorization.split(" ")[-1]
     _ = await get_current_active_user(token, db_session)
 
-    metrics = db_session.query(Device).all()
+    metrics = db_session.query(Metric)
+    if start_date:
+        metrics = metrics.filter(Metric.date_time >= start_date)
+    if end_date:
+        metrics = metrics.filter(Metric.date_time <= end_date)
+    metrics = metrics.all()
 
     return metrics
 
@@ -66,7 +71,7 @@ async def post_metrics(metrics_request: MetricsRequest, db_session: Annotated[Se
     return Response(status_code=200)
 
 @metrics_router.get("/{campus}/{building}/{room}")
-async def get_metrics_by_location(campus: str, building: str, room: str, db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+async def get_metrics_by_location(campus: str, building: str, room: str, db_session: Annotated[Session, Depends(get_database)], start_date: datetime | None = None, end_date: datetime | None = None, authorization: Annotated[str | None, Header()] = None):
     """
     Get all metrics by location.
     """
@@ -75,12 +80,17 @@ async def get_metrics_by_location(campus: str, building: str, room: str, db_sess
     token = authorization.split(" ")[-1]
     _ = await get_current_active_user(token, db_session)
 
-    metrics = db_session.query(Metric).join(Location).filter(campus=campus, building=building, room=room).all()
+    metrics = db_session.query(Metric).join(Location).filter(campus=campus, building=building, room=room)
+    if start_date:
+        metrics = metrics.filter(Metric.date_time >= start_date)
+    if end_date:
+        metrics = metrics.filter(Metric.date_time <= end_date)
+    metrics = metrics.all()
 
     return metrics
 
 @metrics_router.get("/{serial_number}")
-async def get_metrics_by_serial_numebr(serial_number: str, db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+async def get_metrics_by_serial_numebr(serial_number: str, db_session: Annotated[Session, Depends(get_database)], start_date: datetime | None = None, end_date: datetime | None = None, authorization: Annotated[str | None, Header()] = None):
     """
     Get all metrics by serial number.
     """
@@ -89,6 +99,12 @@ async def get_metrics_by_serial_numebr(serial_number: str, db_session: Annotated
     token = authorization.split(" ")[-1]
     _ = await get_current_active_user(token, db_session)
 
-    metrics = db_session.query(Metric).filter(serial_number = serial_number).all()
+    metrics = db_session.query(Metric).filter(serial_number = serial_number)
+    metrics = db_session.query(Metric)
+    if start_date:
+        metrics = metrics.filter(Metric.date_time >= start_date)
+    if end_date:
+        metrics = metrics.filter(Metric.date_time <= end_date)
+    metrics = metrics.all()
 
     return metrics
