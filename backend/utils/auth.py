@@ -54,22 +54,14 @@ async def authenticate_active_user(username: str, password: str, db_session: Ann
         raise HTTPException(status_code=400, detail="Inactive user")
     return user
 
-def get_current_user(token: Annotated[str | None, Depends(oauth2_scheme)], db_session: Annotated[Session, Depends(get_database)]) -> User:
+def get_current_user(token: str, db_session: Annotated[Session, Depends(get_database)]) -> User:
     """
     Get the current user from the JWT token.
     """
-    if token is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated",
-            headers={"Authorization": "Bearer"},
-        )
-    token = token.split(" ")[-1]
-
     credentials_exception = HTTPException(
         status_code = status.HTTP_401_UNAUTHORIZED,
         detail = "Could not validate credentials",
-        headers = {"Authorization": "Bearer"},
+        headers = {"Authorization": ""},
     )
 
     try:

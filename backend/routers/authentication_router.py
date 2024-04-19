@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from utils.database import get_database
 
 from models import User
-from utils.auth import create_access_token, authenticate_active_user, get_current_user, is_active, is_admin, has_write_access, get_password_hash
+from utils.auth import create_access_token, authenticate_active_user, get_current_user, is_active, is_admin, get_password_hash, oauth2_scheme
 
 authentication_router = APIRouter(prefix="/auth")
 
@@ -37,11 +37,13 @@ async def login(login_request: LoginRequest, db_session: Annotated[Session, Depe
     return Response(headers={"Authorization": f"Bearer {jwt_token}"})    
     
 @authentication_router.post("/register")
-async def register(register_request: RegisterRequest, db_session: Annotated[Session, Depends(get_database)], authorization: Annotated[str | None, Header()] = None):
+async def register(token: Annotated[str, oauth2_scheme],
+                   register_request: RegisterRequest, 
+                   db_session: Annotated[Session, Depends(get_database)]):
     """
     Register a new user.
     """
-    _ = is_admin(is_active(get_current_user(authorization, db_session)))
+    _ = is_admin(is_active(get_current_user(token, db_session)))
 
     user = db_session.query(User).filter(User.username == register_request.username).first()
     if user:
