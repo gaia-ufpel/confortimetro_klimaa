@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from models import Location
-from utils.auth import get_current_active_user
+from utils.auth import get_current_user, is_active, is_admin, has_write_access
 from utils.database import get_database
 
 locations_router = APIRouter(prefix="/locations")
@@ -19,10 +19,7 @@ async def get_locations(db_session: Annotated[Session, Depends(get_database)], a
     """
     Get all locations.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = is_active(await get_current_user(authorization, db_session))
 
     locations = db_session.query(Location).all()
 
@@ -33,10 +30,7 @@ async def post_locations(location_request: LocationRequest, db_session: Annotate
     """
     Create a new location.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = has_write_access(is_active(await get_current_user(authorization, db_session)))
 
     if db_session.query(Location).filter(Location.campus == location_request.campus, Location.building == location_request.building, Location.room == location_request.room).first():
         raise HTTPException(status_code=400, detail="Location already exists")
@@ -57,10 +51,7 @@ async def get_location_by_id(location_id: int, db_session: Annotated[Session, De
     """
     Get a location by its ID.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = is_active(await get_current_user(authorization, db_session))
 
     location = db_session.query(Location).filter(Location.id == location_id).first()
 

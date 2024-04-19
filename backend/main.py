@@ -7,6 +7,7 @@ from routers.devices_router import devices_router
 from routers.metrics_router import metrics_router
 from routers.locations_router import locations_router
 from routers.metric_types_router import metric_types_router
+from utils import HOST, PORT
 
 HOST = os.getenv("HOST")
 if not HOST:

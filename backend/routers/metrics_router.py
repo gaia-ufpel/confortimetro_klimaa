@@ -25,10 +25,7 @@ async def get_metrics(db_session: Annotated[Session, Depends(get_database)], sta
     """
     List all metrics.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = is_active(await get_current_user(authorization, db_session))
 
     metrics = db_session.query(Metric)
     if start_date:
@@ -44,10 +41,7 @@ async def post_metrics(metrics_request: MetricsRequest, db_session: Annotated[Se
     """
     Create a new metric.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = has_write_access(is_active(await get_current_user(authorization, db_session)))
 
     location = db_session.query(Location).filter(Location.campus == metrics_request.campus, Location.building == metrics_request.building, Location.room == metrics_request.room).first()
     if not location:
@@ -75,10 +69,7 @@ async def get_metrics_by_location(campus: str, building: str, room: str, db_sess
     """
     Get all metrics by location.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = is_active(await get_current_user(authorization, db_session))
 
     metrics = db_session.query(Metric).join(Location).filter(campus=campus, building=building, room=room)
     if start_date:
@@ -94,10 +85,7 @@ async def get_metrics_by_serial_numebr(serial_number: str, db_session: Annotated
     """
     Get all metrics by serial number.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = is_active(await get_current_user(authorization, db_session))
 
     metrics = db_session.query(Metric).filter(serial_number = serial_number)
     metrics = db_session.query(Metric)

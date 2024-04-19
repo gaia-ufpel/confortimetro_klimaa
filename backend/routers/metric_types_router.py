@@ -18,10 +18,7 @@ async def get_metric_types(db_session: Annotated[Session, Depends(get_database)]
     """
     List all metric types.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = is_active(await get_current_user(authorization, db_session))
 
     metric_types = db_session.query(MetricType).all()
 
@@ -32,10 +29,7 @@ async def post_metric_types(metric_type_request: MetricTypeRequest, db_session: 
     """
     Create a new metric type.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = has_write_access(is_active(await get_current_user(authorization, db_session)))
 
     metric_type = MetricType(
         name = metric_type_request.name,
@@ -52,10 +46,7 @@ async def get_metric_type_by_name(metric_type_name: str, db_session: Annotated[S
     """
     Get a metric type by its name.
     """
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split(" ")[-1]
-    _ = await get_current_active_user(token, db_session)
+    _ = is_active(await get_current_user(authorization, db_session))
 
     metric_type = db_session.query(MetricType).filter(MetricType.name == metric_type_name).first()
     if not metric_type:
