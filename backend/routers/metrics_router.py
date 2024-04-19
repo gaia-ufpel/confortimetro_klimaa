@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from models import Device, Location, Metric, MetricType
-from utils.auth import get_current_active_user
+from utils.auth import get_current_user, is_active, has_write_access
 from utils.database import get_database
 
 metrics_router = APIRouter(prefix="/metrics")
