@@ -1,4 +1,3 @@
-import os
 import uvicorn
 from fastapi import FastAPI
 
@@ -7,15 +6,7 @@ from routers.devices_router import devices_router
 from routers.metrics_router import metrics_router
 from routers.locations_router import locations_router
 from routers.metric_types_router import metric_types_router
-from utils import HOST, PORT
-
-HOST = os.getenv("HOST")
-if not HOST:
-    HOST = "127.0.0.1"
-
-PORT = os.getenv("PORT")
-if not PORT:
-    PORT = 8000
+from settings import HOST, PORT
 
 app = FastAPI()
 
