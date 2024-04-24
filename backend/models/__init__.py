@@ -38,9 +38,10 @@ class MetricType(Base):
 class User(Base):
     __tablename__ = "users"
 
-    username: Mapped[str] = mapped_column(String(50))
-    email: Mapped[str] = mapped_column(String(60), primary_key=True)
+    username: Mapped[str] = mapped_column(String(50), primary_key=True)
+    email: Mapped[str] = mapped_column(String(60))
     password: Mapped[str] = mapped_column(String(100))
     create_date: Mapped[datetime] = mapped_column(DateTime())
     is_admin: Mapped[bool] = mapped_column(Boolean())
     is_active: Mapped[bool] = mapped_column(Boolean())
+    has_write_access: Mapped[bool] = mapped_column(Boolean())
