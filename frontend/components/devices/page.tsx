@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react'
-import Loading_animation from '@/components/loading_animation';
+import React, { useState, useRef } from 'react'
+import Loading_animation from '../loading_animation';
 
 interface Device {
 
@@ -50,7 +50,7 @@ export default function DEVICES() {
             {isLoading && <Loading_animation />}
             <div className='flex md:flex-col'>
                 {
-                    devices.length > 0 ? devices.map((value, index) => <button className='bg-white text-black border border-gray-300 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-300 focus:outline-none focus:shadow-outline' key={index}>{value}</button>)
+                    devices.length > 0 ? devices.map((value, index) => <button className='bg-white text-black border border-gray-300 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-300 focus:outline-none focus:shadow-outline' key={index}> </button>)
                         : <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role='alert'>No devices found</div>
                 }
             </div>
