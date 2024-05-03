@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import Loading_animation from '../loading_animation'
+"use client";
+import React, { useState, useEffect } from 'react';
+import Loading_animation from '../loading_animation';
 
 const fetchMetricTypes = async () => {
     var data;
@@ -13,11 +14,11 @@ const fetchMetricTypes = async () => {
     }
 }
 
-useEffect(() => {
-    fetchMetricTypes()
-}, [])
 
 const METRIC_TYPES = () => {
+    useEffect(() => {
+        fetchMetricTypes()
+    }, [])
     const [metricTypes, setMetricTypes] = useState([])
     return (
         <div>
