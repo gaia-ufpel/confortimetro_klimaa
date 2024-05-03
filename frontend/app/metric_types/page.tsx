@@ -21,7 +21,7 @@ const METRIC_TYPES = () => {
     const [metricTypes, setMetricTypes] = useState([])
     return (
         <div>
-
+            TIPOS DE METRICAS
         </div>
     )
 }

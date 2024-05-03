@@ -1,4 +1,4 @@
-import Loading_animation from '@/components/loading_animation';
+import Loading_animation from '@/app/loading_animation';
 import React, { useEffect, useState, useRef } from 'react'
 import { LineChart, Line, CartesianGrid, YAxis, XAxis, Tooltip, Legend } from 'recharts';
 
