@@ -1,0 +1,6 @@
+exemple.env
+pyproject.toml
+README.md
+.gitignore
+.dockerignore
+tests

@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from sqlalchemy import Integer, String, ForeignKey, DateTime, Float, Boolean
+from sqlalchemy import Integer, String, ForeignKey, DateTime, Float, Boolean, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from utils.database import Base
 
@@ -38,10 +38,19 @@ class MetricType(Base):
 class User(Base):
     __tablename__ = "users"
 
-    username: Mapped[str] = mapped_column(String(50), primary_key=True)
-    email: Mapped[str] = mapped_column(String(60))
+    email: Mapped[str] = mapped_column(String(60), primary_key=True)
     password: Mapped[str] = mapped_column(String(100))
+    name: Mapped[str] = mapped_column(String(80))
+    group: Mapped[str] = mapped_column(String(30), CheckConstraint("group IN ('student', 'professor', 'external community)"))
     create_date: Mapped[datetime] = mapped_column(DateTime())
     is_admin: Mapped[bool] = mapped_column(Boolean())
     is_active: Mapped[bool] = mapped_column(Boolean())
     has_write_access: Mapped[bool] = mapped_column(Boolean())
+
+
+class ConfirmationToken(Base):
+    __tablename__ = "confirmation_tokens"
+
+    token: Mapped[str] = mapped_column(String(100), primary_key=True)
+    date_expiration: Mapped[datetime] = mapped_column(DateTime())
+    email: Mapped[str] = mapped_column(ForeignKey("users.email"))

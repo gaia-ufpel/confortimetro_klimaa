@@ -40,16 +40,16 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
 
     return encoded_jwt
 
-async def authenticate_user(username: str, password: str, db_session: Annotated[Session, Depends(get_database)]) -> User:
-    user = db_session.query(User).filter(User.username == username).first()
+async def authenticate_user(email: str, password: str, db_session: Annotated[Session, Depends(get_database)]) -> User:
+    user = db_session.query(User).filter(User.email == email).first()
     if not user:
-        raise HTTPException(status_code=400, detail="Incorrect username")
+        raise HTTPException(status_code=400, detail="Incorrect email")
     if not verify_password(password, user.password):
         raise HTTPException(status_code=400, detail="Incorrect password")
     return user
     
-async def authenticate_active_user(username: str, password: str, db_session: Annotated[Session, Depends(get_database)]) -> User:
-    user = await authenticate_user(username, password, db_session)
+async def authenticate_active_user(email: str, password: str, db_session: Annotated[Session, Depends(get_database)]) -> User:
+    user = await authenticate_user(email, password, db_session)
     if not user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
     return user
@@ -66,13 +66,13 @@ def get_current_user(token: str, db_session: Annotated[Session, Depends(get_data
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("username")
-        if username is None:
+        email: str = payload.get("email")
+        if email is None:
             raise credentials_exception
     except JWTError:
         raise credentials_exception
 
-    user = db_session.query(User).filter(User.username == username).first()
+    user = db_session.query(User).filter(User.email == email).first()
     if user is None:
         raise credentials_exception
 
@@ -100,7 +100,7 @@ def has_write_access(user: User) -> User:
     """
     Check if the user has write access.
     """
-    if not user.can_write:
+    if not user.has_write_access:
         raise HTTPException(status_code=400, detail="User does not have write access")
     
     return user
