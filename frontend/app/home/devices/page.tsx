@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef } from 'react'
-import Loading_animation from '../loading_animation';
+import Loading_animation from '../../loading_animation';
 
 interface Device {
 
