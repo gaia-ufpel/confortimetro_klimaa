@@ -3,7 +3,9 @@ import React, { useState, useRef } from 'react'
 import Loading_animation from '../../loading_animation';
 
 interface Device {
-
+    serial_number: string;
+    model: string;
+    id_location: number;
 }
 
 export default function DEVICES() {
